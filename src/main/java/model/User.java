@@ -23,6 +23,7 @@ public class User {
     private Date updated_at;
 
     public User() {
+        userId = -1;
     }
 
     public User(int userId, String fullname, String username, String password, String email, String phone, int role, Date created_at, Date updated_at) {
