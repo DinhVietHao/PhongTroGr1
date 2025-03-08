@@ -3,6 +3,7 @@ controller\CommentServlet.class
 model\SavedPost.class
 controller\SearchServlet.class
 util\Email.class
+util\MyLib.class
 controller\PostServlet.class
 model\Post.class
 model\Review.class
