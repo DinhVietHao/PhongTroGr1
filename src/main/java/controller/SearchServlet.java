@@ -5,7 +5,6 @@
 
 package controller;
 
-import dao.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,16 +12,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Room;
 
 /**
  *
- * @author Admin
+ * @author DVHao
  */
-@WebServlet(name="RoomServlet", urlPatterns={"/room"})
-public class RoomServlet extends HttpServlet {
-
+@WebServlet(name="SearchServlet", urlPatterns={"/Search"})
+public class SearchServlet extends HttpServlet {
+   
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -38,10 +35,10 @@ public class RoomServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RoomServlet</title>");  
+            out.println("<title>Servlet SearchServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RoomServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet SearchServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -50,7 +47,7 @@ public class RoomServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
-     * @param request servlets request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
@@ -58,11 +55,9 @@ public class RoomServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        RoomDAO roomDAO = new  RoomDAO();
-        List<Room> rooms = roomDAO.getAllRooms();
-        request.setAttribute("rooms", rooms);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        processRequest(request, response);
     } 
+
     /** 
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
