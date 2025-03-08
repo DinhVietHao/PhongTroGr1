@@ -7,15 +7,18 @@ package dao;
 import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import model.User;
-import until.DBContext;
+import database.DBContext;
 
 /**
  *
  * @author ASUS
  */
-public class UserDAO extends DBContext{
-    public User verifyMD5(String user, String pass){
+public class UserDAO extends DBContext {
+
+    public User verifyMD5(String user, String pass) {
         User acc = new User();
         //acc.getId() = -1;
         String sql = "SELECT * FROM Users WHERE Username = ? AND Password=?";
@@ -24,7 +27,7 @@ public class UserDAO extends DBContext{
             ps.setString(1, user);
             ps.setString(2, hashMD5(pass));
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 acc.setUserId(rs.getInt("User_id"));
                 acc.setFullname(rs.getString("Fullname"));
                 acc.setUsername(rs.getString("Username"));
@@ -41,8 +44,8 @@ public class UserDAO extends DBContext{
         }
         return acc;
     }
-    
-    public String hashMD5(String pass){
+
+    public String hashMD5(String pass) {
         try {
             MessageDigest mes = MessageDigest.getInstance("MD5");
             byte[] mesMD5 = mes.digest(pass.getBytes());
@@ -60,5 +63,34 @@ public class UserDAO extends DBContext{
             System.out.println(e.getMessage());
         }
         return "";
+    }
+
+    public boolean insertUser(String fullName, String username, String phone, String email, String password, int role) {
+        String sqlInsertUser = "INSERT INTO Users (Fullname, Username, Password, Email, Phone, Role, Created_at, Updated_at) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sqlInsertUser);
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+
+            ps.setString(1, fullName);
+            ps.setString(2, username);
+            ps.setString(3, hashMD5(password));
+            ps.setString(4, email);
+            ps.setString(5, phone);
+            ps.setInt(6, role);
+            ps.setTimestamp(7, currentTime); 
+            ps.setTimestamp(8, currentTime); 
+            
+            int res = ps.executeUpdate();
+            if(res == 1){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
     }
 }
