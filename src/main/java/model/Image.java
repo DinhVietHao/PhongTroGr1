@@ -47,4 +47,9 @@ public class Image {
         this.imageUrl = imageUrl;
     }
 
+    @Override
+    public String toString() {
+        return "Image{" + "imageId=" + imageId + ", postId=" + postId + ", imageUrl=" + imageUrl + '}';
+    }
+
 }

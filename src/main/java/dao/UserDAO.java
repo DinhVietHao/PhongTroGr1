@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import model.User;
-import until.DBContext;
+import database.DBContext;
 
 /**
  *
