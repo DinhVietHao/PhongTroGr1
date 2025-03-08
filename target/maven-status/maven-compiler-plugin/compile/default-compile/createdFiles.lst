@@ -6,11 +6,12 @@ util\Email.class
 controller\PostServlet.class
 model\Post.class
 model\Review.class
-until\DBContext.class
+database\DBContext.class
 model\Category.class
 model\Image.class
 controller\LogoutServlet.class
 dao\UserDAO.class
+dao\PostDao.class
 controller\UserServlet.class
 controller\RegisterServlet.class
 controller\HomeServlet.class
