@@ -1,5 +1,0 @@
-dao\RoomDAO.class
-controller\RoomServlet.class
-controller\SavePostServlet.class
-until\DBContext.class
-model\Room.class
