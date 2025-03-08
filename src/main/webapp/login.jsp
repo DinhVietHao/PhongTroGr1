@@ -27,9 +27,9 @@
                             <a class="tab-active" href="./login.jsp">Đăng nhập</a>
                             <a class="tab-inactive" href="./register.jsp">Tạo tài khoản mới</a>
                         </div>
-                        <form class="login-form" method="POST">
+                        <form class="login-form" method="POST" action="Login">
                             <div class="form-group">
-                                <label for="inputPhoneEmailLogin">Số điện thoại</label>
+                                <label for="inputPhoneEmailLogin">Tên đăng nhập</label>
                                 <input type="text" id="inputPhoneEmailLogin" name="loginname" class="input-field"
                                        placeholder="Nhập số điện thoại" minlength="10" maxlength="11" required>
                             </div>

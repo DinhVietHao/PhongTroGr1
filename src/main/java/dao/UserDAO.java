@@ -18,7 +18,7 @@ public class UserDAO extends DBContext{
     public User verifyMD5(String user, String pass){
         User acc = new User();
         //acc.getId() = -1;
-        String sql = "SELECT * FROM Users WHERE username = ? AND password=?";
+        String sql = "SELECT * FROM Users WHERE Username = ? AND Password=?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, user);
