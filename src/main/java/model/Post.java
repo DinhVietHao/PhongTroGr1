@@ -11,6 +11,7 @@ import java.sql.Date;
  * @author DVHao
  */
 public class Post {
+
     private int postId;
     private int userId;
     private int catId;
@@ -177,6 +178,5 @@ public class Post {
     public void setUpdaited_at(Date updaited_at) {
         this.updaited_at = updaited_at;
     }
-    
-    
+
 }

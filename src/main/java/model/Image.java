@@ -9,6 +9,7 @@ package model;
  * @author DVHao
  */
 public class Image {
+
     private int imageId;
     private int postId;
     private String imageUrl;
@@ -45,6 +46,5 @@ public class Image {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    
-    
+
 }
