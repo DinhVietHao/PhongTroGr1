@@ -22,39 +22,77 @@ public class SearchDAO extends DBContext {
         super();
     }
 
-    public List<Post> filterByPrice() {
-        List<Post> List = new ArrayList();
-        String sql = "SELECT *FROM Posts WHERE Price BETWEEN 1000000 AND 5000000 ORDER BY Price ASC";
+    public List<Post> filterPosts(Double minPrice, Double maxPrice, String city, String district,
+            String ward, String postType) {
+        List<Post> List = new ArrayList<>();
 
+        String sql = "SELECT * FROM Posts WHERE 1=1";
+        if (minPrice != null && maxPrice != null) {
+            sql += " AND Price BETWEEN ? AND ?";
+        }
+        if (city != null && !city.isEmpty()) {
+            sql += " AND City = ?";
+        }
+        if (district != null && !district.isEmpty()) {
+            sql += " AND District = ?";
+        }
+        if (ward != null && !ward.isEmpty()) {
+            sql += " AND Ward = ?";
+        }
+        if (postType != null && !postType.isEmpty()) {
+            sql += " AND Post_type = ?";
+        }
+
+        sql += " ORDER BY Price ASC";
         try {
+
             PreparedStatement ps = conn.prepareStatement(sql);
+            int index = 1;
+            if (minPrice != null && maxPrice != null) {
+                ps.setDouble(index++, minPrice);
+                ps.setDouble(index++, maxPrice);
+            }
+            if (city != null && !city.isEmpty()) {
+                ps.setString(index++, city);
+            }
+            if (district != null && !district.isEmpty()) {
+                ps.setString(index++, district);
+            }
+            if (ward != null && !ward.isEmpty()) {
+                ps.setString(index++, ward);
+            }
+            if (postType != null && !postType.isEmpty()) {
+                ps.setString(index++, postType);
+            }
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 int post_id = rs.getInt("Post_id");
                 int user_id = rs.getInt("User_id");
-                int catgory_id = rs.getInt("Category_id");
+                int category_id = rs.getInt("Category_id");
                 String title = rs.getString("Title");
                 String description = rs.getString("Description");
                 Double price = rs.getDouble("Price");
                 String address = rs.getString("Address");
-                String city = rs.getString("City");
-                String district = rs.getString("District");
-                String ward = rs.getString("Ward");
-                String are = rs.getString("Are");
+                String cityResult = rs.getString("City");
+                String districtResult = rs.getString("District");
+                String wardResult = rs.getString("Ward");
+                Double area = rs.getDouble("Are");
                 int room_count = rs.getInt("Room_Count");
                 String post_type = rs.getString("Post_type");
                 String status = rs.getString("Status");
                 Date created_at = rs.getDate("Created_at");
                 Date updated_at = rs.getDate("Updated_at");
-                
-                List.add(new Post(post_id, user_id, post_id, title, description, 0, address, city, district, ward, 0, room_count, post_type, status, created_at, updated_at));
+
+                List.add(new Post(post_id, user_id, category_id, title, description, price, address,
+                        cityResult, districtResult, wardResult, area, room_count,
+                        post_type, status, created_at, updated_at));
             }
-            return List;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return List;
 
+        return List;
     }
 }
