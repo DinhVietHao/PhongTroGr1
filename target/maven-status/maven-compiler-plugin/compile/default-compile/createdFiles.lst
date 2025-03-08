@@ -2,6 +2,7 @@ controller\LoginServlet.class
 controller\CommentServlet.class
 model\SavedPost.class
 controller\SearchServlet.class
+util\Email.class
 controller\PostServlet.class
 model\Post.class
 model\Review.class

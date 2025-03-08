@@ -80,7 +80,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user", user);
             response.sendRedirect("Home?action=Role&role=" + user.getRole());
         }else{
-            request.setAttribute("err", "<p style='color:red'>The user or password are wrong</p>");
+            request.setAttribute("err", "<p style='color:red'>Tên đăng nhập hoặc mật khẩu không đúng!</p>");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

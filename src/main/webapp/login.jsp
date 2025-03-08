@@ -39,6 +39,7 @@
                                        placeholder="Nhập mật khẩu" minlength="6" required>
                             </div>
                             <button type="submit" name="wp-submit-login" class="custom-btn">Đăng nhập</button>
+                            <p><%= request.getAttribute("err") != null ? request.getAttribute("err") : ""%></p>
                             <p>
                                 <a class="forgot-password" href="">Bạn quên mật khẩu?</a>
                             </p>
