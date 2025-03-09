@@ -23,7 +23,6 @@
                     <div class="header-logo">
                         <a href="home.jsp">
                             <img src="images/logo.gif" alt="Logo">
-
                         </a>
                     </div>
                     <div class="header-search">

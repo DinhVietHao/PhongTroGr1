@@ -41,7 +41,7 @@
                             <button type="submit" name="wp-submit-login" class="custom-btn">Đăng nhập</button>
                             <p><%= request.getAttribute("err") != null ? request.getAttribute("err") : ""%></p>
                             <p>
-                                <a class="forgot-password" href="">Bạn quên mật khẩu?</a>
+                                <a class="forgot-password" href="./forgotpass.jsp">Bạn quên mật khẩu?</a>
                             </p>
                             <input type="hidden" name="redirect" value="./register.html" />
                         </form>

@@ -620,6 +620,87 @@ label {
 .close-btn:hover {
     background-color: #ede5e5;
 }
+
+
+
+
+
+
+/*FORM Mat Khau (Khang))*/
+.card-forgot-password {
+    margin-top: 100px;
+    width: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #d81b1b !important; /* Màu đỏ giống nút Đăng tin */
+    border-color: #d81b1b !important;
+}
+
+.btn-primary:hover {
+    background-color: #b91515 !important; /* Màu khi hover */
+    border-color: #b91515 !important;
+}
+
+.card-forgot-password a:hover {
+    text-decoration: underline; /* Gạch chân khi hover */
+}
+
+
+/*bo dau gach duoi "Xac Thuc"*/
+.text-decoration {
+    text-decoration: none !important;
+}
+
+
+
+
+
+/*Form Nhap Mat Khau (Khang)*/
+
+/* Card form */
+.card-reset-password {
+    margin-top: 100px;
+    width: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* button */
+.btn-danger {
+    background-color: #d81b1b !important;
+    border-color: #d81b1b !important;
+}
+
+.btn-danger:hover {
+    background-color: #b91515 !important;
+    border-color: #b91515 !important;
+}
+
+/* dete unline text */
+.card-reset-password a {
+    text-decoration: none;
+    /*color: #d81b1b;*/
+}
+
+.card-reset-password a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
 /*End Code zoom Images */
 /*ENd Code Main Home title */
 /*End Code Main Home*/
