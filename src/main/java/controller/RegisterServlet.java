@@ -12,8 +12,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.TimeZone;
 import model.User;
 import util.Email;
 import util.MyLib;
@@ -57,7 +60,7 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         UserDAO userDao = new UserDAO();
         String action = request.getParameter("action");
-        if (action.equalsIgnoreCase("verify")) {
+        if (action.equalsIgnoreCase("register")) {
             String fullname = request.getParameter("fullname");
             String username = request.getParameter("username");
             String email = request.getParameter("email");
@@ -82,15 +85,17 @@ public class RegisterServlet extends HttpServlet {
                         // Dãy số xác thực random ngẫu nhiên
                         String randomNumber = createRandomNumber();
 
-                        // Quy định thời gian hiệu lực
-                        Date todaysDate = new Date(new java.util.Date().getTime());
-                        Calendar c = Calendar.getInstance();
-                        c.setTime(todaysDate);
-                        c.add(Calendar.SECOND, 300);
-                        Date expirationTime = new Date(c.getTimeInMillis());
-
                         // Trạng thái xác thực = false
                         boolean verifStatus = false;
+
+                        // Lấy thời gian hiện tại
+                        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+
+                        // Tăng độ trễ, ví dụ 5 phút (300 giây)
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTimeInMillis(currentTime.getTime());
+                        calendar.add(Calendar.MINUTE, 5);  // Cộng 5 phút
+                        Timestamp expirationTime = new Timestamp(calendar.getTimeInMillis());
 
                         user.setUserId(userId);
                         user.setAuthCode(randomNumber);
@@ -100,18 +105,9 @@ public class RegisterServlet extends HttpServlet {
                         if (userDao.updateVerifyInformation(user) > 0) {
                             // Gửi mail xác thực cho khách hàng
                             Email.sendEmail(user.getEmail(), "Xác thực tài khoản tại PhongTroGr1", getVerifyContent(user));
-                            request.setAttribute("fullname", fullname);
-                            request.setAttribute("username", username);
-                            request.setAttribute("email", email);
-                            request.setAttribute("phone", phone);
-                            request.setAttribute("password", password);
-                            request.setAttribute("re-pass", rePass);
-                            request.setAttribute("role", role);
-                            request.setAttribute("status", 1);
-                            //response.sendRedirect("Register");
-                            request.getRequestDispatcher("register.jsp").forward(request, response);
+                            request.setAttribute("user", user);
+                            request.getRequestDispatcher("verifyRegistration.jsp").forward(request, response);
                         }
-                        //response.sendRedirect("Login");
                     } else {
                         request.setAttribute("fullname", fullname);
                         request.setAttribute("username", username);
@@ -140,28 +136,30 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("err", "<p style='color:red'>Vui lòng nhập số điện thoại của Việt nam!</p>");
                 request.getRequestDispatcher("register.jsp").forward(request, response);
             }
-        } else if (action.equalsIgnoreCase("register")) {
+        } else if (action.equalsIgnoreCase("verify")) {
             try {
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 String authCode = request.getParameter("authCode");
-
                 User user = userDao.verifyMD5(username, password);
                 if (user.getUserId() != -1) {
                     if (user.getAuthCode() != null && user.getAuthCode().equals(authCode)) {
-                        Date currentTime = new Date(new java.util.Date().getTime());
-                        if (currentTime.before(user.getExpirationTime())) {
+                        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+                        long difference = user.getExpirationTime().getTime() - currentTime.getTime();
+                        System.out.println("Difference in milliseconds: " + difference);
+                        if (difference > 0 && difference <= 300000) {  // 300000ms = 5 minutes
                             user.setVerifStatus(true);
                             userDao.updateVerifyInformation(user);
-                            //request.setAttribute("msg", "Xác thực thành công!");
                             request.getRequestDispatcher("login.jsp").forward(request, response);
                         } else {
+                            request.setAttribute("user", user);
                             request.setAttribute("err", "<p style='color:red'>Mã xác thực đã hết hạn! Vui lòng nhấn nút gửi mã lại.</p>");
-                            request.getRequestDispatcher("register.jsp").forward(request, response);
+                            request.getRequestDispatcher("verifyRegistration.jsp").forward(request, response);
                         }
                     } else {
+                        request.setAttribute("user", user);
                         request.setAttribute("err", "<p style='color:red'>Mã xác thực không đúng!</p>");
-                        request.getRequestDispatcher("register.jsp").forward(request, response);
+                        request.getRequestDispatcher("verifyRegistration.jsp").forward(request, response);
                     }
                 }
             } catch (ServletException | IOException e) {

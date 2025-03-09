@@ -38,6 +38,9 @@ public class UserDAO extends DBContext {
                 acc.setRole(rs.getInt("Role"));
                 acc.setCreated_at(rs.getDate("Created_at"));
                 acc.setUpdated_at(rs.getDate("Updated_at"));
+                acc.setAuthCode(rs.getString("AuthenticationCode"));
+                acc.setExpirationTime(rs.getTimestamp("ExpirationTime"));
+                acc.setVerifStatus(rs.getBoolean("VerificationStatus"));
                 return acc;
             }
         } catch (SQLException e) {
@@ -107,7 +110,7 @@ public class UserDAO extends DBContext {
                         rs.getDate("Created_at"),
                         rs.getDate("Updated_at"),
                         rs.getString("AuthenticationCode"),
-                        rs.getDate("ExpirationTime"),
+                        rs.getTimestamp("ExpirationTime"),
                         rs.getBoolean("VerificationStatus"));
             }
         } catch (SQLException e) {
@@ -122,7 +125,7 @@ public class UserDAO extends DBContext {
         try {
             PreparedStatement pt = conn.prepareStatement(sql);
             pt.setString(1, t.getAuthCode());
-            pt.setDate(2, t.getExpirationTime());
+            pt.setTimestamp(2, t.getExpirationTime());
             pt.setBoolean(3, t.getVerifStatus());
             pt.setInt(4, t.getUserId());
             result = pt.executeUpdate();

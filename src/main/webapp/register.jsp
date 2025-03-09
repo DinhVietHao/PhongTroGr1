@@ -29,7 +29,7 @@
                         </div>
 
                         <!-- Form đăng ký -->
-                        <form class="register-form" action="Register" method="POST">
+                        <form class="register-form" action="Register?action=register" method="POST">
                             <!-- Họ tên -->
                             <div class="form-group">
                                 <label for="inputFullName">Họ tên</label>

@@ -5,6 +5,7 @@
 package model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -22,7 +23,7 @@ public class User {
     private Date created_at;
     private Date updated_at;
     private String authCode;
-    private Date expirationTime;
+    private Timestamp expirationTime;
     private boolean verifStatus;
 
     public User() {
@@ -56,7 +57,7 @@ public class User {
         this.updated_at = updated_at;
     }
 
-    public User(int userId, String fullname, String username, String password, String email, String phone, int role, Date created_at, Date updated_at, String authCode, Date expirationTime, boolean verifStatus) {
+    public User(int userId, String fullname, String username, String password, String email, String phone, int role, Date created_at, Date updated_at, String authCode, Timestamp expirationTime, boolean verifStatus) {
         this.userId = userId;
         this.fullname = fullname;
         this.username = username;
@@ -143,11 +144,6 @@ public class User {
         this.updated_at = updated_at;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "fullname=" + fullname + ", email=" + email + ", phone=" + phone + '}';
-    }
-
     public String getAuthCode() {
         return authCode;
     }
@@ -156,11 +152,11 @@ public class User {
         this.authCode = authCode;
     }
 
-    public Date getExpirationTime() {
+    public Timestamp getExpirationTime() {
         return expirationTime;
     }
 
-    public void setExpirationTime(Date expirationTime) {
+    public void setExpirationTime(Timestamp expirationTime) {
         this.expirationTime = expirationTime;
     }
 
@@ -172,4 +168,9 @@ public class User {
         this.verifStatus = verifStatus;
     }
 
+    @Override
+    public String toString() {
+        return "User{" + "userId=" + userId + ", fullname=" + fullname + ", username=" + username + ", password=" + password + ", email=" + email + ", phone=" + phone + ", role=" + role + ", created_at=" + created_at + ", updated_at=" + updated_at + ", authCode=" + authCode + ", expirationTime=" + expirationTime + ", verifStatus=" + verifStatus + '}';
+    }
+    
 }

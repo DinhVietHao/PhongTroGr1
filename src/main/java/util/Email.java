@@ -56,7 +56,7 @@ public class Email {
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
 
             // Tiêu đề email
-            msg.setSubject(title);
+            msg.setSubject(title, "UTF-8");
 
             // Quy đinh ngày gửi
             msg.setSentDate(new Date());
@@ -82,7 +82,7 @@ public class Email {
         int n = Integer.parseInt(sc.nextLine());
         for (int i = 0; i < n; i++) {
             //Email.sendEmail("dvhaoce190204@gmail.com", System.currentTimeMillis() + "", "Đây là phần nội dung!");
-            Email.sendEmail("dvhaoce190204@gmail.com", "Thử nghiệm", "Hello Hào!!!");
+            Email.sendEmail("dvhaoce190204@gmail.com", "Xác thực tài khoản tại PhongTroGr1", "Hello Hào!!!");
         }
     }
 }

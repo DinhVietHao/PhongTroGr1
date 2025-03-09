@@ -8,6 +8,7 @@ util\MyLib.class
 controller\PostServlet.class
 model\Post.class
 model\Review.class
+util\TestTime.class
 database\DBContext.class
 model\Category.class
 model\Image.class
