@@ -1,9 +1,9 @@
 package util;
 
+
 import java.util.Date;
 import java.util.Properties;
 import java.util.Scanner;
-
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -14,6 +14,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
+
 
 
 public class Email {
