@@ -232,6 +232,6 @@
                 </div>
             </div>
         </main>
-        <script src="./js/home.js"></script>
+        <script src="./js/post.js"></script>
     </body>
 </html>
