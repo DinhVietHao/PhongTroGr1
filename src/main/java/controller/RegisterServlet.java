@@ -58,30 +58,30 @@ public class RegisterServlet extends HttpServlet {
             if (MyLib.checkPasswordStrong(password)) {
                 User user = new User(fullname, username, password, email, phone, role);
                 if (userDao.insertUser(user)) {
-                    
+
                     int userId = userDao.verifyMD5(user.getUsername(), user.getPassword()).getUserId();
-                    
+
                     // Dãy số xác thực random ngẫu nhiên
                     String randomNumber = createRandomNumber();
-                    
+
                     // Quy định thời gian hiệu lực
                     Date todaysDate = new Date(new java.util.Date().getTime());
                     Calendar c = Calendar.getInstance();
                     c.setTime(todaysDate);
                     c.add(Calendar.DATE, 1);
                     Date expirationTime = new Date(c.getTimeInMillis());
-                    
+
                     // Trạng thái xác thực = false
                     boolean verifStatus = false;
-                    
+
                     user.setUserId(userId);
                     user.setAuthCode(randomNumber);
                     user.setExpirationTime(expirationTime);
                     user.setVerifStatus(verifStatus);
-                    
+
                     System.out.println(user.getAuthCode());
                     System.out.println(user.getExpirationTime());
-                    
+
                     userDao.updateVerifyInformation(user);
                     response.sendRedirect("Login");
                 } else {

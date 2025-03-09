@@ -42,3 +42,48 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+
+
+
+
+
+
+
+
+//Seach Table (Khang)
+
+function toggleRegionModal() {
+    var modal = document.getElementById("regionModal");
+    var overlay = document.getElementById("overlay");
+
+    if (modal.classList.contains("active")) {
+        modal.classList.remove("active");
+        overlay.style.display = "none";
+    } else {
+        modal.classList.add("active");
+        overlay.style.display = "block";
+    }
+}
+
+// Hiển thị nút tìm kiếm với hiệu ứng từ từ khi có checkbox được chọn
+function updateSearchButton() {
+    var checkboxes = document.querySelectorAll(".region-checkbox");
+    var footer = document.querySelector(".modal-footer");
+
+    let isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+    if (isChecked) {
+        footer.style.display = "block"; // Hiện nút tìm kiếm ngay lập tức nhưng vẫn ẩn (opacity = 0)
+        setTimeout(() => footer.classList.add("show"), 10); // Kích hoạt hiệu ứng xuất hiện từ từ
+    } else {
+        footer.classList.remove("show"); // Ẩn dần nút tìm kiếm
+        setTimeout(() => {
+            if (!Array.from(checkboxes).some(checkbox => checkbox.checked)) {
+                footer.style.display = "none"; // Ẩn hoàn toàn sau khi hiệu ứng kết thúc
+            }
+        }, 500);
+    }
+}
+
+

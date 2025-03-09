@@ -25,9 +25,9 @@
                             <img src="images/logo.gif" alt="Logo">
                         </a>
                     </div>
-                    <div class="header-search">
+                    <div class="header-search" onclick="toggleRegionModal()">
                         <img class="icon" src="./images/location-pin.svg" alt="location">
-                        Tìm theo khu vực
+                        <span class="search-text">Tìm theo khu vực</span>
                     </div>
                     <div class="header-filter">
                         <button class="btn-filter"> <img class="icon" src="./images/bi-funnel.svg" alt="funnel"><span>Bộ
@@ -146,6 +146,69 @@
                     <button type="button" class="btn apply-button w-100">Áp dụng</button>
                 </div>
             </div>
+
+
+
+
+            
+            
+            
+            
+
+            <!--Table tìm kiem (Khang)-->
+
+            <div class="overlay" id="overlay" onclick="toggleRegionModal()"></div>
+
+            <!-- Offcanvas tìm theo khu vực - Bo góc toàn bộ -->
+            <div class="region-modal" id="regionModal">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tìm theo khu vực</h5>
+                    <button type="button" class="btn-close" aria-label="Close" onclick="toggleRegionModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <input type="checkbox" class="region-checkbox form-check-input me-2" id="toanQuoc" onchange="updateSearchButton()">
+                            <label for="toanQuoc" class="text-danger fw-bold">Toàn quốc</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input type="checkbox" class="region-checkbox form-check-input me-2" id="hoChiMinh" onchange="updateSearchButton()">
+                            <label for="hoChiMinh">Hồ Chí Minh</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input type="checkbox" class="region-checkbox form-check-input me-2" id="haNoi" onchange="updateSearchButton()">
+                            <label for="haNoi">Hà Nội</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input type="checkbox" class="region-checkbox form-check-input me-2" id="canTho" onchange="updateSearchButton()">
+                            <label for="canTho">Cần Thơ</label>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Nút tìm kiếm (Ẩn mặc định, có hiệu ứng mượt) -->
+                <div class="modal-footer text-center">
+                    <button id="searchButton" class="btn btn-danger w-100">Tìm kiếm</button>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </header>
         <script src="./js/codeme.js"></script>
     </body>

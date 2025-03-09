@@ -15,7 +15,6 @@ import javax.mail.internet.MimeMessage;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 
-
 public class Email {
     // Email: dvhaoce190204@gmail.com
     // Password: tfvd mpey htkh xvqm
@@ -64,7 +63,6 @@ public class Email {
 
             // Quy định email nhận phản hồi
             // msg.setReplyTo(InternetAddress.parse(from, false))
-            
             // Nội dung
             msg.setContent(content, "text/HTML; charset=UTF-8");
 

@@ -78,39 +78,39 @@
                 </div>
             </c:forEach>
         </div>
-        
+
         <!--Table quen mat khau (Khang)-->
-            
+
         <div class="card shadow p-4 card-forgot-password">
-        <h4 class="text-center mb-3 text-danger">Quên Mật Khẩu</h4>
+            <h4 class="text-center mb-3 text-danger">Quên Mật Khẩu</h4>
             <p class="text-muted text-center">Nhập email của bạn để đặt lại mật khẩu</p>
 
-        <form id="forgotPasswordForm" action="#" method="post">
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                
-                <!--co value lay du lieu tu database-->
-                <input type="email" class="form-control" id="email" placeholder="Nhập email của bạn" value="abc@gmail.com" readonly>
-                
+            <form id="forgotPasswordForm" action="#" method="post">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+
+                    <!--co value lay du lieu tu database-->
+                    <input type="email" class="form-control" id="email" placeholder="Nhập email của bạn" value="abc@gmail.com" readonly>
+
+                </div>
+                <!--<button type="submit" class="btn btn-primary w-100">Xác Thực</button>-->
+                <a class="btn btn-primary w-100 text-decoration" href="./resetpassword.jsp">Xác Nhận</a>
+            </form>
+
+            <div class="mt-3 text-center">
+                <a href="./login.jsp">Quay lại đăng nhập</a>
             </div>
-            <!--<button type="submit" class="btn btn-primary w-100">Xác Thực</button>-->
-            <a class="btn btn-primary w-100 text-decoration" href="./resetpassword.jsp">Xác Nhận</a>
-        </form>
-
-        <div class="mt-3 text-center">
-            <a href="./login.jsp">Quay lại đăng nhập</a>
         </div>
-    </div>
 
-    <script>
-        document.getElementById("forgotPasswordForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            var email = document.getElementById("email").value;
-            alert("Yêu cầu đặt lại mật khẩu đã được gửi tới: " + email);
-        });
-    </script>
-        
-        
+        <script>
+            document.getElementById("forgotPasswordForm").addEventListener("submit", function (event) {
+                event.preventDefault();
+                var email = document.getElementById("email").value;
+                alert("Yêu cầu đặt lại mật khẩu đã được gửi tới: " + email);
+            });
+        </script>
+
+
 
     </body>
 </html>
