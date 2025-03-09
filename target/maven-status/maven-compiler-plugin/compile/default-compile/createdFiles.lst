@@ -2,6 +2,7 @@ controller\LoginServlet.class
 controller\CommentServlet.class
 model\SavedPost.class
 controller\SearchServlet.class
+<<<<<<< HEAD
 controller\PostServlet.class
 model\Post.class
 model\Review.class
@@ -9,6 +10,19 @@ until\DBContext.class
 model\Category.class
 model\Image.class
 controller\LogoutServlet.class
+=======
+util\Email.class
+util\MyLib.class
+controller\PostServlet.class
+model\Post.class
+model\Review.class
+database\DBContext.class
+model\Category.class
+model\Image.class
+controller\LogoutServlet.class
+dao\UserDAO.class
+dao\PostDao.class
+>>>>>>> a3e97b06b190a9ba9d3b7ac3931b716427ac6d34
 controller\UserServlet.class
 controller\RegisterServlet.class
 controller\HomeServlet.class

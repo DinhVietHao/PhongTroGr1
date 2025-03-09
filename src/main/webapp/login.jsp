@@ -27,9 +27,9 @@
                             <a class="tab-active" href="./login.jsp">Đăng nhập</a>
                             <a class="tab-inactive" href="./register.jsp">Tạo tài khoản mới</a>
                         </div>
-                        <form class="login-form" method="POST">
+                        <form class="login-form" method="POST" action="Login">
                             <div class="form-group">
-                                <label for="inputPhoneEmailLogin">Số điện thoại</label>
+                                <label for="inputPhoneEmailLogin">Tên đăng nhập</label>
                                 <input type="text" id="inputPhoneEmailLogin" name="loginname" class="input-field"
                                        placeholder="Nhập số điện thoại" minlength="10" maxlength="11" required>
                             </div>
@@ -39,6 +39,7 @@
                                        placeholder="Nhập mật khẩu" minlength="6" required>
                             </div>
                             <button type="submit" name="wp-submit-login" class="custom-btn">Đăng nhập</button>
+                            <p><%= request.getAttribute("err") != null ? request.getAttribute("err") : ""%></p>
                             <p>
                                 <a class="forgot-password" href="">Bạn quên mật khẩu?</a>
                             </p>

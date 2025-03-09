@@ -5,12 +5,14 @@
 package model;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  *
  * @author DVHao
  */
 public class Post {
+
     private int postId;
     private int userId;
     private int catId;
@@ -27,11 +29,13 @@ public class Post {
     private String status;
     private Date created_at;
     private Date updaited_at;
+    private User user;
+    private List<Image> images;
 
     public Post() {
     }
 
-    public Post(int postId, int userId, int catId, String title, String description, double price, String address, String city, String district, String ward, double area, int roomCount, String postType, String status, Date created_at, Date updaited_at) {
+    public Post(int postId, int userId, int catId, String title, String description, double price, String address, String city, String district, String ward, double area, int roomCount, String postType, String status, Date created_at, Date updaited_at, User user, List<Image> images) {
         this.postId = postId;
         this.userId = userId;
         this.catId = catId;
@@ -48,6 +52,8 @@ public class Post {
         this.status = status;
         this.created_at = created_at;
         this.updaited_at = updaited_at;
+        this.user = user;
+        this.images = images;
     }
 
     public int getPostId() {
@@ -176,6 +182,27 @@ public class Post {
 
     public void setUpdaited_at(Date updaited_at) {
         this.updaited_at = updaited_at;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" + "postId=" + postId + ", userId=" + userId + ", catId=" + catId + ", title=" + title + ", description=" + description + ", price=" + price + ", address=" + address + ", city=" + city + ", district=" + district + ", ward=" + ward + ", area=" + area + ", roomCount=" + roomCount + ", postType=" + postType + ", status=" + status + ", created_at=" + created_at + ", updaited_at=" + updaited_at + ", user=" + user + ", images=" + images + '}';
     }
     
     

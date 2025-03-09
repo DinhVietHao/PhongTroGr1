@@ -23,6 +23,13 @@ public class User {
     private Date updated_at;
 
     public User() {
+        this.userId = -1;
+    }
+
+    public User(String fullname, String email, String phone) {
+        this.fullname = fullname;
+        this.email = email;
+        this.phone = phone;
     }
 
     public User(int userId, String fullname, String username, String password, String email, String phone, int role, Date created_at, Date updated_at) {
@@ -107,6 +114,11 @@ public class User {
 
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "fullname=" + fullname + ", email=" + email + ", phone=" + phone + '}';
     }
 
 }
