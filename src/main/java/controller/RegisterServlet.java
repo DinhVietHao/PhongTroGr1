@@ -12,7 +12,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Random;
+import model.User;
 import util.MyLib;
 
 /**
@@ -21,7 +24,7 @@ import util.MyLib;
  */
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/Register"})
 public class RegisterServlet extends HttpServlet {
-    
+
     public String createRandomNumber() {
         Random rd = new Random();
         String s1, s2, s3, s4, s5, s6;
@@ -35,59 +38,16 @@ public class RegisterServlet extends HttpServlet {
         return s;
     }
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RegisterServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RegisterServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.sendRedirect("register.jsp");
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String fullName = request.getParameter("fullname");
+        String fullname = request.getParameter("fullname");
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
@@ -96,11 +56,36 @@ public class RegisterServlet extends HttpServlet {
         UserDAO userDao = new UserDAO();
         if (MyLib.isValidPhone(phone)) {
             if (MyLib.checkPasswordStrong(password)) {
-                if (userDao.insertUser(fullName, username, phone, email, password, role)) {
+                User user = new User(fullname, username, password, email, phone, role);
+                if (userDao.insertUser(user)) {
+                    
+                    int userId = userDao.verifyMD5(user.getUsername(), user.getPassword()).getUserId();
+                    
+                    // Dãy số xác thực random ngẫu nhiên
                     String randomNumber = createRandomNumber();
+                    
+                    // Quy định thời gian hiệu lực
+                    Date todaysDate = new Date(new java.util.Date().getTime());
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(todaysDate);
+                    c.add(Calendar.DATE, 1);
+                    Date expirationTime = new Date(c.getTimeInMillis());
+                    
+                    // Trạng thái xác thực = false
+                    boolean verifStatus = false;
+                    
+                    user.setUserId(userId);
+                    user.setAuthCode(randomNumber);
+                    user.setExpirationTime(expirationTime);
+                    user.setVerifStatus(verifStatus);
+                    
+                    System.out.println(user.getAuthCode());
+                    System.out.println(user.getExpirationTime());
+                    
+                    userDao.updateVerifyInformation(user);
                     response.sendRedirect("Login");
                 } else {
-                    request.setAttribute("fullname", fullName);
+                    request.setAttribute("fullname", fullname);
                     request.setAttribute("username", username);
                     request.setAttribute("email", email);
                     request.setAttribute("phone", phone);
@@ -110,7 +95,7 @@ public class RegisterServlet extends HttpServlet {
                     request.getRequestDispatcher("register.jsp").forward(request, response);
                 }
             } else {
-                request.setAttribute("fullname", fullName);
+                request.setAttribute("fullname", fullname);
                 request.setAttribute("username", username);
                 request.setAttribute("email", email);
                 request.setAttribute("phone", phone);
@@ -119,7 +104,7 @@ public class RegisterServlet extends HttpServlet {
                 request.getRequestDispatcher("register.jsp").forward(request, response);
             }
         } else {
-            request.setAttribute("fullname", fullName);
+            request.setAttribute("fullname", fullname);
             request.setAttribute("username", username);
             request.setAttribute("email", email);
             request.setAttribute("password", password);
@@ -128,15 +113,5 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

@@ -31,7 +31,7 @@
                             <div class="form-group">
                                 <label for="inputPhoneEmailLogin">Tên đăng nhập</label>
                                 <input type="text" id="inputPhoneEmailLogin" name="loginname" class="input-field"
-                                       placeholder="Nhập số điện thoại" minlength="10" maxlength="11" required>
+                                       placeholder="Nhập số điện thoại" minlength="5" maxlength="11" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Mật khẩu</label>

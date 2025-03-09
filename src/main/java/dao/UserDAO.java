@@ -66,19 +66,19 @@ public class UserDAO extends DBContext {
         return "";
     }
 
-    public boolean insertUser(String fullName, String username, String phone, String email, String password, int role) {
+    public boolean insertUser(User t) {
         String sqlInsertUser = "INSERT INTO Users (Fullname, Username, Password, Email, Phone, Role, Created_at, Updated_at) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sqlInsertUser);
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
-            ps.setString(1, fullName);
-            ps.setString(2, username);
-            ps.setString(3, hashMD5(password));
-            ps.setString(4, email);
-            ps.setString(5, phone);
-            ps.setInt(6, role);
+            ps.setString(1, t.getFullname());
+            ps.setString(2, t.getUsername());
+            ps.setString(3, hashMD5(t.getPassword()));
+            ps.setString(4, t.getEmail());
+            ps.setString(5, t.getPhone());
+            ps.setInt(6, t.getRole());
             ps.setTimestamp(7, currentTime);
             ps.setTimestamp(8, currentTime);
             int res = ps.executeUpdate();
@@ -117,6 +117,7 @@ public class UserDAO extends DBContext {
     }
 
     public int updateVerifyInformation(User t) {
+        int result = 0;
         String sql = "UPDATE Users SET AuthenticationCode = ?, ExpirationTime = ?, VerificationStatus = ? WHERE User_id = ?";
         try {
             PreparedStatement pt = conn.prepareStatement(sql);
@@ -124,8 +125,10 @@ public class UserDAO extends DBContext {
             pt.setDate(2, t.getExpirationTime());
             pt.setBoolean(3, t.getVerifStatus());
             pt.setInt(4, t.getUserId());
-
+            result = pt.executeUpdate();
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
+        return result;
     }
 }
