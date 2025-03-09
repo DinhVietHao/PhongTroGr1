@@ -704,3 +704,73 @@ label {
 /*End Code zoom Images */
 /*ENd Code Main Home title */
 /*End Code Main Home*/
+
+
+/*Bo loc*/
+#filterModal {
+    display: none;
+    /* other styles */
+}
+
+#filterModal.show {
+    display: block;
+    /* other styles to make the modal visible */
+}
+.table-filler {
+    top: 100px;
+    right: 26%;
+
+    
+}
+.btn-filter {
+    border-radius: 50px;
+    padding: 21px 60px;
+    background-color: white;
+    border: 1px solid #dee2e6;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.btn-filter.active {
+    border: 1px solid #dc3545;
+    position: relative;
+}
+
+.filter-icon {
+    margin-right: 6px;
+    font-size: 1.1rem;
+}
+
+.active-marker {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    background-color: #dc3545;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.7rem;
+}
+
+.apply-button {
+    background-color: #dc3545;
+    color: white;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+.apply-button:hover {
+    background: #b80d46;
+}
+/*END Bo Loc*/

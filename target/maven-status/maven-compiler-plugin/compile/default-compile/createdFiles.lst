@@ -1,3 +1,4 @@
+util\Email$1.class
 controller\LoginServlet.class
 controller\CommentServlet.class
 model\SavedPost.class

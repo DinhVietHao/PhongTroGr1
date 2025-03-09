@@ -84,6 +84,68 @@
                     </ul>
                 </div>
             </div>
+
+
+            <div class="offcanvas rounded-top-4 table-filler" id="filterModal"">
+                <div class="offcanvas-header shadow-sm">
+                    <h5 class="modal-title" id="filterModalLabel">Bộ lọc</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body p-4">
+                    <div class="mb-4 pb-2">
+                        <div class="fs-5 fw-normal mb-3">Danh mục cho thuê</div>
+                        <div class="d-flex flex-wrap">
+                            <button class="btn-filter active">
+                                <i class="bi bi-house-door filter-icon"></i> Phòng trọ
+                                <span class="active-marker">?</span>
+                            </button>
+                            <button class="btn-filter"><i class="bi bi-house"></i> Nhà riêng</button>
+                            <button class="btn-filter"><i class="bi bi-people"></i> Căn hộ ghép</button>
+                            <button class="btn-filter"><i class="bi bi-shop"></i> Mặt bằng</button>
+                            <button class="btn-filter"><i class="bi bi-building"></i> Căn hộ chung cư</button>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 pb-2">
+                        <div class="fs-5 fw-normal mb-2">Lọc theo khu vực</div>
+                        <div class="row gx-2">
+                            <div class="col-4">
+                                <label class="form-label mb-1">Tỉnh thành</label>
+                                <select class="form-select">
+                                    <option>Cần Thơ</option>
+                                    <option>Hồ Chí Minh</option>
+                                    <option>Hà Nội</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label mb-1">Quận huyện</label>
+                                <select class="form-select">
+                                    <option>Tất cả</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label mb-1">Phường xã</label>
+                                <select class="form-select">
+                                    <option>Tất cả</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 pb-2">
+                        <div class="fs-5 fw-normal mb-3">Khoảng giá</div>
+                        <div class="d-flex flex-wrap">
+                            <button class="btn-filter active">Tất cả <span class="active-marker">?</span></button>
+                            <button class="btn-filter">Dưới 1 triệu</button>
+                            <button class="btn-filter">1 - 2 triệu</button>
+                            <button class="btn-filter">2 - 3 triệu</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="offcanvas-footer p-3 shadow-lg">
+                    <button type="button" class="btn apply-button w-100">Áp dụng</button>
+                </div>
+            </div>
         </header>
         <script src="./js/codeme.js"></script>
     </body>
