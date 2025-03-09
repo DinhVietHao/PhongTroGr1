@@ -32,7 +32,7 @@ public class PostDao extends DBContext {
             while (rs.next()) {
                 Image img = new Image(rs.getInt("Image_id"),
                         rs.getInt("Post_id"),
-                        rs.getString("Image_url"));
+                        rs.getBytes("Image_url"));
                 data.add(img);
             }
         } catch (SQLException e) {

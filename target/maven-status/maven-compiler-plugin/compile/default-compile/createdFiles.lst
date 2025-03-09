@@ -1,9 +1,11 @@
 controller\LoginServlet.class
 controller\CommentServlet.class
 model\SavedPost.class
+controller\UploadImageServlet.class
 controller\SearchServlet.class
 util\Email.class
 util\MyLib.class
+dao\UploadDAO.class
 controller\PostServlet.class
 model\Post.class
 model\Review.class

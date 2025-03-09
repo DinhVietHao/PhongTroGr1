@@ -29,16 +29,16 @@
                             <div class="form-group">
                                 <label for="inputFullName">Họ tên</label>
                                 <input type="text" id="inputFullName" name="fullname" placeholder="Nhập họ tên" required
-                                       minlength="3" class="input-field" value="<%= request.getAttribute("fullname") != null ? request.getAttribute("fullname") : ""%>" placeholder="Nhập họ tên">
+                                       minlength="3" maxlength="50" class="input-field" value="<%= request.getAttribute("fullname") != null ? request.getAttribute("fullname") : ""%>" placeholder="Nhập họ tên">
                             </div>
                             <div class="form-group">
                                 <label for="inputFullName">Tên đăng nhập</label>
                                 <input type="text" id="inputUsername" name="username" placeholder="Nhập tên đăng nhập" required
-                                       minlength="3" class="input-field" value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : ""%>" placeholder="Nhập tên đăng nhập">
+                                       minlength="3" maxlength="50" class="input-field" value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : ""%>" placeholder="Nhập tên đăng nhập">
                             </div>
                             <div class="form-group">
                                 <label for="inputPhone">Số điện thoại</label>
-                                <input type="text" id="inputPhone" name="phone" placeholder="Nhập số điện thoại" required
+                                <input type="text" id="inputPhone" name="phone" p laceholder="Nhập số điện thoại" required
                                        minlength="10" maxlength="11" class="input-field" value="<%= request.getAttribute("phone") != null ? request.getAttribute("phone") : ""%>" placeholder="Nhập số điện thoại">
                                 
                             </div>
@@ -63,8 +63,6 @@
                                     <label for="user_type_guest">Tìm kiếm</label>
                                     <input type="radio" id="user_type_owner" name="user_type" value="2" <%= (role == 2) ? "checked" : ""%>>
                                     <label for="user_type_owner">Chính chủ</label>
-                                    <input type="radio" id="user_type_broker" name="user_type" value="3" <%= (role == 3) ? "checked" : ""%>>
-                                    <label for="user_type_broker">Môi giới</label>
                                 </div>
                             </div>
                             <p><%= request.getAttribute("err") != null ? request.getAttribute("err") : ""%></p>        

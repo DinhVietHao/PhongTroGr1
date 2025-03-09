@@ -9,18 +9,18 @@ package model;
  * @author DVHao
  */
 public class Image {
-
+    
     private int imageId;
     private int postId;
-    private String imageUrl;
+    private byte[] imageData; // Lưu ảnh dạng byte[]
 
     public Image() {
     }
 
-    public Image(int imageId, int postId, String imageUrl) {
+    public Image(int imageId, int postId, byte[] imageData) {
         this.imageId = imageId;
         this.postId = postId;
-        this.imageUrl = imageUrl;
+        this.imageData = imageData;
     }
 
     public int getImageId() {
@@ -39,17 +39,17 @@ public class Image {
         this.postId = postId;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public byte[] getImageData() {
+        return imageData;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
     @Override
     public String toString() {
-        return "Image{" + "imageId=" + imageId + ", postId=" + postId + ", imageUrl=" + imageUrl + '}';
+        return "Image{" + "imageId=" + imageId + ", postId=" + postId + ", imageData=[BLOB DATA] }";
     }
-
+    
 }
