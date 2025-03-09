@@ -28,15 +28,20 @@
             <form id="forgotPasswordForm" action="Register?action=verify" method="POST">
                 <input name="username" value="<%= user.getUsername()%>" hidden>
                 <input name="password" value="<%= user.getPassword()%>" hidden>
+
                 <div class="mb-3">
                     <label for="authencation" class="form-label">Code:</label>
-                    <input type="number" pattern="[0-9]*" inputmode="numeric" class="form-control no-spinner" id="authencation" name="authCode" placeholder="Nhập mã xác thực" required>
+                    <div class="input-group">
+                        <input type="number" pattern="[0-9]*" inputmode="numeric" class="form-control" id="authencation" name="authCode" placeholder="Nhập mã xác thực" required>
+                        <a href="#" class="btn btn-link p-0 align-self-center">Gửi lại mã!</a>
+                    </div>
                     <!-- Hiển thị lỗi nếu có -->
                     <p><%= request.getAttribute("err") != null ? request.getAttribute("err") : ""%></p> 
                 </div>
+
                 <!-- Nút tạo tài khoản -->
                 <div class="form-group">
-                    <button type="submit" class="custom-btn">Xác nhận</button>
+                    <button type="submit" class="btn btn-danger w-100">Xác nhận</button>
                 </div>
             </form>
 
@@ -44,5 +49,8 @@
                 <a href="Register">Quay lại đăng ký</a>
             </div>
         </div>
+
+        <!-- Bootstrap JS và Popper (nếu cần) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
