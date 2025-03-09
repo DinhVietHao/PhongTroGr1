@@ -21,9 +21,9 @@
             <div class="container-xl">
                 <div class="col-md-12 header-content">
                     <div class="header-logo">
-                        <a href="./room">
-                            <img classs="header-logo" src="./images/logo-phongtro.svg"
-                                 alt="Kênh thông tin cho thuê phòng trọ số 1 Việt Nam" title="PhongtroG1.com">
+                        <a href="home.jsp">
+                            <img src="images/logo.gif" alt="Logo">
+
                         </a>
                     </div>
                     <div class="header-search">
