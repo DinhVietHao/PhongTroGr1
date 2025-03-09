@@ -751,7 +751,12 @@ label {
 .sidebar-item i {
     margin-right: 10px;
 }
-
+.sidebar-panel .user-name {
+    color: #ff0d0d;
+    font-weight: bold;
+    text-shadow: 0px 1px 7px hsl(302, 100%, 37%);
+    background: url(../images/effect-1.gif);
+}
 .support-box {
     margin-top: 20px;
     padding: 10px;
@@ -780,6 +785,7 @@ label {
     font-size: 14px;
     font-weight: bold;
 }
+
 
 /* Main Content POST */
 .post-header {

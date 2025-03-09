@@ -91,6 +91,7 @@
                         <p class="copyright">Bản quyền © 2024 - 2025 PhongTroG1.com</p>
                     </div>
                 </div>
+                            <img src="./images/effect-1.gif" />
             </div>
         </main>
 
