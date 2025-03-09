@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="header-post">
-                        <a href="">
+                        <a href="./post.jsp">
                             <img src="./images/bi-posting-white.svg" alt=""> Đăng tin
                         </a>
                     </div>
