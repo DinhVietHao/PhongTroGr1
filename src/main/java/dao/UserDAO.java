@@ -89,6 +89,7 @@ public class UserDAO extends DBContext {
         return false;
     }
 
+
     public User selectUserById(int id) {
         User user = new User();
         String sql = "SELECT * FROM Users WHERE User_id = ?";
@@ -131,4 +132,5 @@ public class UserDAO extends DBContext {
         }
         return result;
     }
+
 }
