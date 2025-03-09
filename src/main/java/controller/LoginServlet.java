@@ -5,6 +5,7 @@
 
 package controller;
 
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
@@ -55,7 +58,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     } 
 
     /** 
@@ -68,7 +71,18 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String username = request.getParameter("loginname");
+        String password = request.getParameter("password");
+        UserDAO userdao = new UserDAO();
+        User user = userdao.verifyMD5(username, password);
+        HttpSession session = request.getSession();
+        if(user.getUserId() != -1){
+            session.setAttribute("user", user);
+            response.sendRedirect("Home?action=Role&role=" + user.getRole());
+        }else{
+            request.setAttribute("err", "<p style='color:red'>Tên đăng nhập hoặc mật khẩu không đúng!</p>");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
     }
 
     /** 
