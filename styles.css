@@ -1,0 +1,76 @@
+/* Overlay nền mờ */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
+    z-index: 10;
+}
+
+/* Modal nhỏ gọn */
+.region-modal {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 350px;
+    background: white;
+    border-radius: 12px; /* Bo góc */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 20;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Khi modal mở */
+.region-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Header modal */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+    background: white;
+}
+
+/* Danh sách khu vực */
+.list-group {
+    max-height: 180px;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.list-group-item {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Kiểu checkbox */
+.form-check-input {
+    cursor: pointer;
+}
+
+/* Modal footer */
+.modal-footer {
+    padding: 10px 15px;
+    border-top: 1px solid #ddd;
+    display: none;
+}
