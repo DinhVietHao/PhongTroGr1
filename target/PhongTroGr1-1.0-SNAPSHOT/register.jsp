@@ -40,7 +40,7 @@
                                 <label for="inputPhone">Số điện thoại</label>
                                 <input type="text" id="inputPhone" name="phone" placeholder="Nhập số điện thoại" required
                                        minlength="10" maxlength="11" class="input-field" value="<%= request.getAttribute("phone") != null ? request.getAttribute("phone") : ""%>" placeholder="Nhập số điện thoại">
-                                
+
                             </div>
                             <div class="form-group">
                                 <label for="inputPhone">Email</label>
@@ -51,6 +51,16 @@
                                 <label for="password">Mật khẩu</label>
                                 <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required
                                        minlength="6" class="input-field" value="<%= request.getAttribute("password") != null ? request.getAttribute("password") : ""%>" placeholder="Nhập mật khẩu">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Mật khẩu</label>
+                                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required
+                                       minlength="6" class="input-field" value="<%= request.getAttribute("password") != null ? request.getAttribute("password") : ""%>" placeholder="Nhập mật khẩu">
+                            </div>
+                            <div class="form-group">
+                                <label for="authentication">Mã xác thực</label>
+                                <input type="text" id="authentication" name="authentication" placeholder="Nhập mã xác thực" required
+                                       class="input-field">
                             </div>
                             <%
                                 Integer role = (Integer) request.getAttribute("role");
