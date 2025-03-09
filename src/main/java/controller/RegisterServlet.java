@@ -83,7 +83,22 @@ public class RegisterServlet extends HttpServlet {
                     System.out.println(user.getExpirationTime());
 
                     userDao.updateVerifyInformation(user);
-                    response.sendRedirect("Login");
+
+                    
+                    
+                    
+//                    Chuyen Huong Sang OTP & Lay Email tu Database (Khang)
+//                    response.sendRedirect("Login");
+                    // Save Email Sesson
+                    request.getSession().setAttribute("email", email);
+                    request.getRequestDispatcher("authenticationcode.jsp").forward(request, response);
+
+                    
+                    
+                    
+                    
+                    
+                    
                 } else {
                     request.setAttribute("fullname", fullname);
                     request.setAttribute("username", username);

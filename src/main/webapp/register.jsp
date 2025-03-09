@@ -52,6 +52,7 @@
                                 <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required
                                        minlength="6" class="input-field" value="<%= request.getAttribute("password") != null ? request.getAttribute("password") : ""%>" placeholder="Nhập mật khẩu">
                             </div>
+<<<<<<< HEAD
                             <div class="form-group">
                                 <label for="password">Mật khẩu</label>
                                 <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required
@@ -62,6 +63,14 @@
                                 <input type="text" id="authentication" name="authentication" placeholder="Nhập mã xác thực" required
                                        class="input-field">
                             </div>
+=======
+                     
+<!--                            <div class="form-group">
+                                <label for="authentication">Mã xác thực</label>
+                                <input type="text" id="authentication" name="authentication" placeholder="Nhập mã xác thực" required
+                                       class="input-field">
+                            </div>-->
+>>>>>>> 32d07f4 (OPT & Email)
                             <%
                                 Integer role = (Integer) request.getAttribute("role");
                                 role = (role == null) ? 0 : role; // Nếu role null thì gán 0 để tránh lỗi
