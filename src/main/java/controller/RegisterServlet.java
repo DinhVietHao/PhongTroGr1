@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Random;
 import util.MyLib;
 
 /**
@@ -20,6 +21,19 @@ import util.MyLib;
  */
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/Register"})
 public class RegisterServlet extends HttpServlet {
+    
+    public String createRandomNumber() {
+        Random rd = new Random();
+        String s1, s2, s3, s4, s5, s6;
+        s1 = rd.nextInt(10) + "";
+        s2 = rd.nextInt(10) + "";
+        s3 = rd.nextInt(10) + "";
+        s4 = rd.nextInt(10) + "";
+        s5 = rd.nextInt(10) + "";
+        s6 = rd.nextInt(10) + "";
+        String s = s1 + s2 + s3 + s4 + s5 + s6;
+        return s;
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -83,6 +97,7 @@ public class RegisterServlet extends HttpServlet {
         if (MyLib.isValidPhone(phone)) {
             if (MyLib.checkPasswordStrong(password)) {
                 if (userDao.insertUser(fullName, username, phone, email, password, role)) {
+                    String randomNumber = createRandomNumber();
                     response.sendRedirect("Login");
                 } else {
                     request.setAttribute("fullname", fullName);
