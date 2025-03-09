@@ -15,13 +15,12 @@ import javax.mail.internet.MimeMessage;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 
-
 public class Email {
     // Email: dvhaoce190204@gmail.com
     // Password: tfvd mpey htkh xvqm
 
-    static final String from = "dvhaoce190204@gmail.com";
-    static final String password = "tfvd mpey htkh xvqm";
+    static final String from = "phongtrogr1@gmail.com";
+    static final String password = "aqis xlns bkkw evnn";
 
     public static boolean sendEmail(String to, String title, String content) {
         // Properties : khai báo các thuộc tính
@@ -64,7 +63,6 @@ public class Email {
 
             // Quy định email nhận phản hồi
             // msg.setReplyTo(InternetAddress.parse(from, false))
-            
             // Nội dung
             msg.setContent(content, "text/HTML; charset=UTF-8");
 
@@ -84,9 +82,7 @@ public class Email {
         int n = Integer.parseInt(sc.nextLine());
         for (int i = 0; i < n; i++) {
             //Email.sendEmail("dvhaoce190204@gmail.com", System.currentTimeMillis() + "", "Đây là phần nội dung!");
-            Email.sendEmail("LuongPTCE181311@fpt.edu.vn", "Thử nghiệm", "Hello Lượng!!!");
+            Email.sendEmail("dvhaoce190204@gmail.com", "Thử nghiệm", "Hello Hào!!!");
         }
-
     }
-
 }

@@ -25,42 +25,52 @@
                             <a class="tab-inactive" href="./login.jsp">Đăng nhập</a>
                             <a class="tab-active" href="./register.jsp">Tạo tài khoản mới</a>
                         </div>
+                        <%
+                            String status = (String)request.getAttribute("status");
+                        %>
                         <form class="register-form" action="Register" method="POST">
                             <div class="form-group">
                                 <label for="inputFullName">Họ tên</label>
-                                <input type="text" id="inputFullName" name="fullname" placeholder="Nhập họ tên" required
-                                       minlength="3" class="input-field" value="<%= request.getAttribute("fullname") != null ? request.getAttribute("fullname") : ""%>" placeholder="Nhập họ tên">
+                                <input type="text" id="inputFullName" name="fullname" placeholder="Vui lòng nhập họ tên" required
+                                       minlength="3" class="input-field" value="<%= request.getAttribute("fullname") != null ? request.getAttribute("fullname") : ""%>"
+                                       <%= (status != null) ? "readonly" : ""%>>
                             </div>
                             <div class="form-group">
                                 <label for="inputFullName">Tên đăng nhập</label>
-                                <input type="text" id="inputUsername" name="username" placeholder="Nhập tên đăng nhập" required
-                                       minlength="3" class="input-field" value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : ""%>" placeholder="Nhập tên đăng nhập">
+                                <input type="text" id="inputUsername" name="username" placeholder="Vui lòng nhập tên đăng nhập" required
+                                       minlength="3" class="input-field" value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : ""%>"
+                                       <%= (status != null) ? "readonly" : ""%>>
                             </div>
                             <div class="form-group">
                                 <label for="inputPhone">Số điện thoại</label>
-                                <input type="text" id="inputPhone" name="phone" placeholder="Nhập số điện thoại" required
-                                       minlength="10" maxlength="11" class="input-field" value="<%= request.getAttribute("phone") != null ? request.getAttribute("phone") : ""%>" placeholder="Nhập số điện thoại">
+                                <input type="text" id="inputPhone" name="phone" placeholder="Vui lòng nhập số điện thoại" required
+                                       minlength="10" maxlength="11" class="input-field" value="<%= request.getAttribute("phone") != null ? request.getAttribute("phone") : ""%>"
+                                       <%= (status != null) ? "readonly" : ""%>>
 
                             </div>
                             <div class="form-group">
                                 <label for="inputPhone">Email</label>
-                                <input type="email" id="inputEmail" name="email" placeholder="Nhập email" required
-                                       class="input-field" value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : ""%>" placeholder="Nhập email">
+                                <input type="email" id="inputEmail" name="email" placeholder="Vui lòng nhập email" required
+                                       class="input-field" value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : ""%>"
+                                       <%= (status != null) ? "readonly" : ""%>>
                             </div>
                             <div class="form-group">
                                 <label for="password">Mật khẩu</label>
-                                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required
-                                       minlength="6" class="input-field" value="<%= request.getAttribute("password") != null ? request.getAttribute("password") : ""%>" placeholder="Nhập mật khẩu">
+                                <input type="password" id="password" name="password" placeholder="Vui lòng nhập mật khẩu" required
+                                       minlength="6" class="input-field" value="<%= request.getAttribute("password") != null ? request.getAttribute("password") : ""%>"
+                                       <%= (status != null) ? "readonly" : ""%>>
                             </div>
                             <div class="form-group">
-                                <label for="password">Mật khẩu</label>
-                                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required
-                                       minlength="6" class="input-field" value="<%= request.getAttribute("password") != null ? request.getAttribute("password") : ""%>" placeholder="Nhập mật khẩu">
+                                <label for="password">Xác nhận mật khẩu</label>
+                                <input type="password" id="re-password" name="re-pass" placeholder="Vui lòng xác nhận lại mật khẩu" required
+                                       minlength="6" class="input-field" value="<%= request.getAttribute("re-pass") != null ? request.getAttribute("re-pass") : ""%>"
+                                       <%= (status != null) ? "readonly" : ""%>>
                             </div>
                             <div class="form-group">
                                 <label for="authentication">Mã xác thực</label>
-                                <input type="text" id="authentication" name="authentication" placeholder="Nhập mã xác thực" required
+                                <input type="text" id="authentication" name="authCode" placeholder="Vui lòng mã xác thực"
                                        class="input-field">
+                                <button type="submit" name="action" value="verify" class="custom-btn">Gửi mã tại đây!</button>
                             </div>
                             <%
                                 Integer role = (Integer) request.getAttribute("role");
@@ -73,13 +83,11 @@
                                     <label for="user_type_guest">Tìm kiếm</label>
                                     <input type="radio" id="user_type_owner" name="user_type" value="2" <%= (role == 2) ? "checked" : ""%>>
                                     <label for="user_type_owner">Chính chủ</label>
-                                    <input type="radio" id="user_type_broker" name="user_type" value="3" <%= (role == 3) ? "checked" : ""%>>
-                                    <label for="user_type_broker">Môi giới</label>
                                 </div>
                             </div>
                             <p><%= request.getAttribute("err") != null ? request.getAttribute("err") : ""%></p>        
                             <div class="form-group">
-                                <button type="submit" name="wp-submit-register" class="custom-btn">Tạo tài
+                                <button type="submit" name="action" value="register" class="custom-btn">Tạo tài
                                     khoản</button>
                             </div>
                             <input type="hidden" name="redirect" value="">

@@ -131,4 +131,14 @@ public class UserDAO extends DBContext {
         }
         return result;
     }
+    
+    public void deleteUnverifiedAccounts() {
+        String sql = "DELETE FROM Users WHERE VerificationStatus = 0";
+        try {
+            PreparedStatement pt = conn.prepareStatement(sql);
+            pt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
