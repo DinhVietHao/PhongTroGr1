@@ -21,6 +21,9 @@ public class User {
     private int role;
     private Date created_at;
     private Date updated_at;
+    private String authCode;
+    private Date expirationTime;
+    private boolean verifStatus;
 
     public User() {
         this.userId = -1;
@@ -30,6 +33,15 @@ public class User {
         this.fullname = fullname;
         this.email = email;
         this.phone = phone;
+    }
+
+    public User(String fullname, String username, String password, String email, String phone, int role) {
+        this.fullname = fullname;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
     }
 
     public User(int userId, String fullname, String username, String password, String email, String phone, int role, Date created_at, Date updated_at) {
@@ -42,6 +54,21 @@ public class User {
         this.role = role;
         this.created_at = created_at;
         this.updated_at = updated_at;
+    }
+
+    public User(int userId, String fullname, String username, String password, String email, String phone, int role, Date created_at, Date updated_at, String authCode, Date expirationTime, boolean verifStatus) {
+        this.userId = userId;
+        this.fullname = fullname;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.authCode = authCode;
+        this.expirationTime = expirationTime;
+        this.verifStatus = verifStatus;
     }
 
     public int getUserId() {
@@ -119,6 +146,30 @@ public class User {
     @Override
     public String toString() {
         return "User{" + "fullname=" + fullname + ", email=" + email + ", phone=" + phone + '}';
+    }
+
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
+    }
+
+    public Date getExpirationTime() {
+        return expirationTime;
+    }
+
+    public void setExpirationTime(Date expirationTime) {
+        this.expirationTime = expirationTime;
+    }
+
+    public boolean getVerifStatus() {
+        return verifStatus;
+    }
+
+    public void setVerifStatus(boolean verifStatus) {
+        this.verifStatus = verifStatus;
     }
 
 }

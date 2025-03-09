@@ -204,6 +204,5 @@ public class Post {
     public String toString() {
         return "Post{" + "postId=" + postId + ", userId=" + userId + ", catId=" + catId + ", title=" + title + ", description=" + description + ", price=" + price + ", address=" + address + ", city=" + city + ", district=" + district + ", ward=" + ward + ", area=" + area + ", roomCount=" + roomCount + ", postType=" + postType + ", status=" + status + ", created_at=" + created_at + ", updaited_at=" + updaited_at + ", user=" + user + ", images=" + images + '}';
     }
-    
-    
+
 }

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import model.User;
 import database.DBContext;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -39,7 +40,7 @@ public class UserDAO extends DBContext {
                 acc.setUpdated_at(rs.getDate("Updated_at"));
                 return acc;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return acc;
@@ -59,38 +60,75 @@ public class UserDAO extends DBContext {
             }
             //str = 0a7a1209
             return str.toString();
-        } catch (Exception e) {
+        } catch (NoSuchAlgorithmException e) {
             System.out.println(e.getMessage());
         }
         return "";
     }
 
-    public boolean insertUser(String fullName, String username, String phone, String email, String password, int role) {
+    public boolean insertUser(User t) {
         String sqlInsertUser = "INSERT INTO Users (Fullname, Username, Password, Email, Phone, Role, Created_at, Updated_at) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sqlInsertUser);
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
-            ps.setString(1, fullName);
-            ps.setString(2, username);
-            ps.setString(3, hashMD5(password));
-            ps.setString(4, email);
-            ps.setString(5, phone);
-            ps.setInt(6, role);
-            ps.setTimestamp(7, currentTime); 
-            ps.setTimestamp(8, currentTime); 
-            
+            ps.setString(1, t.getFullname());
+            ps.setString(2, t.getUsername());
+            ps.setString(3, hashMD5(t.getPassword()));
+            ps.setString(4, t.getEmail());
+            ps.setString(5, t.getPhone());
+            ps.setInt(6, t.getRole());
+            ps.setTimestamp(7, currentTime);
+            ps.setTimestamp(8, currentTime);
             int res = ps.executeUpdate();
-            if(res == 1){
-                return true;
-            }else{
-                return false;
-            }
-        } catch (Exception e) {
+            return res == 1;
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
         return false;
+    }
+
+    public User selectUserById(int id) {
+        User user = new User();
+        String sql = "SELECT * FROM Users WHERE User_id = ?";
+        try {
+            PreparedStatement pt = conn.prepareStatement(sql);
+            pt.setInt(1, id);
+            ResultSet rs = pt.executeQuery();
+            if (rs.next()) {
+                user = new User(rs.getInt("User_id"),
+                        rs.getString("Fullname"),
+                        rs.getString("Username"),
+                        rs.getString("Password"),
+                        rs.getString("Email"),
+                        rs.getString("Phone"),
+                        rs.getInt("Role"),
+                        rs.getDate("Created_at"),
+                        rs.getDate("Updated_at"),
+                        rs.getString("AuthenticationCode"),
+                        rs.getDate("ExpirationTime"),
+                        rs.getBoolean("VerificationStatus"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return user;
+    }
+
+    public int updateVerifyInformation(User t) {
+        int result = 0;
+        String sql = "UPDATE Users SET AuthenticationCode = ?, ExpirationTime = ?, VerificationStatus = ? WHERE User_id = ?";
+        try {
+            PreparedStatement pt = conn.prepareStatement(sql);
+            pt.setString(1, t.getAuthCode());
+            pt.setDate(2, t.getExpirationTime());
+            pt.setBoolean(3, t.getVerifStatus());
+            pt.setInt(4, t.getUserId());
+            result = pt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
     }
 }
