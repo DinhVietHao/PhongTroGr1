@@ -94,9 +94,12 @@ public class PostServlet extends HttpServlet {
         } else if (action.equalsIgnoreCase("postDescription")) {
             try {
                 PostDAO dao = new PostDAO();
+                UserDAO userdao = new UserDAO();
                 int postId = Integer.parseInt(request.getParameter("postId"));
                 Post post = dao.getPostByPostId(postId);
+                int countPost = userdao.countPostforUserByUserId(post.getUserId());
                 request.setAttribute("post", post);
+                request.setAttribute("countPost", countPost);
                 request.getRequestDispatcher("homeDescription.jsp").forward(request, response);
             } catch (ServletException | IOException | NumberFormatException e) {
                 System.out.println(e.getMessage());

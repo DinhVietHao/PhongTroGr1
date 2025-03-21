@@ -529,7 +529,7 @@ public class PostDAO extends DBContext {
         List<Post> listPost = new ArrayList<>();
         Post post = null;
         //String sql = "SELECT * FROM Posts ORDER BY Post_id OFFSET ? ROWS FETCH NEXT 3 ROW ONLY";
-        String sql = "SELECT * FROM Posts ORDER BY Created_at DESC OFFSET ? ROWS FETCH NEXT 3 ROW ONLY";
+        String sql = "SELECT * FROM Posts WHERE Status = N'Còn phòng' ORDER BY Created_at DESC OFFSET ? ROWS FETCH NEXT 3 ROW ONLY";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, (index - 1) * 3);
@@ -563,7 +563,7 @@ public class PostDAO extends DBContext {
     }
 
     public int selectCountPost() {
-        String sql = "SELECT COUNT(Post_id) AS No_Post FROM Posts";
+        String sql = "SELECT COUNT(Post_id) AS No_Post FROM Posts WHERE Status = N'Còn phòng'";
         int cnt = 0;
         try {
             PreparedStatement pt = conn.prepareStatement(sql);

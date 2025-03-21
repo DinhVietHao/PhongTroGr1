@@ -3,7 +3,9 @@
     Created on : Mar 15, 2025, 2:40:24 PM
     Author     : Admin
 --%>
-
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <%@page import="java.util.List"%>
 <%@page import="model.Post"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -64,7 +66,14 @@
                         <td><%=post.getTitle()%></td>
                         <td><span class="description" data-description="<%= post.getDescription()%>">Xem mô tả</span></td>
                         <td><img src="ImageHandler?action=display&imgId=<%= post.getImages().get(1).getImageId()%>" class="product-img" width="100" height="80"></td>
-                        <td><%= post.getPrice()%></td>
+                            <%!
+                                NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                            %>
+                            <%
+                                DecimalFormat df = new DecimalFormat("#,###");
+                                String formattedPrice = df.format(post.getPrice());
+                            %>
+                        <td><%= formattedPrice%></td>
                         <td><%= post.getPostType().getCatName()%></td>
                         <td><%= post.getStatus()%></td>
                         <td><a href="Post?action=postDescription&postId=<%= post.getPostId()%>">Bài đăng chi tiết</a></td>
