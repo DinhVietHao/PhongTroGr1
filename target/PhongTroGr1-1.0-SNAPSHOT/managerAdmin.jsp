@@ -3,7 +3,9 @@
     Created on : Feb 6, 2025, 10:23:56 AM
     Author     : Admin
 --%>
-
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <%@page import="java.time.Duration"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
@@ -44,12 +46,16 @@
         <aside class="sidebar-panel">
             <div class="profile-section">
                 <div class="profile-avatar">
+                    <%if (user.getImageData() != null) {%>
                     <img class="avatar-admin" src="ImageHandler?action=displayAvatar&userId=<%= user.getUserId()%>">
+                    <%} else { %>
+                    <img class="avatar-admin" src="./images/default_user.svg">
+                    <%}%>
                 </div>
                 <div class="profile-details">
-                    <span class="user-name-admin">Hi! <%= user.getFullname() %></span> <br>
-                    <span class="user-phone"><%= user.getPhone() %></span> <br>
-                    <span class="account-id">Mã tài khoản: <%= user.getRole() %></span>
+                    <span class="user-name-admin">Hi! <%= user.getFullname()%></span> <br>
+                    <span class="user-phone"><%= user.getPhone()%></span> <br>
+                    <span class="account-id">Mã tài khoản: <%= user.getRole()%></span>
                 </div>
             </div>
             <ul class="sidebar-menu">
@@ -138,7 +144,6 @@
                             <th>Danh mục</th>
                             <th>Xem chi tiết</th>
                             <th>Thời gian đăng</th>
-                            <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -147,18 +152,17 @@
                             <td><%= post.getUser().getFullname()%></td>
                             <td><%= post.getTitle()%></td>
                             <td><span class="description" data-description="<%= post.getDescription()%>">Xem mô tả</span></td>
-                            <td><%= post.getPrice()%></td>
+                            <%!
+                                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                                %>
+                                <%
+                                    DecimalFormat df = new DecimalFormat("#,###");
+                                    String formattedPrice = df.format(post.getPrice()) + " Vnd/tháng";
+                                %>
+                            <td><%= formattedPrice%></td>
                             <td><%= post.getPostType().getCatName()%></td>
                             <td><a href="Post?action=postDescription&postId=<%= post.getPostId()%>">Xem chi tiết bài đăng</a></td>
                             <td class="time-posted">Đăng <%=timeAgo%></td>
-                            <td>
-                                <button class="btn btn-primary btn-sm" onclick="showApproveModal(<%= post.getPostId()%>)">
-                                    <i class="bi bi-tools"></i> Duyệt bài
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="showRejectModal(<%= post.getPostId()%>)">
-                                    Từ chối
-                                </button>
-                            </td>
                         </tr>
                         <% } %>
                     </tbody>
@@ -167,64 +171,6 @@
                 <p class="text-center mt-3 text-muted">Không có bài đăng nào cần duyệt.</p>
                 <% }%>
             </div>
-            <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="approveModalLabel">Xác nhận duyệt bài</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Bạn có chắc chắn muốn <strong>duyệt</strong> bài đăng này không?
-                        </div>
-                        <div class="">
-                            <form id="approveForm" method="POST" action="Admin">
-                                <input type="hidden" name="action" value="acceptPost">
-                                <input type="hidden" id="acceptPost" name="postId">
-                                <button type="submit" class="btn btn-success">Duyệt bài</button>
-                            </form>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal Từ chối -->
-            <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="rejectModalLabel">Xác nhận từ chối bài</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Bạn có chắc chắn muốn <strong>từ chối</strong> bài đăng này không?
-                        </div>
-                        <div class="">
-                            <form id="rejectForm" method="POST" action="Admin">
-                                <input type="hidden" name="action" value="rejectPost">
-                                <input type="hidden" id="rejectPostId" name="postId">
-                                <button type="submit" class="btn btn-danger">Từ chối</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <script>
-                function showApproveModal(postId) {
-                    document.getElementById('acceptPost').value = postId;
-                    var approveModal = new bootstrap.Modal(document.getElementById('approveModal'));
-                    approveModal.show();
-                }
-
-                function showRejectModal(postId) {
-                    document.getElementById('rejectPostId').value = postId;
-                    var rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
-                    rejectModal.show();
-                }
-            </script>
-
             <div id="quan-ly-tai-khoan-table" class="post" style="display:none;">
                 <h1 class="fs-3 fw-semibold text-nowrap mb-1">Quản lý Tài Khoản</h1>
                 <table class="table table-bordered table-hover mt-3">

@@ -22,10 +22,10 @@ import util.Email;
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/Login"})
 public class LoginServlet extends HttpServlet {
-
+    
     private final UserDAO dao = new UserDAO();
     private final Email mail = new Email();
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         if (action == null) {
             action = "login";
         }
-
+        
         if (action.equalsIgnoreCase("login")) {
             dao.deleteUnverifiedAccounts();
             Cookie arr[] = request.getCookies();
@@ -55,16 +55,16 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("forgotPass.jsp");
         }
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-
+        
         if (action == null) {
             action = "Login";
         }
-
+        
         if (action.equalsIgnoreCase("Login")) {
             String username = request.getParameter("loginname");
             String password = request.getParameter("password");
@@ -89,7 +89,11 @@ public class LoginServlet extends HttpServlet {
 
                 //request.setAttribute("userLogin", user);
                 //request.getRequestDispatcher("home.jsp").forward(request, response);
-                response.sendRedirect("Home");
+                if (user.getRole() == 1 || user.getRole() == 2) {
+                    response.sendRedirect("Home");
+                } else if (user.getRole() == 3) {
+                    response.sendRedirect("Admin?action=adminManagerPost");
+                }
             } else {
                 request.setAttribute("err", "<p style='color:red'>Tên đăng nhập hoặc mật khẩu không đúng!</p>");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -111,7 +115,7 @@ public class LoginServlet extends HttpServlet {
             String authCode = request.getParameter("authCode");
             String email = request.getParameter("email");
             User user = dao.selectUserById(userId);
-
+            
             if (user.getUsername().equals(username) && user.getEmail().equals(email)) {
                 if (dao.updatePass(userId, password)) {
                     mail.verifyCode(request, response, "Login", "resetPass.jsp");
@@ -128,5 +132,5 @@ public class LoginServlet extends HttpServlet {
             }
         }
     }
-
+    
 }

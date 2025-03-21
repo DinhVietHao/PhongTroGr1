@@ -96,11 +96,21 @@ public class PostServlet extends HttpServlet {
             }
         } else if (action.equalsIgnoreCase("postDescription")) {
             try {
+<<<<<<< HEAD
                 int postId = Integer.parseInt(request.getParameter("postId"));
                 List<Review> listReview = reviewDao.selectAllReviewsByPostId(postId);
                 Post post = postDao.getPostByPostId(postId);
                 request.setAttribute("post", post);
                 request.setAttribute("list", listReview);
+=======
+                PostDAO dao = new PostDAO();
+                UserDAO userdao = new UserDAO();
+                int postId = Integer.parseInt(request.getParameter("postId"));
+                Post post = dao.getPostByPostId(postId);
+                int countPost = userdao.countPostforUserByUserId(post.getUserId());
+                request.setAttribute("post", post);
+                request.setAttribute("countPost", countPost);
+>>>>>>> luong
                 request.getRequestDispatcher("homeDescription.jsp").forward(request, response);
             } catch (ServletException | IOException | NumberFormatException e) {
                 System.out.println(e.getMessage());

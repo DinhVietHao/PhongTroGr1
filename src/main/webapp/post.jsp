@@ -263,16 +263,27 @@
                                 <div class="col-12 col-md-6 mb-3">
                                     <label for="name" class="form-label mb-1">Họ Tên</label>
                                     <input id="name" type="text" name="ten_lien_he"
-                                           class="form-control form-control-lg" readonly required value="<%= user.getFullname() %>">
+                                           class="form-control form-control-lg" readonly required value="<%= user.getFullname()%>">
                                 </div>
                                 <div class="col-12 col-md-6 mb-3">
                                     <label for="phone" class="form-label mb-1">Số điện thoại</label>
                                     <input id="phone" type="number" name="phone" class="form-control form-control-lg"
-                                           readonly required value="<%= user.getPhone() %>">
+                                           readonly required value="<%= user.getPhone()%>">
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="post-button">Đăng tin</button>
+                        <button type="submit" id="submitBtn" class="post-button">Đăng tin</button>
+                        <script>
+                            document.getElementById("submitBtn").addEventListener("click", function (event) {
+                                let fileInput = document.getElementById("imageUpload");
+                                let files = fileInput.files;
+
+                                if (files.length === 0) {
+                                    alert("Bạn phải tải lên ít nhất 4 ảnh trước khi đăng bài.");
+                                    event.preventDefault();
+                                }
+                            });
+                        </script>
                         <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
                         <% if (errorMessage != null) {%>
                         <p style="color: red;"><%= errorMessage%></p>

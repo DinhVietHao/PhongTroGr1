@@ -3,6 +3,9 @@
     Created on : Feb 6, 2025, 1:35:18 PM
     Author     : Admin
 --%>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="java.time.temporal.ChronoUnit"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
@@ -24,7 +27,10 @@
 <%
         session.removeAttribute("Messages");
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> luong
     int countPost = 0;
     if (request.getAttribute("count") != null) {
         countPost = (int) request.getAttribute("count");
@@ -79,7 +85,10 @@
                 <div class="layout-filter">
                     <a class="filter-link active-filter" href="">Đề xuất</a>
                     <a class="filter-link" href="">Mới đăng</a>
+<<<<<<< HEAD
                     <a class="filter-link" href="">Có video</a>
+=======
+>>>>>>> luong
                 </div>
                 <div id="contentPost" class="room-list">          
                     <%
@@ -132,6 +141,7 @@
                         </div>
                         <div class="card-content">
                             <a href="Post?action=postDescription&postId=<%= list.getPostId()%>">
+<<<<<<< HEAD
                                 <h2 class="card-title"><%= list.getTitle()%></h2>
 
                                 <div class="info-item">
@@ -149,6 +159,23 @@
                                     <span class="info-value"><%= list.getAddress()%></span>
                                 </div>
 
+=======
+                                <h2 class="card-title"><span class="star star-5 mt-1"></span> <br><%= list.getTitle()%></h2>
+                                <div class="card-info">
+                                    <%!
+                                        NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                                    %>
+                                    <%
+                                        DecimalFormat df = new DecimalFormat("#,###");
+                                        String formattedPrice = df.format(list.getPrice()) + " Vnd/tháng";
+                                    %>
+                                    <p class="card-price"><%= formattedPrice%></p>
+                                    <p><%= list.getArea()%></p>
+                                    <p>m<sup>2</sup></p>
+                                </div>
+
+                                <p><%= list.getAddress()%></p>
+>>>>>>> luong
                                 <p class="time-posted">Đăng <%= timeAgo%></p>
                             </a>
                             <div class="contact-info">
