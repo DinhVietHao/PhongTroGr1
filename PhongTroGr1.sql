@@ -74,3 +74,27 @@ INSERT INTO Categories VALUES
 (N'Mini house'),
 (N'Nhà nguyên căn'),
 (N'Căn hộ');
+
+<<<<<<< HEAD
+SELECT * FROM Posts WHERE Status = N'Còn phòng' ORDER BY Created_at DESC OFFSET 0 ROWS FETCH NEXT 3 ROW ONLY
+=======
+INSERT INTO Users (Fullname, Username, Password, Email, Phone, Role, VerificationStatus, RegisterStatus)
+VALUES (
+    'Admin', 
+    'admin', 
+    'e10adc3949ba59abbe56e057f20f883e', 
+    'admin@example.com', 
+    '1234567890', 
+    3, 
+    1, 
+    1
+);
+
+SELECT COUNT(Post_id) AS No_Post FROM Posts
+
+SELECT * FROM Posts WHERE Status = N'Còn phòng' ORDER BY Created_at DESC OFFSET 0 ROWS FETCH NEXT 3 ROW ONLY
+
+Select * FROM Posts
+select * from Users
+SELECT COUNT(Post_id) AS Count_post FROM Posts WHERE Status = N'Còn phòng' AND User_id = 2
+>>>>>>> luong

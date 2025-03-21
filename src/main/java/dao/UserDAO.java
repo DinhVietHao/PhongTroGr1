@@ -332,6 +332,24 @@ public class UserDAO extends DBContext {
             return false;
         }
     }
+    
+    public int countPostforUserByUserId(int userId) {
+        String sql = "SELECT COUNT(Post_id) AS Count_post FROM Posts WHERE Status = N'Còn phòng' AND User_id = ?";
+        int count = 0;
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt("Count_post");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 
     public static void main(String[] args) {
         UserDAO userDao = new UserDAO();

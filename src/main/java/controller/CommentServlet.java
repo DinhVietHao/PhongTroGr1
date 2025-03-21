@@ -4,6 +4,8 @@
  */
 package controller;
 
+import dao.PostDAO;
+import dao.ReviewDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +13,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
+import model.Review;
+import model.User;
 
 /**
  *
@@ -19,69 +26,76 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "CommentServlet", urlPatterns = {"/Comment"})
 public class CommentServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CommentServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CommentServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+    private final ReviewDAO reviewDao = new ReviewDAO();
+    private final PostDAO postDao = new PostDAO();
+
+    public String calculateTimeAgo(LocalDateTime createdAt) {
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(createdAt, now);
+        long days = duration.toDays();
+        long hours = duration.toHours() % 24;
+        long minutes = duration.toMinutes() % 60;
+        if (days >= 7) {
+            return (days / 7) + " tuần trước";
+        } else if (days > 0) {
+            return days + " ngày trước";
+        } else if (hours > 0) {
+            return hours + " giờ trước";
+        } else {
+            return minutes + " phút trước";
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            String action = request.getParameter("action");
+            int userId = 0, postId = 0;
+            if (action.equalsIgnoreCase("submitCom")) {
+                try {
+                    userId = Integer.parseInt(request.getParameter("userId"));
+                    postId = Integer.parseInt(request.getParameter("postId"));
+                    String comment = request.getParameter("comment");
+                    if (!reviewDao.checkCommentExists(userId, postId, comment)) {
+                        Review r = new Review();
+                        r.setUserId(userId);
+                        r.setPostId(postId);
+                        r.setComment(comment);
+                        if (reviewDao.insertReview(r)) {
+                            System.out.println("Lưu bình luận thành công.");
+                        } else {
+                            System.out.println("Lưu bình luận thất bại.");
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println(e.getMessage());
+                }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+                List<Review> list = reviewDao.selectAllReviewsByPostId(postId);
+                for (Review rev : list) {
+                    User user = postDao.getUserById(rev.getUserId());
+                    out.println("<div class=\"have-comment\">\n"
+                            + "    <div class=\"comment-info\">\n"
+                            + "        <img class=\"avatar\" src=\"ImageHandler?action=displayAvatar&userId=" + user.getUserId() + "\" alt=\"\">\n"
+                            + "        <span class=\"comment-name\">" + user.getFullname() + "</span>\n"
+                            + "        <span class=\"comment-time\"> •  " + calculateTimeAgo(rev.getCreated_at().toLocalDateTime()) + "</span>\n"
+                            + "    </div>\n"
+                            + "    <div class=\"comment-content\">\n"
+                            + "        <p>" + rev.getComment() + "</p>\n"
+                            + "    </div>\n"
+                            + "</div>");
+                }
+            }
+        }
+    }
 
 }

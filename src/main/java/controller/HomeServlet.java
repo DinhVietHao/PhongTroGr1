@@ -63,7 +63,6 @@ public class HomeServlet extends HttpServlet {
                 boolean isSaved = postDao.checkIfPostIsSaved(user.getUserId(), post.getPostId());
                 post.setSavedStatus(isSaved);
             }
-            //session.setAttribute("user", user);
         }
 
         request.setAttribute("count", countPost);

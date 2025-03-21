@@ -4,12 +4,33 @@
     Author     : Admin
 --%>
 
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.time.temporal.ChronoUnit"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.Duration"%>
+<%@page import="dao.PostDAO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.Review"%>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <%@page import="model.Image"%>
 <%@page import="model.Post"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
+    PostDAO postDao = new PostDAO();
     Post post = (Post) request.getAttribute("post");
+
+    List<Review> listReview = (List<Review>) request.getAttribute("list");
+    if (listReview == null) {
+        listReview = new ArrayList<>();
+    }
+
+    int countPost = 0;
+    if (request.getAttribute("countPost") != null) {
+        countPost = (int) request.getAttribute("countPost");
+    }
 %>
 <html>
     <head>
@@ -71,7 +92,14 @@
                         </address>
                         <div class="listing-info">
                             <div class="info-details">
-                                <span class="price"><%= post.getPrice()%> vnd/tháng</span>
+                                <%!
+                                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                                %>
+                                <%
+                                    DecimalFormat df = new DecimalFormat("#,###");
+                                    String formattedPrice = df.format(post.getPrice()) + " Vnd/tháng";
+                                %>
+                                <span class="price"><%=formattedPrice%></span>
                                 <span class="dot">•</span>
                                 <span class="size"><%= post.getArea()%> m<sup>2</sup></span>
                                 <span class="dot">•</span>
@@ -81,7 +109,7 @@
                         </div>
                     </header>
                     <div class="description-container">
-                        <h2 class="description-title"><%= post.getDescription()%></h2>
+                        <h2 class="description-title"><%= post.getDescription().replace("\n", "<br>")%></h2>
                         <p>Cho thuê phòng cửa sổ tầng trệt</p>
                         <p>Giờ tự do, cổng vân tay</p>
                         <p>Gần ĐHCN, gần chợ Gò Vấp</p>
@@ -163,7 +191,11 @@
                     <div class="description-contact">
                         <h2 class="contact-title">Thông tin liên hệ</h2>
                         <div class="contact-info">
+                            <%if (post.getUser().getImageData() != null) {%>
                             <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%= post.getUser().getUserId()%>" alt="Anh Thanh">
+                            <%} else {%>
+                            <img class="avatar" src="./images/default_user.svg" alt="Anh Thanh">
+                            <%}%>
                             <div class="contact-details">
                                 <div class="contact-name-status">
                                     <div class="contact-name"><%= post.getUser().getFullname()%></div>
@@ -173,7 +205,7 @@
                                     </div>
                                 </div>
                                 <div class="contact-meta">
-                                    2 tin đăng <span class="dot">•</span> Tham gia từ: 19/03/2025
+                                    <%= countPost%> tin đăng <span class="dot">•</span> Tham gia từ: 19/03/2025
                                 </div>
                                 <div class="contact-actions">
                                     <a class="contact-button phone-button" href="tel:0854453340">
@@ -193,13 +225,14 @@
                                 <%
                                     if (user.getRole() == 3 && post.getStatus().equalsIgnoreCase("Chưa duyệt")) {
                                 %>
-                                <form action="" class="float-end">
-                                    <button type="submit" class="btn btn-secondary" id="submit"><i
-                                            class="bi bi-bookmark-check-fill"></i>
-                                        Duyệt bài</button>
-                                    <button type="submit" class="btn btn-danger" id="submit"><i class="bi bi-trash"></i> Xóa
-                                        bài</button>
-                                </form>
+                                <div action="" class="float-end">
+                                    <button class="btn btn-secondary btn-sm" onclick="showApproveModal(<%= post.getPostId()%>)">
+                                        <i class="bi bi-tools"></i> Duyệt bài
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" onclick="showRejectModal(<%= post.getPostId()%>)">
+                                        Từ chối
+                                    </button>
+                                </div>
                                 <%
                                     }
                                 %>
@@ -207,35 +240,160 @@
                         </div>
                     </div>
                 </div>
-                <div class="comment">
-                    <h3 class="comment-title">0 Bình luận</h3>
-                    <div class="comment-box">
-                        <input type="text" class="comment-input" placeholder="Nhập nội dung bình luận">
-                        <span class="char-count">0/3000</span>
-                        <button class="comment-button">Gửi bình luận</button>
+                <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="approveModalLabel">Xác nhận duyệt bài</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Bạn có chắc chắn muốn <strong>duyệt</strong> bài đăng này không?
+                            </div>
+                            <div class="">
+                                <form id="approveForm" method="POST" action="Admin">
+                                    <input type="hidden" name="action" value="acceptPost">
+                                    <input type="hidden" id="acceptPost" name="postId">
+                                    <button type="submit" class="btn btn-success">Duyệt bài</button>
+                                </form>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="no-comment">
-                        <i class="bi bi-chat-left-dots-fill"></i>
-                        <p>Chưa có bình luận của khách hàng về bài viết này!</p>
-                    </div>
-                    <!-- <div class="have-comment">
-                        <div class="comment-info">
-                            <img class="avatar" src="./images/default_user.svg" alt="Anh Thanh">
-                            <span class="comment-name">VÕ THỊ THU HÀ</span>
-                            <span class="comment-time"> •  16 ngày trước</span>
-                        </div>
-                        <div class="comment-content">
-                            <p>Nhà trọ này sạch sẽ và bà chủ thì dễ thương lắm </p>
-                        </div>
-                        <div class="comment-actions">
-                            <button class="like-btn"><i class="bi bi-heart-fill"></i> 0</button>
-                            <button class="reply-btn"><i class="bi bi-reply"></i> Trả lời</button>
-                        </div>
-                    </div> -->
                 </div>
+
+                <!-- Modal Từ chối -->
+                <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="rejectModalLabel">Xác nhận từ chối bài</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Bạn có chắc chắn muốn <strong>từ chối</strong> bài đăng này không?
+                            </div>
+                            <div class="">
+                                <form id="rejectForm" method="POST" action="Admin">
+                                    <input type="hidden" name="action" value="rejectPost">
+                                    <input type="hidden" id="rejectPostId" name="postId">
+                                    <button type="submit" class="btn btn-danger">Từ chối</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>        
+                <%
+                    if (user.getUserId() != -1) {
+                %>
+                <div class="comment">
+                    <h3 class="comment-title"><%= listReview.size()%> Bình luận</h3>
+                    <div class="comment-box">
+                        <input type="text" id="commentInput" class="comment-input" placeholder="Nhập nội dung bình luận" maxlength="3000">
+                        <span class="char-count">Tối đa 3000 kí tự!</span>
+                        <button onclick="submitComment()" class="comment-button">Gửi bình luận</button>
+                    </div>
+                    <div id="contentComment">
+                        <%
+                            if (listReview.isEmpty()) {
+                        %>
+                        <div class="no-comment">
+                            <i class="bi bi-chat-left-dots-fill"></i>
+                            <p>Chưa có bình luận của khách hàng về bài viết này!</p>
+                        </div>
+                        <%
+                        } else {
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                            LocalDateTime now = LocalDateTime.now();
+                            for (Review r : listReview) {
+                                User u = postDao.getUserById(r.getUserId());
+                                LocalDateTime createdAt = r.getCreated_at().toLocalDateTime();
+                                Duration duration = Duration.between(createdAt, now);
+                                long days = duration.toDays();
+                                long hours = duration.toHours() % 24;
+                                long minutes = duration.toMinutes() % 60;
+                                String timeAgo;
+                                if (days >= 7) {
+                                    timeAgo = (days / 7) + " tuần trước";
+                                } else if (days > 0) {
+                                    timeAgo = days + " ngày trước";
+                                } else if (hours > 0) {
+                                    timeAgo = hours + " giờ trước";
+                                } else {
+                                    timeAgo = minutes + " phút trước";
+                                }
+                        %>
+                        <div class="have-comment">
+                            <div class="comment-info">
+                                <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%= u.getUserId()%>" alt="">
+                                <span class="comment-name"><%= u.getFullname()%></span>
+                                <span class="comment-time"> •  <%= timeAgo%></span>
+                            </div>
+                            <div class="comment-content">
+                                <p><%= r.getComment()%></p>
+                            </div>
+                        </div> 
+                        <%
+                                }
+                            }
+                        %>
+                    </div>
+                </div>
+                <%
+                    }
+                %>
             </div>
         </div>
         <%@include file="footer.jsp" %>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="./js/homeDescription.js"></script>
+        <script>
+                            function showApproveModal(postId) {
+                                document.getElementById('acceptPost').value = postId;
+                                var approveModal = new bootstrap.Modal(document.getElementById('approveModal'));
+                                approveModal.show();
+                            }
+
+                            function showRejectModal(postId) {
+                                document.getElementById('rejectPostId').value = postId;
+                                var rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
+                                rejectModal.show();
+                            }
+                            
+                            function submitComment() {
+                                const commentInput = document.getElementById("commentInput");
+                                const comment = commentInput.value.trim();
+
+                                if (!comment) {
+                                    alert("Vui lòng nhập nội dung bình luận!");
+                                    return;
+                                }
+
+                                if (comment.length > 3000) {
+                                    alert("Bình luận không được vượt quá 3000 ký tự!");
+                                    return;
+                                }
+
+                                var userId = <%= user.getUserId()%>;
+                                var postId = <%= post.getPostId()%>;
+
+                                $.ajax({
+                                    url: "/PhongTroGr1/Comment",
+                                    type: "POST",
+                                    data: {
+                                        action: "submitCom",
+                                        userId: userId,
+                                        postId: postId,
+                                        comment: comment
+                                    },
+                                    success: function (data) {
+                                        commentInput.value = "";
+                                        var row = document.getElementById("contentComment");
+                                        row.innerHTML = data;
+                                    }
+                                });
+                            }
+        </script>
     </body>
 </html>
