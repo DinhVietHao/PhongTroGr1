@@ -3,7 +3,6 @@
     Created on : Mar 20, 2025, 1:22:57 AM
     Author     : Admin
 --%>
-<<<<<<< HEAD
 
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="java.time.temporal.ChronoUnit"%>
@@ -12,11 +11,9 @@
 <%@page import="dao.PostDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Review"%>
-=======
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
->>>>>>> luong
 <%@page import="model.Image"%>
 <%@page import="model.Post"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -24,15 +21,15 @@
 <%
     PostDAO postDao = new PostDAO();
     Post post = (Post) request.getAttribute("post");
-<<<<<<< HEAD
+
     List<Review> listReview = (List<Review>) request.getAttribute("list");
     if (listReview == null) {
         listReview = new ArrayList<>();
-=======
+    }
+
     int countPost = 0;
     if (request.getAttribute("countPost") != null) {
-        countPost = (int)request.getAttribute("countPost");
->>>>>>> luong
+        countPost = (int) request.getAttribute("countPost");
     }
 %>
 <html>
@@ -208,7 +205,7 @@
                                     </div>
                                 </div>
                                 <div class="contact-meta">
-                                    <%= countPost %> tin đăng <span class="dot">•</span> Tham gia từ: 19/03/2025
+                                    <%= countPost%> tin đăng <span class="dot">•</span> Tham gia từ: 19/03/2025
                                 </div>
                                 <div class="contact-actions">
                                     <a class="contact-button phone-button" href="tel:0854453340">
@@ -243,11 +240,6 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
-                <%
-                    if (user.getUserId() != -1) {
-                %>
-=======
                 <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -291,21 +283,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <script>
-                    function showApproveModal(postId) {
-                        document.getElementById('acceptPost').value = postId;
-                        var approveModal = new bootstrap.Modal(document.getElementById('approveModal'));
-                        approveModal.show();
-                    }
-
-                    function showRejectModal(postId) {
-                        document.getElementById('rejectPostId').value = postId;
-                        var rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
-                        rejectModal.show();
-                    }
-                </script>           
->>>>>>> luong
+                </div>        
+                <%
+                    if (user.getUserId() != -1) {
+                %>
                 <div class="comment">
                     <h3 class="comment-title"><%= listReview.size()%> Bình luận</h3>
                     <div class="comment-box">
@@ -368,6 +349,18 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="./js/homeDescription.js"></script>
         <script>
+                            function showApproveModal(postId) {
+                                document.getElementById('acceptPost').value = postId;
+                                var approveModal = new bootstrap.Modal(document.getElementById('approveModal'));
+                                approveModal.show();
+                            }
+
+                            function showRejectModal(postId) {
+                                document.getElementById('rejectPostId').value = postId;
+                                var rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
+                                rejectModal.show();
+                            }
+                            
                             function submitComment() {
                                 const commentInput = document.getElementById("commentInput");
                                 const comment = commentInput.value.trim();

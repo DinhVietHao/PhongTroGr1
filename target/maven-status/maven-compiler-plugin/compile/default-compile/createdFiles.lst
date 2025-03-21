@@ -10,6 +10,7 @@ controller\PostServlet.class
 model\Review.class
 dao\UserDAO.class
 controller\UserServlet.class
+.netbeans_automatic_build
 controller\AdminServlet.class
 model\User.class
 dao\ReviewDAO.class

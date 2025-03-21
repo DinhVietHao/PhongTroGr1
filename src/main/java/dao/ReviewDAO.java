@@ -5,10 +5,10 @@
 package dao;
 
 import database.DBContext;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import model.Review;
+import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -36,8 +36,8 @@ public class ReviewDAO extends DBContext{
     }
     
     public List<Review> selectAllReviewsByPostId(int postId) {
-        String sql = "SELECT * FROM Reviews WHERE Post_id = ? ORDER BY Created_at DESC";
         List<Review> list = new ArrayList<>();
+        String sql = "SELECT * FROM Reviews WHERE Post_id = ? ORDER BY Created_at DESC";
         try {
             PreparedStatement pt = conn.prepareStatement(sql);
             pt.setInt(1, postId);
