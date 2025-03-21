@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm theo khu vực</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Nút mở bảng chọn khu vực -->
+    <div class="container text-center mt-5">
+        <button class="btn btn-primary" onclick="toggleRegionModal()">Tìm theo khu vực</button>
+    </div>
+
+    <!-- Overlay nền mờ -->
+    <div class="overlay" id="overlay" onclick="toggleRegionModal()"></div>
+
+    <!-- Modal chọn khu vực -->
+    <div class="region-modal" id="regionModal">
+        <div class="modal-header">
+            <h5 class="modal-title">Tìm theo khu vực</h5>
+            <button type="button" class="btn-close" aria-label="Close" onclick="toggleRegionModal()"></button>
+        </div>
+        <div class="modal-body">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <input type="checkbox" class="region-checkbox form-check-input me-2" id="toanQuoc" onchange="updateSearchButton()">
+                    <label for="toanQuoc" class="text-danger fw-bold">Toàn quốc</label>
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" class="region-checkbox form-check-input me-2" id="hoChiMinh" onchange="updateSearchButton()">
+                    <label for="hoChiMinh">Hồ Chí Minh</label>
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" class="region-checkbox form-check-input me-2" id="haNoi" onchange="updateSearchButton()">
+                    <label for="haNoi">Hà Nội</label>
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" class="region-checkbox form-check-input me-2" id="canTho" onchange="updateSearchButton()">
+                    <label for="canTho">Cần Thơ</label>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Nút tìm kiếm (Ẩn mặc định) -->
+        <div class="modal-footer text-center">
+            <button id="searchButton" class="btn btn-danger w-100" style="display: none;">Tìm kiếm</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
+
