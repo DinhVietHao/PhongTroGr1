@@ -184,6 +184,24 @@
                     }
                 });
             }
+
+            function loadPage(postType, pageNumber) {
+                $.ajax({
+                    url: "/PhongTroGr1/Search",
+                    type: "POST",
+                    data: {
+                        action: "uploadByCat",
+                        type: postType,
+                        page: pageNumber
+                    },
+                    success: function (data) {
+                        document.getElementById("contentPost").innerHTML = data;
+                    },
+                    error: function (error) {
+                        console.error("Error:", error);
+                    }
+                });
+            }
         </script>
 
         <script>

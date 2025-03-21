@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -17,12 +17,13 @@ public class Review {
     private int postId;
     private int rating;
     private String comment;
-    private Date created_at;
+    private Timestamp created_at;
 
     public Review() {
+        this.rating = 5;
     }
 
-    public Review(int reviewId, int userId, int postId, int rating, String comment, Date created_at) {
+    public Review(int reviewId, int userId, int postId, int rating, String comment, Timestamp created_at) {
         this.reviewId = reviewId;
         this.userId = userId;
         this.postId = postId;
@@ -71,11 +72,11 @@ public class Review {
         this.comment = comment;
     }
 
-    public Date getCreated_at() {
+    public Timestamp getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
 

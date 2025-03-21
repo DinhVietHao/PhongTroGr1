@@ -75,6 +75,9 @@ INSERT INTO Categories VALUES
 (N'Nhà nguyên căn'),
 (N'Căn hộ');
 
+<<<<<<< HEAD
+SELECT * FROM Posts WHERE Status = N'Còn phòng' ORDER BY Created_at DESC OFFSET 0 ROWS FETCH NEXT 3 ROW ONLY
+=======
 INSERT INTO Users (Fullname, Username, Password, Email, Phone, Role, VerificationStatus, RegisterStatus)
 VALUES (
     'Admin', 
@@ -94,3 +97,4 @@ SELECT * FROM Posts WHERE Status = N'Còn phòng' ORDER BY Created_at DESC OFFSE
 Select * FROM Posts
 select * from Users
 SELECT COUNT(Post_id) AS Count_post FROM Posts WHERE Status = N'Còn phòng' AND User_id = 2
+>>>>>>> luong

@@ -519,8 +519,8 @@ public class PostDAO extends DBContext {
                 return rs.getInt(1);
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return 0;
     }

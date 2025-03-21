@@ -3,6 +3,14 @@
     Created on : Mar 20, 2025, 1:22:57 AM
     Author     : Admin
 --%>
+
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.time.temporal.ChronoUnit"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.Duration"%>
+<%@page import="dao.PostDAO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.Review"%>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
@@ -11,10 +19,17 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
+    PostDAO postDao = new PostDAO();
     Post post = (Post) request.getAttribute("post");
+
+    List<Review> listReview = (List<Review>) request.getAttribute("list");
+    if (listReview == null) {
+        listReview = new ArrayList<>();
+    }
+
     int countPost = 0;
     if (request.getAttribute("countPost") != null) {
-        countPost = (int)request.getAttribute("countPost");
+        countPost = (int) request.getAttribute("countPost");
     }
 %>
 <html>
@@ -190,7 +205,7 @@
                                     </div>
                                 </div>
                                 <div class="contact-meta">
-                                    <%= countPost %> tin đăng <span class="dot">•</span> Tham gia từ: 19/03/2025
+                                    <%= countPost%> tin đăng <span class="dot">•</span> Tham gia từ: 19/03/2025
                                 </div>
                                 <div class="contact-actions">
                                     <a class="contact-button phone-button" href="tel:0854453340">
@@ -268,49 +283,117 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <script>
-                    function showApproveModal(postId) {
-                        document.getElementById('acceptPost').value = postId;
-                        var approveModal = new bootstrap.Modal(document.getElementById('approveModal'));
-                        approveModal.show();
-                    }
-
-                    function showRejectModal(postId) {
-                        document.getElementById('rejectPostId').value = postId;
-                        var rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
-                        rejectModal.show();
-                    }
-                </script>           
+                </div>        
+                <%
+                    if (user.getUserId() != -1) {
+                %>
                 <div class="comment">
-                    <h3 class="comment-title">0 Bình luận</h3>
+                    <h3 class="comment-title"><%= listReview.size()%> Bình luận</h3>
                     <div class="comment-box">
-                        <input type="text" class="comment-input" placeholder="Nhập nội dung bình luận">
-                        <span class="char-count">0/3000</span>
-                        <button class="comment-button">Gửi bình luận</button>
+                        <input type="text" id="commentInput" class="comment-input" placeholder="Nhập nội dung bình luận" maxlength="3000">
+                        <span class="char-count">Tối đa 3000 kí tự!</span>
+                        <button onclick="submitComment()" class="comment-button">Gửi bình luận</button>
                     </div>
-                    <div class="no-comment">
-                        <i class="bi bi-chat-left-dots-fill"></i>
-                        <p>Chưa có bình luận của khách hàng về bài viết này!</p>
+                    <div id="contentComment">
+                        <%
+                            if (listReview.isEmpty()) {
+                        %>
+                        <div class="no-comment">
+                            <i class="bi bi-chat-left-dots-fill"></i>
+                            <p>Chưa có bình luận của khách hàng về bài viết này!</p>
+                        </div>
+                        <%
+                        } else {
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                            LocalDateTime now = LocalDateTime.now();
+                            for (Review r : listReview) {
+                                User u = postDao.getUserById(r.getUserId());
+                                LocalDateTime createdAt = r.getCreated_at().toLocalDateTime();
+                                Duration duration = Duration.between(createdAt, now);
+                                long days = duration.toDays();
+                                long hours = duration.toHours() % 24;
+                                long minutes = duration.toMinutes() % 60;
+                                String timeAgo;
+                                if (days >= 7) {
+                                    timeAgo = (days / 7) + " tuần trước";
+                                } else if (days > 0) {
+                                    timeAgo = days + " ngày trước";
+                                } else if (hours > 0) {
+                                    timeAgo = hours + " giờ trước";
+                                } else {
+                                    timeAgo = minutes + " phút trước";
+                                }
+                        %>
+                        <div class="have-comment">
+                            <div class="comment-info">
+                                <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%= u.getUserId()%>" alt="">
+                                <span class="comment-name"><%= u.getFullname()%></span>
+                                <span class="comment-time"> •  <%= timeAgo%></span>
+                            </div>
+                            <div class="comment-content">
+                                <p><%= r.getComment()%></p>
+                            </div>
+                        </div> 
+                        <%
+                                }
+                            }
+                        %>
                     </div>
-                    <!-- <div class="have-comment">
-                        <div class="comment-info">
-                            <img class="avatar" src="./images/default_user.svg" alt="Anh Thanh">
-                            <span class="comment-name">VÕ THỊ THU HÀ</span>
-                            <span class="comment-time"> •  16 ngày trước</span>
-                        </div>
-                        <div class="comment-content">
-                            <p>Nhà trọ này sạch sẽ và bà chủ thì dễ thương lắm </p>
-                        </div>
-                        <div class="comment-actions">
-                            <button class="like-btn"><i class="bi bi-heart-fill"></i> 0</button>
-                            <button class="reply-btn"><i class="bi bi-reply"></i> Trả lời</button>
-                        </div>
-                    </div> -->
                 </div>
+                <%
+                    }
+                %>
             </div>
         </div>
         <%@include file="footer.jsp" %>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="./js/homeDescription.js"></script>
+        <script>
+                            function showApproveModal(postId) {
+                                document.getElementById('acceptPost').value = postId;
+                                var approveModal = new bootstrap.Modal(document.getElementById('approveModal'));
+                                approveModal.show();
+                            }
+
+                            function showRejectModal(postId) {
+                                document.getElementById('rejectPostId').value = postId;
+                                var rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
+                                rejectModal.show();
+                            }
+                            
+                            function submitComment() {
+                                const commentInput = document.getElementById("commentInput");
+                                const comment = commentInput.value.trim();
+
+                                if (!comment) {
+                                    alert("Vui lòng nhập nội dung bình luận!");
+                                    return;
+                                }
+
+                                if (comment.length > 3000) {
+                                    alert("Bình luận không được vượt quá 3000 ký tự!");
+                                    return;
+                                }
+
+                                var userId = <%= user.getUserId()%>;
+                                var postId = <%= post.getPostId()%>;
+
+                                $.ajax({
+                                    url: "/PhongTroGr1/Comment",
+                                    type: "POST",
+                                    data: {
+                                        action: "submitCom",
+                                        userId: userId,
+                                        postId: postId,
+                                        comment: comment
+                                    },
+                                    success: function (data) {
+                                        commentInput.value = "";
+                                        var row = document.getElementById("contentComment");
+                                        row.innerHTML = data;
+                                    }
+                                });
+                            }
+        </script>
     </body>
 </html>
