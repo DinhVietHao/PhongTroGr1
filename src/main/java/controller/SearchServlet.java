@@ -138,6 +138,11 @@ public class SearchServlet extends HttpServlet {
         String action = request.getParameter("action");
         if ("uploadByCat".equals(action)) {
             String postType = request.getParameter("type");
+            int currentPage = 1; // Mặc định là trang 1
+            if (request.getParameter("page") != null) {
+                currentPage = Integer.parseInt(request.getParameter("page")); // Lấy số trang từ request
+            }
+
             List<Post> list = postDao.selectPostAll();
             List<Post> filteredList = new ArrayList<>();
 
@@ -147,11 +152,10 @@ public class SearchServlet extends HttpServlet {
                 }
             }
 
-            int pageSize = 3;
+            int pageSize = 3; // Số bài đăng hiển thị trên mỗi trang
             int totalPosts = filteredList.size();
             int totalPages = (int) Math.ceil((double) totalPosts / pageSize);
 
-            int currentPage = 1;
             int start = (currentPage - 1) * pageSize;
             int end = Math.min(start + pageSize, totalPosts);
             List<Post> paginatedList = filteredList.subList(start, end);

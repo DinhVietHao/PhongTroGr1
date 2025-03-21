@@ -5,6 +5,7 @@
 package controller;
 
 import dao.PostDAO;
+import dao.ReviewDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -21,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import model.Category;
 import model.Post;
+import model.Review;
 import model.User;
 
 /**
@@ -36,6 +38,7 @@ import model.User;
 public class PostServlet extends HttpServlet {
 
     private final PostDAO postDao = new PostDAO();
+    private final ReviewDAO reviewDao = new ReviewDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -93,10 +96,11 @@ public class PostServlet extends HttpServlet {
             }
         } else if (action.equalsIgnoreCase("postDescription")) {
             try {
-                PostDAO dao = new PostDAO();
                 int postId = Integer.parseInt(request.getParameter("postId"));
-                Post post = dao.getPostByPostId(postId);
+                List<Review> listReview = reviewDao.selectAllReviewsByPostId(postId);
+                Post post = postDao.getPostByPostId(postId);
                 request.setAttribute("post", post);
+                request.setAttribute("list", listReview);
                 request.getRequestDispatcher("homeDescription.jsp").forward(request, response);
             } catch (ServletException | IOException | NumberFormatException e) {
                 System.out.println(e.getMessage());
@@ -265,7 +269,6 @@ public class PostServlet extends HttpServlet {
 
             try {
                 int postId = Integer.parseInt(postIdStr);
-                PostDAO postDao = new PostDAO();
                 UserDAO userDao = new UserDAO();
 
                 int userId = userDao.getUserIdByPostId(postId);

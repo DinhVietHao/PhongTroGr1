@@ -74,3 +74,5 @@ INSERT INTO Categories VALUES
 (N'Mini house'),
 (N'Nhà nguyên căn'),
 (N'Căn hộ');
+
+SELECT * FROM Posts WHERE Status = N'Còn phòng' ORDER BY Created_at DESC OFFSET 0 ROWS FETCH NEXT 3 ROW ONLY

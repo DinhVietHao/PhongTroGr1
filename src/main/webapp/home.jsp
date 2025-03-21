@@ -10,7 +10,6 @@
 <%@page import="model.Image"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Post"%>
-<%@page import="model.Post"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -25,7 +24,11 @@
 <%
         session.removeAttribute("Messages");
     }
-    int countPost = (int) request.getAttribute("count");
+
+    int countPost = 0;
+    if (request.getAttribute("count") != null) {
+        countPost = (int) request.getAttribute("count");
+    }
 %>
 
 <html>
@@ -50,154 +53,161 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="background-home">
-        <main class="main-content">
-            <header class="layout-header">
-                <h1 class="title">Kênh thông tin Phòng trọ G1 FPT</h1>
-                <%List<Post> listPost = (List) request.getAttribute("listPost");
-                    if (listPost == null || listPost.isEmpty()) {%>
-                <p>Không có bài đăng nào!</p>
-                <%} else {%>
-                <p class="subtitle">Có <%= countPost %> tin đăng cho thuê</p>
-            </header>
+            <main class="main-content">
+                <header class="layout-header">
+                    <h1 class="title">Kênh thông tin Phòng trọ G1 FPT</h1>
+                    <%List<Post> listPost = (List) request.getAttribute("listPost");
+                        if (listPost == null || listPost.isEmpty()) {%>
+                    <p>Không có bài đăng nào!</p>
+                    <%} else {%>
+                    <p class="subtitle">Có <%= countPost%> tin đăng cho thuê</p>
+                </header>
 
-            <div class="layout-nav row">
-                <div class="layout-links col-md-12">
-                    <a class="active-tab" href="" title="Cho thuê phòng trọ Toàn Quốc">Toàn quốc</a>
-                    <a class="tab-link" href="" title="Cho thuê phòng trọ Hồ Chí Minh">Hồ Chí Minh</a>
-                    <a class="tab-link" href="" title="Cho thuê phòng trọ Hà Nội">Hà Nội</a>
-                    <a class="tab-link" href="" title="Cho thuê phòng trọ Đà Nẵng">Đà Nẵng</a>
-                    <button class="btn-dropdown" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLocation"
-                            aria-controls="offcanvasLocation">
-                        Khác<i class="caret-down-fill"></i>
-                    </button>
-                </div>        
-            </div>
-
-            <div class="layout-filter">
-                <a class="filter-link active-filter" href="">Đề xuất</a>
-                <a class="filter-link" href="">Mới đăng</a>
-                <a class="filter-link" href="">Có video</a>
-            </div>
-            <div id="contentPost" class="room-list">          
-                <%
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    LocalDateTime now = LocalDateTime.now();
-                    for (Post list : listPost) {
-                        LocalDateTime createdAt = list.getCreated_at().toLocalDateTime();
-                        Duration duration = Duration.between(createdAt, now);
-                        long days = duration.toDays();
-                        long hours = duration.toHours() % 24;
-                        long minutes = duration.toMinutes() % 60;
-                        String timeAgo;
-                        if (days >= 7) {
-                            timeAgo = (days / 7) + " tuần trước";
-                        } else if (days > 0) {
-                            timeAgo = days + " ngày trước";
-                        } else if (hours > 0) {
-                            timeAgo = hours + " giờ trước";
-                        } else {
-                            timeAgo = minutes + " phút trước";
-                        }
-                        if (list.getStatus().equalsIgnoreCase("Còn Phòng")) {
-                %>
-                <div class="card">
-                    <div class="image-gallery">
-                        <!-- Ảnh chính -->
-                        <div class="images-main">
-                            <img src="ImageHandler?action=display&imgId=<%=  list.getImages().get(0).getImageId()%>" alt="Room Image" class="room-main" onclick="openImage(this)">
-                        </div>
-
-                        <!--Ảnh phụ--> 
-                        <div class="images-sub">
-                            <div class="images-box1">
-                                <img src="ImageHandler?action=display&imgId=<%= list.getImages().get(1) != null ? list.getImages().get(1).getImageId() : ""%>" alt="Room Image" class="room-image1" onclick="openImage(this)">
-                            </div>
-                            <div class="images-box2">
-                                <div class="box1">
-                                    <img src="ImageHandler?action=display&imgId=<%= list.getImages().get(2) != null ? list.getImages().get(2).getImageId() : ""%>" alt="Room Image" class="room-image2" onclick="openImage(this)">
-                                </div>
-                                <div class="box2">
-                                    <img src="ImageHandler?action=display&imgId=<%= list.getImages().get(3) != null ? list.getImages().get(3).getImageId() : ""%>" alt="Room Image" class="room-image3" onclick="openImage(this)">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="imagePopup" class="image-popup" onclick="closeImage()">
-                            <span class="close-btn" onclick="closeImage()">&#10006;</span>
-                            <img id="popupImg" src="">
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <a href="Post?action=postDescription&postId=<%= list.getPostId()%>">
-                        <h2 class="card-title"><span class="star star-5 mt-1"></span> <br><%= list.getTitle()%></h2>
-                        <div class="card-info">
-                            <p class="card-price"><%= list.getPrice()%></p>
-                            <p>Vnd/tháng</p> 
-                            <p><%= list.getArea()%></p>
-                            <p>m<sup>2</sup></p>
-                        </div>
-
-                        <p><%= list.getAddress()%></p>
-                        <p class="card-details"><%= list.getDescription().replace("\n", "<br>")%></p>
-                        <p class="time-posted">Đăng <%= timeAgo%></p>
-                        </a>
-                        <div class="contact-info">
-                            <a href="Post?action=postDescription&postId=<%= list.getPostId()%>">
-                            <div class="contact-user">
-                                <% if (list.getUser().getImageData() != null) {%>
-                                <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%= list.getUserId()%>" alt="avatar">
-                                <% } else { %>  
-                                <img class="avatar" src="./images/default_user.svg" alt="avatar">
-                                <% }%> <%= list.getUser().getFullname()%>
-                            </div>
-                            </a>
-                            <div class="contact-phone">
-                                <%
-                                    if (user.getRole() == 3) {
-                                %>
-                                <button class="btn btn-danger btn-sm" onclick="confirmDelete(<%= list.getPostId()%>)">Xóa</button>
-                                <%
-                                    }
-                                %>
-                                <span class="phone"><%= list.getUser().getPhone()%></span>
-                                <% if (user.getUserId() != -1) {%>
-                                <button onclick="savePost(event)" 
-                                        class="btn btn-white btn__save d-flex px-2 js-btn-save <%= list.isSavedStatus() ? "saved" : ""%>" 
-                                        aria-label="Lưu tin này" 
-                                        data-postid="<%= list.getPostId()%>" 
-                                        data-userid="<%= user.getUserId()%>">
-                                    <i class="heart size-18"></i>
-                                </button>
-                                <%}%>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xóa</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Bạn có chắc chắn muốn xóa tài khoản này không?
-                                    </div>
-                                    <div class="">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
-                                        <form id="deletePostForm" method="post" action="Admin">
-                                            <input type="hidden" name="action" value="deletePost">
-                                            <input type="hidden" name="postId" id="deletePostId">
-                                            <button type="submit" class="btn btn-danger">Xóa</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                
-                    </div>
+                <div class="layout-nav row">
+                    <div class="layout-links col-md-12">
+                        <a class="active-tab" href="" title="Cho thuê phòng trọ Toàn Quốc">Toàn quốc</a>
+                        <a class="tab-link" href="" title="Cho thuê phòng trọ Hồ Chí Minh">Hồ Chí Minh</a>
+                        <a class="tab-link" href="" title="Cho thuê phòng trọ Hà Nội">Hà Nội</a>
+                        <a class="tab-link" href="" title="Cho thuê phòng trọ Đà Nẵng">Đà Nẵng</a>
+                        <button class="btn-dropdown" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLocation"
+                                aria-controls="offcanvasLocation">
+                            Khác<i class="caret-down-fill"></i>
+                        </button>
+                    </div>        
                 </div>
-                <%
+
+                <div class="layout-filter">
+                    <a class="filter-link active-filter" href="">Đề xuất</a>
+                    <a class="filter-link" href="">Mới đăng</a>
+                    <a class="filter-link" href="">Có video</a>
+                </div>
+                <div id="contentPost" class="room-list">          
+                    <%
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                        LocalDateTime now = LocalDateTime.now();
+                        for (Post list : listPost) {
+                            LocalDateTime createdAt = list.getCreated_at().toLocalDateTime();
+                            Duration duration = Duration.between(createdAt, now);
+                            long days = duration.toDays();
+                            long hours = duration.toHours() % 24;
+                            long minutes = duration.toMinutes() % 60;
+                            String timeAgo;
+                            if (days >= 7) {
+                                timeAgo = (days / 7) + " tuần trước";
+                            } else if (days > 0) {
+                                timeAgo = days + " ngày trước";
+                            } else if (hours > 0) {
+                                timeAgo = hours + " giờ trước";
+                            } else {
+                                timeAgo = minutes + " phút trước";
+                            }
+                            if (list.getStatus().equalsIgnoreCase("Còn Phòng")) {
+                    %>
+                    <div class="card">
+                        <div class="image-gallery">
+                            <!-- Ảnh chính -->
+                            <div class="images-main">
+                                <img src="ImageHandler?action=display&imgId=<%=  list.getImages().get(0).getImageId()%>" alt="Room Image" class="room-main" onclick="openImage(this)">
+                            </div>
+
+                            <!--Ảnh phụ--> 
+                            <div class="images-sub">
+                                <div class="images-box1">
+                                    <img src="ImageHandler?action=display&imgId=<%= list.getImages().get(1) != null ? list.getImages().get(1).getImageId() : ""%>" alt="Room Image" class="room-image1" onclick="openImage(this)">
+                                </div>
+                                <div class="images-box2">
+                                    <div class="box1">
+                                        <img src="ImageHandler?action=display&imgId=<%= list.getImages().get(2) != null ? list.getImages().get(2).getImageId() : ""%>" alt="Room Image" class="room-image2" onclick="openImage(this)">
+                                    </div>
+                                    <div class="box2">
+                                        <img src="ImageHandler?action=display&imgId=<%= list.getImages().get(3) != null ? list.getImages().get(3).getImageId() : ""%>" alt="Room Image" class="room-image3" onclick="openImage(this)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="imagePopup" class="image-popup" onclick="closeImage()">
+                                <span class="close-btn" onclick="closeImage()">&#10006;</span>
+                                <img id="popupImg" src="">
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <a href="Post?action=postDescription&postId=<%= list.getPostId()%>">
+                                <h2 class="card-title"><%= list.getTitle()%></h2>
+
+                                <div class="info-item">
+                                    <span class="info-label">Diện tích:</span>
+                                    <span class="info-value"><%= list.getArea()%> m<sup>2</sup></span>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <span class="info-label">Giá phòng:</span>
+                                    <span class="info-value"><%= list.getPrice()%> VND/Tháng</span>
+                                </div>
+
+                                <div class="info-item address">
+                                    <span class="info-label">Địa chỉ:</span>
+                                    <span class="info-value"><%= list.getAddress()%></span>
+                                </div>
+
+                                <p class="time-posted">Đăng <%= timeAgo%></p>
+                            </a>
+                            <div class="contact-info">
+                                <a href="Post?action=postDescription&postId=<%= list.getPostId()%>">
+                                    <div class="contact-user">
+                                        <% if (list.getUser().getImageData() != null) {%>
+                                        <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%= list.getUserId()%>" alt="avatar">
+                                        <% } else { %>  
+                                        <img class="avatar" src="./images/default_user.svg" alt="avatar">
+                                        <% }%> <%= list.getUser().getFullname()%>
+                                    </div>
+                                </a>
+                                <div class="contact-phone">
+                                    <%
+                                        if (user.getRole() == 3) {
+                                    %>
+                                    <button class="btn btn-danger btn-sm" onclick="confirmDelete(<%= list.getPostId()%>)">Xóa</button>
+                                    <%
+                                        }
+                                    %>
+                                    <span class="phone"><%= list.getUser().getPhone()%></span>
+                                    <% if (user.getUserId() != -1) {%>
+                                    <button onclick="savePost(event)" 
+                                            class="btn btn-white btn__save d-flex px-2 js-btn-save <%= list.isSavedStatus() ? "saved" : ""%>" 
+                                            aria-label="Lưu tin này" 
+                                            data-postid="<%= list.getPostId()%>" 
+                                            data-userid="<%= user.getUserId()%>">
+                                        <i class="heart size-18"></i>
+                                    </button>
+                                    <%}%>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xóa</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Bạn có chắc chắn muốn xóa tài khoản này không?
+                                        </div>
+                                        <div class="">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+                                            <form id="deletePostForm" method="post" action="Admin">
+                                                <input type="hidden" name="action" value="deletePost">
+                                                <input type="hidden" name="postId" id="deletePostId">
+                                                <button type="submit" class="btn btn-danger">Xóa</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                
+                        </div>
+                    </div>
+                    <%
+                            }
                         }
-                    }
-                %>
+                    %>
                     <!-- Phần phân trang -->
                     <c:if test="${endPage > 1}">
                         <ul class="pagination">
@@ -214,61 +224,61 @@
                             </li>
                         </ul>
                     </c:if>
-                <%
+                    <%
+                        }
+                    %>
+                </div>
+            </main>
+        </div>
+        <%@include file="footer.jsp" %>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const saveButton = document.querySelector(".js-btn-save");
+                saveButton.addEventListener("click", function () {
+                    const isSaved = this.classList.contains("saved");
+                    const postId = this.getAttribute("data-postid");
+                    const userId = this.getAttribute("data-userid");
+                    this.classList.toggle("saved");
+                    savePost(isSaved, userId, postId);
+                });
+            });
+
+            function openImage(img) {
+                let popup = document.getElementById("imagePopup");
+                let popupImg = document.getElementById("popupImg");
+                popupImg.src = img.src;
+                popup.classList.add("show");
+            }
+
+            function closeImage() {
+                document.getElementById("imagePopup").classList.remove("show");
+            }
+
+            function confirmDelete(postId) {
+                document.getElementById("deletePostId").value = postId; // Gán postId vào input ẩn
+                var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+                deleteModal.show();
+            }
+
+            function savePost(event) {
+
+                const saveButton = event.currentTarget;
+                const isSaved = saveButton.classList.contains("saved");
+                const postId = saveButton.getAttribute("data-postid");
+                const userId = saveButton.getAttribute("data-userid");
+
+                const url = isSaved ? "/PhongTroGr1/Post?action=deletePost" : "/PhongTroGr1/Post?action=savePost";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    data: {
+                        postId: postId,
+                        userId: userId
                     }
-                %>
-            </div>
-        </main>
-    </div>
-    <%@include file="footer.jsp" %>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const saveButton = document.querySelector(".js-btn-save");
-            saveButton.addEventListener("click", function () {
-                const isSaved = this.classList.contains("saved");
-                const postId = this.getAttribute("data-postid");
-                const userId = this.getAttribute("data-userid");
-                this.classList.toggle("saved");
-                savePost(isSaved, userId, postId);
-            });
-        });
-
-        function openImage(img) {
-            let popup = document.getElementById("imagePopup");
-            let popupImg = document.getElementById("popupImg");
-            popupImg.src = img.src;
-            popup.classList.add("show");
-        }
-
-        function closeImage() {
-            document.getElementById("imagePopup").classList.remove("show");
-        }
-
-        function confirmDelete(postId) {
-            document.getElementById("deletePostId").value = postId; // Gán postId vào input ẩn
-            var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
-            deleteModal.show();
-        }
-
-        function savePost(event) {
-
-            const saveButton = event.currentTarget;
-            const isSaved = saveButton.classList.contains("saved");
-            const postId = saveButton.getAttribute("data-postid");
-            const userId = saveButton.getAttribute("data-userid");
-
-            const url = isSaved ? "/PhongTroGr1/Post?action=deletePost" : "/PhongTroGr1/Post?action=savePost";
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                data: {
-                    postId: postId,
-                    userId: userId
-                }
-            });
-        }
-    </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</body>
+                });
+            }
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </body>
 </html>
