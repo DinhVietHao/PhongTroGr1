@@ -581,7 +581,7 @@ public class PostDAO extends DBContext {
         List<Post> data = new ArrayList<>();
         Post post = null;
         StringBuilder sql = new StringBuilder("SELECT * FROM Posts WHERE Post_type = ?");
-        
+
         if (!district.equals("All")) {
             sql.append(" AND District = ?");
         }
@@ -669,5 +669,5 @@ public class PostDAO extends DBContext {
         }
         return data;
     }
-    
+
 }

@@ -16,12 +16,12 @@ function toggleRegionModal() {
 function handleCheckboxChange(checkbox) {
     // Uncheck all other checkboxes
     var checkboxes = document.querySelectorAll(".region-checkbox");
-    checkboxes.forEach(function(cb) {
+    checkboxes.forEach(function (cb) {
         if (cb !== checkbox) {
             cb.checked = false;
         }
     });
-    
+
     // Update search button visibility
     updateSearchButton();
 }
@@ -30,10 +30,10 @@ function handleCheckboxChange(checkbox) {
 function updateSearchButton() {
     var checkboxes = document.querySelectorAll(".region-checkbox");
     var searchButton = document.getElementById("searchButton");
-    
+
     // Check if any checkbox is selected
     let isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-    
+
     if (isChecked) {
         searchButton.style.display = "block"; // Show search button
         setTimeout(() => searchButton.classList.add("show"), 10); // Trigger fade-in animation
@@ -48,47 +48,45 @@ function updateSearchButton() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-            const filterButton = document.querySelector(".btn-filter");
-            const filterContainer = document.querySelector(".filter");
-            const closeButton = document.querySelector(".close-filter");
+    const filterButton = document.querySelector(".btn-filter");
+    const filterContainer = document.querySelector(".filter");
+    const closeButton = document.querySelector(".close-filter");
+    const overlay = document.querySelector(".overlay");
+    filterButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        filterContainer.classList.add("show");
+        overlay.classList.add("show");
+    });
+    closeButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        filterContainer.classList.remove("show");
+        overlay.classList.remove("show");
+    });
+    overlay.addEventListener("click", function () {
+        filterContainer.classList.remove("show");
+        overlay.classList.remove("show");
+    });
+    filterContainer.addEventListener("click", function (event) {
+        event.stopPropagation();
+    });
+});
 
-            filterButton.addEventListener("click", function (event) {
-                event.stopPropagation(); // Ngăn sự kiện lan ra ngoài
-                filterContainer.classList.add("show");
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll(".filter-options input[type='radio']").forEach(input => {
+        input.addEventListener("change", function () {
+
+            this.closest(".filter-options").querySelectorAll("label").forEach(label => {
+                label.classList.remove("selected");
             });
 
-            closeButton.addEventListener("click", function (event) {
-                event.stopPropagation();
-                filterContainer.classList.remove("show");
-            });
-
-            document.addEventListener("click", function (event) {
-                if (!filterContainer.contains(event.target) && !filterButton.contains(event.target)) {
-                    filterContainer.classList.remove("show");
-                }
-            });
-
-            // Ngăn đóng filter khi click bên trong nó
-            filterContainer.addEventListener("click", function (event) {
-                event.stopPropagation();
-            });
+            this.closest("label").classList.add("selected");
         });
-        document.addEventListener("DOMContentLoaded", function () {
+    });
 
-            document.querySelectorAll(".filter-options input[type='radio']").forEach(input => {
-                input.addEventListener("change", function () {
-
-                    this.closest(".filter-options").querySelectorAll("label").forEach(label => {
-                        label.classList.remove("selected");
-                    });
-
-                    this.closest("label").classList.add("selected");
-                });
-            });
-
-            document.querySelectorAll(".filter-options select").forEach(select => {
-                select.addEventListener("change", function () {
-                    this.classList.add("selected");
-                });
-            });
+    document.querySelectorAll(".filter-options select").forEach(select => {
+        select.addEventListener("change", function () {
+            this.classList.add("selected");
         });
+    });
+});

@@ -162,6 +162,7 @@
                 </div>
             </div>
         </header>
+                    <div class="overlay"></div>
         <div class="filter">
             <div class="filter-header">
                 <span class="filter-title">Bộ lọc</span>
