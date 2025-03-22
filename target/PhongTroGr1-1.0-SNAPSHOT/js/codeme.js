@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-
     document.querySelectorAll(".filter-options input[type='radio']").forEach(input => {
         input.addEventListener("change", function () {
 
