@@ -70,8 +70,10 @@ public class PostServlet extends HttpServlet {
         } else if (action.equals("listPosted")) {
             try {
                 int userId = Integer.parseInt(request.getParameter("userId"));
-                List<Post> listPost = postDao.getListPostByUserId(userId);
-                request.setAttribute("listPosted", listPost);
+                List<Post> listPostAccept = postDao.getListPostAccpetByUserId(userId);
+                List<Post> listPostNotApproved = postDao.getListPostNotApprovedByUserId(userId);
+                request.setAttribute("listPostAccept", listPostAccept);
+                request.setAttribute("listPostNotApproved", listPostNotApproved);
                 request.getRequestDispatcher("listPost.jsp").forward(request, response);
             } catch (ServletException | IOException | NumberFormatException e) {
                 System.out.println(e.getMessage());
@@ -224,7 +226,8 @@ public class PostServlet extends HttpServlet {
                 double area = Double.parseDouble(areaStr);
                 int roomCount = Integer.parseInt(roomCountStr);
                 String city = "Cần Thơ";
-                String status = "Còn phòng";
+                PostDAO dao = new PostDAO();
+                String status = dao.getStatusByPostId(postId);
 
                 // Xử lý ảnh
                 List<InputStream> imageStreams = new ArrayList<>();

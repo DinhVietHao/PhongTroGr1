@@ -253,9 +253,45 @@ public class PostDAO extends DBContext {
         return null;
     }
 
-    public List<Post> getListPostByUserId(int userId) {
+    public List<Post> getListPostAccpetByUserId(int userId) {
         List<Post> listPost = new ArrayList<>();
-        String sql = "SELECT * FROM Posts WHERE User_id = ? AND Status = N'Còn Phòng' ORDER BY Post_id DESC";
+        String sql = "SELECT * FROM Posts WHERE User_id = ? AND Status = N'Còn phòng' ORDER BY Post_id DESC";
+        Post post = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                post = new Post(rs.getInt("Post_id"),
+                        rs.getInt("User_id"),
+                        rs.getInt("Category_id"),
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getDouble("Price"),
+                        rs.getString("Address"),
+                        rs.getString("City"),
+                        rs.getString("District"),
+                        rs.getString("Ward"),
+                        rs.getDouble("Area"),
+                        rs.getInt("Room_count"),
+                        selectCategoryById(rs.getInt("Category_id")),
+                        rs.getString("Status"),
+                        selectLandlordById(rs.getInt("User_id")),
+                        selectImageByPostId(rs.getInt("Post_id")),
+                        rs.getTimestamp("Created_at"),
+                        rs.getTimestamp("Updated_at"));
+                listPost.add(post);
+            }
+            return listPost;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return listPost;
+    }
+    
+     public List<Post> getListPostNotApprovedByUserId(int userId) {
+        List<Post> listPost = new ArrayList<>();
+        String sql = "SELECT * FROM Posts WHERE User_id = ? AND Status = N'Chưa duyệt' ORDER BY Post_id DESC";
         Post post = null;
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -508,6 +544,21 @@ public class PostDAO extends DBContext {
             System.out.println(e.getMessage());
         }
         return flag;
+    }
+
+    public String getStatusByPostId(int postId) {
+        String sql = "SELECT Status FROM Posts WHERE Post_id = ?";
+        try ( PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, postId);
+            try ( ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("Status");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null; 
     }
 
     public int getTotalPost() {

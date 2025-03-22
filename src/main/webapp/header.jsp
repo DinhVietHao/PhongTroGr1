@@ -126,7 +126,7 @@
                         </div>
                     </div>
                     <%
-                        if (user.getUserId() != -1 && (user.getRole() == 2 || user.getUserId() == 3)) {
+                        if (user.getUserId() != -1 && user.getRole() == 2) {
                     %>  
                     <div class="header-post">
                         <a href="Post">
