@@ -134,7 +134,7 @@
                         </div>
                     </div>
                     <%
-                        if (user.getUserId() != -1 && (user.getRole() == 2 || user.getUserId() == 3)) {
+                        if (user.getUserId() != -1 && user.getRole() == 2) {
                     %>  
                     <div class="header-post">
                         <a href="Post">
@@ -162,6 +162,7 @@
                 </div>
             </div>
         </header>
+        <div class="overlay"></div>
         <div class="filter">
             <div class="filter-header">
                 <span class="filter-title">Bộ lọc</span>
@@ -179,8 +180,8 @@
                         %>
                         <label value="<%= c.getCatName()%>" <%= (j == 1) ? "class=\"selected\"" : ""%>><input type="radio" name="category" value="<%= c.getCatName()%>" <%= (j == 1) ? "checked" : ""%>><%= c.getCatName()%></label>
                             <%
+                                    }
                                 }
-                            }
                             %>
                     </div>
                 </div>
