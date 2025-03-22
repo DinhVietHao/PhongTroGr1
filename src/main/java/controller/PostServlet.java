@@ -5,6 +5,7 @@
 package controller;
 
 import dao.PostDAO;
+import dao.ReviewDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -21,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import model.Category;
 import model.Post;
+import model.Review;
 import model.User;
 
 /**
@@ -36,6 +38,7 @@ import model.User;
 public class PostServlet extends HttpServlet {
 
     private final PostDAO postDao = new PostDAO();
+    private final ReviewDAO reviewDao = new ReviewDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -67,8 +70,10 @@ public class PostServlet extends HttpServlet {
         } else if (action.equals("listPosted")) {
             try {
                 int userId = Integer.parseInt(request.getParameter("userId"));
-                List<Post> listPost = postDao.getListPostByUserId(userId);
-                request.setAttribute("listPosted", listPost);
+                List<Post> listPostAccept = postDao.getListPostAccpetByUserId(userId);
+                List<Post> listPostNotApproved = postDao.getListPostNotApprovedByUserId(userId);
+                request.setAttribute("listPostAccept", listPostAccept);
+                request.setAttribute("listPostNotApproved", listPostNotApproved);
                 request.getRequestDispatcher("listPost.jsp").forward(request, response);
             } catch (ServletException | IOException | NumberFormatException e) {
                 System.out.println(e.getMessage());
@@ -96,9 +101,11 @@ public class PostServlet extends HttpServlet {
                 PostDAO dao = new PostDAO();
                 UserDAO userdao = new UserDAO();
                 int postId = Integer.parseInt(request.getParameter("postId"));
+                List<Review> listReview = reviewDao.selectAllReviewsByPostId(postId);
                 Post post = dao.getPostByPostId(postId);
                 int countPost = userdao.countPostforUserByUserId(post.getUserId());
                 request.setAttribute("post", post);
+                request.setAttribute("list", listReview);
                 request.setAttribute("countPost", countPost);
                 request.getRequestDispatcher("homeDescription.jsp").forward(request, response);
             } catch (ServletException | IOException | NumberFormatException e) {
@@ -219,7 +226,8 @@ public class PostServlet extends HttpServlet {
                 double area = Double.parseDouble(areaStr);
                 int roomCount = Integer.parseInt(roomCountStr);
                 String city = "Cần Thơ";
-                String status = "Còn phòng";
+                PostDAO dao = new PostDAO();
+                String status = dao.getStatusByPostId(postId);
 
                 // Xử lý ảnh
                 List<InputStream> imageStreams = new ArrayList<>();
@@ -268,7 +276,6 @@ public class PostServlet extends HttpServlet {
 
             try {
                 int postId = Integer.parseInt(postIdStr);
-                PostDAO postDao = new PostDAO();
                 UserDAO userDao = new UserDAO();
 
                 int userId = userDao.getUserIdByPostId(postId);

@@ -13,7 +13,6 @@
 <%@page import="model.Image"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Post"%>
-<%@page import="model.Post"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -28,6 +27,7 @@
 <%
         session.removeAttribute("Messages");
     }
+
     int countPost = 0;
     if (request.getAttribute("count") != null) {
         countPost = (int) request.getAttribute("count");

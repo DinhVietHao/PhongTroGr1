@@ -11,7 +11,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-    List<Post> listPosted = (List) request.getAttribute("listPosted");
+    List<Post> listPostAccept = (List) request.getAttribute("listPostAccept");
+    List<Post> listPostNotApproved = (List) request.getAttribute("listPostNotApproved");
 %>
 <html>
     <head>
@@ -40,9 +41,21 @@
                     </ul>
                 </nav>
             </div>
-            <% if (listPosted == null || listPosted.isEmpty()) { %>
+            <% if ((listPostAccept == null || listPostAccept.isEmpty()) && (listPostNotApproved == null || listPostNotApproved.isEmpty())) { %>
             <p>Bạn chưa đăng bài nào, hãy đăng bài để thấy bài đăng của bạn.</p>
-            <%} else { %>
+            <%} else {
+            %>
+            <%!
+                NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+            %>
+            <h2>Danh sách bài đã duyệt</h2>
+            <%
+                if (listPostAccept == null || listPostAccept.isEmpty()) {
+            %>
+            <p>Bài đăng đang được duyệt, chờ admin duyệt nhé.</p>
+            <%
+            } else {
+            %>
             <table class="table table-bordered table-hover">
                 <thead class="table-dark">
                     <tr>
@@ -59,26 +72,24 @@
                 </thead>
                 <tbody>
                     <%
-                        int res = 0;
-                        for (Post post : listPosted) {%>
+                        int tmp = 0;
+                        for (Post post : listPostAccept) {%>
                     <tr>
-                        <td><%=++res%></td>
+                        <td><%=++tmp%></td>
                         <td><%=post.getTitle()%></td>
                         <td><span class="description" data-description="<%= post.getDescription()%>">Xem mô tả</span></td>
                         <td><img src="ImageHandler?action=display&imgId=<%= post.getImages().get(1).getImageId()%>" class="product-img" width="100" height="80"></td>
-                            <%!
-                                NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
-                            %>
-                            <%
-                                DecimalFormat df = new DecimalFormat("#,###");
-                                String formattedPrice = df.format(post.getPrice());
-                            %>
+
+                        <%
+                            DecimalFormat df = new DecimalFormat("#,###");
+                            String formattedPrice = df.format(post.getPrice());
+                        %>
                         <td><%= formattedPrice%></td>
                         <td><%= post.getPostType().getCatName()%></td>
                         <td><%= post.getStatus()%></td>
                         <td><a href="Post?action=postDescription&postId=<%= post.getPostId()%>">Bài đăng chi tiết</a></td>
                         <td>
-                            <a href="Post?action=updatePost&postId=<%= post.getPostId()%>" class="btn btn-primary"><i class="bi bi-tools"></i> Sửa</a>
+                            <a href="Post?action=updatePost&postId=<%= post.getPostId()%>" class="btn btn-warning"><i class="bi bi-tools"></i> Sửa</a>
                             <a href="#" class="btn btn-danger delete-btn"
                                data-bs-toggle="modal"
                                data-bs-target="#deleteModal"
@@ -91,7 +102,67 @@
                 </tbody>
             </table>
         </div>
-        <%}%>    
+        <h2>Danh sách bài đang duyệt</h2>
+        <%
+            
+            }
+            if (listPostNotApproved == null || listPostNotApproved.isEmpty()) {
+        %>
+        <p>Bạn chưa có bài đăng nào chờ duyệt.</p>
+        <%
+        } else {
+        %>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>STT</th>
+                    <th>Tiêu đề</th>
+                    <th>Mô tả</th>
+                    <th>Hình ảnh</th>
+                    <th>Giá tiền Vnd/Tháng</th>
+                    <th>Danh mục</th>
+                    <th>Trạng Thái</th>
+                    <th>Bài đăng chi tiết</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    int res = 0;
+                    for (Post post : listPostNotApproved) {%>
+                <tr>
+                    <td><%=++res%></td>
+                    <td><%=post.getTitle()%></td>
+                    <td><span class="description" data-description="<%= post.getDescription()%>">Xem mô tả</span></td>
+                    <td><img src="ImageHandler?action=display&imgId=<%= post.getImages().get(1).getImageId()%>" class="product-img" width="100" height="80"></td>
+
+                    <%
+                        DecimalFormat df = new DecimalFormat("#,###");
+                        String formattedPrice = df.format(post.getPrice());
+                    %>
+                    <td><%= formattedPrice%></td>
+                    <td><%= post.getPostType().getCatName()%></td>
+                    <td><%= post.getStatus()%></td>
+                    <td><a href="Post?action=postDescription&postId=<%= post.getPostId()%>">Bài đăng chi tiết</a></td>
+                    <td>
+                        <a href="Post?action=updatePost&postId=<%= post.getPostId()%>" class="btn btn-warning"><i class="bi bi-tools"></i> Sửa</a>
+                        <a href="#" class="btn btn-danger delete-btn"
+                           data-bs-toggle="modal"
+                           data-bs-target="#deleteModal"
+                           data-postid="<%= post.getPostId()%>">
+                            <i class="bi bi-trash"></i> Xóa
+                        </a>
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
+            </tbody>
+        </table>
+        <%
+                }
+            }
+        %>
     </main>
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">

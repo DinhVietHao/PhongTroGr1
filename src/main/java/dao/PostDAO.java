@@ -253,9 +253,45 @@ public class PostDAO extends DBContext {
         return null;
     }
 
-    public List<Post> getListPostByUserId(int userId) {
+    public List<Post> getListPostAccpetByUserId(int userId) {
         List<Post> listPost = new ArrayList<>();
-        String sql = "SELECT * FROM Posts WHERE User_id = ? AND Status = N'Còn Phòng' ORDER BY Post_id DESC";
+        String sql = "SELECT * FROM Posts WHERE User_id = ? AND Status = N'Còn phòng' ORDER BY Post_id DESC";
+        Post post = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                post = new Post(rs.getInt("Post_id"),
+                        rs.getInt("User_id"),
+                        rs.getInt("Category_id"),
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getDouble("Price"),
+                        rs.getString("Address"),
+                        rs.getString("City"),
+                        rs.getString("District"),
+                        rs.getString("Ward"),
+                        rs.getDouble("Area"),
+                        rs.getInt("Room_count"),
+                        selectCategoryById(rs.getInt("Category_id")),
+                        rs.getString("Status"),
+                        selectLandlordById(rs.getInt("User_id")),
+                        selectImageByPostId(rs.getInt("Post_id")),
+                        rs.getTimestamp("Created_at"),
+                        rs.getTimestamp("Updated_at"));
+                listPost.add(post);
+            }
+            return listPost;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return listPost;
+    }
+    
+     public List<Post> getListPostNotApprovedByUserId(int userId) {
+        List<Post> listPost = new ArrayList<>();
+        String sql = "SELECT * FROM Posts WHERE User_id = ? AND Status = N'Chưa duyệt' ORDER BY Post_id DESC";
         Post post = null;
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -510,6 +546,21 @@ public class PostDAO extends DBContext {
         return flag;
     }
 
+    public String getStatusByPostId(int postId) {
+        String sql = "SELECT Status FROM Posts WHERE Post_id = ?";
+        try ( PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, postId);
+            try ( ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("Status");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null; 
+    }
+
     public int getTotalPost() {
         String sql = "SELECT COUNT(*) FROM Posts";
         try {
@@ -519,8 +570,8 @@ public class PostDAO extends DBContext {
                 return rs.getInt(1);
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return 0;
     }
@@ -577,15 +628,97 @@ public class PostDAO extends DBContext {
         return cnt;
     }
 
-//    public static void main(String[] args) {
-//        PostDAO dao = new PostDAO();
-//        //List<Post> list = dao.selectPostAll();
-//        int cnt = dao.selectCountPost();
-//        System.out.println(cnt);
-//        for (Post p : list) {
-//            if (p.toString().toLowerCase().contains("ninh kiều".toLowerCase())) {
-//                System.out.println(p);
-//            }
-//        }
-//    }
+    public List<Post> selectByFilter(String type, String district, String price, String area) {
+        List<Post> data = new ArrayList<>();
+        Post post = null;
+        StringBuilder sql = new StringBuilder("SELECT * FROM Posts WHERE Post_type = ?");
+        
+        if (!district.equals("All")) {
+            sql.append(" AND District = ?");
+        }
+
+        if (!price.equals("All")) {
+            String[] parts = price.split("-");
+            if (parts.length == 2) {
+                if (parts[1].equals("0")) {
+                    sql.append(" AND Price > ?");
+                } else {
+                    sql.append(" AND Price BETWEEN ? AND ?");
+                }
+            }
+        }
+
+        if (!area.equals("All")) {
+            String[] parts = area.split("-");
+            if (parts.length == 2) {
+                if (parts[1].equals("0")) {
+                    sql.append(" AND Area > ?");
+                } else {
+                    sql.append(" AND Area BETWEEN ? AND ?");
+                }
+            }
+        }
+
+        try ( PreparedStatement pt = conn.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            pt.setString(paramIndex++, type);
+
+            if (!district.equals("All")) {
+                pt.setString(paramIndex++, district);
+            }
+
+            if (!price.equals("All")) {
+                String[] parts = price.split("-");
+                if (parts.length == 2) {
+                    if (parts[1].equals("0")) {
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[0]) * 1000000);
+                    } else {
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[0]) * 1000000);
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[1]) * 1000000);
+                    }
+                }
+            }
+
+            if (!area.equals("All")) {
+                String[] parts = area.split("-");
+                if (parts.length == 2) {
+                    if (parts[1].equals("0")) {
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[0]));
+                    } else {
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[0]));
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[1]));
+                    }
+                }
+            }
+
+            ResultSet rs = pt.executeQuery();
+            while (rs.next()) {
+                post = new Post(
+                        rs.getInt("Post_id"),
+                        rs.getInt("User_id"),
+                        rs.getInt("Category_id"),
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getDouble("Price"),
+                        rs.getString("Address"),
+                        rs.getString("City"),
+                        rs.getString("District"),
+                        rs.getString("Ward"),
+                        rs.getDouble("Area"),
+                        rs.getInt("Room_count"),
+                        selectCategoryById(rs.getInt("Category_id")),
+                        rs.getString("Status"),
+                        selectLandlordById(rs.getInt("User_id")),
+                        selectImageByPostId(rs.getInt("Post_id")),
+                        rs.getTimestamp("Created_at"),
+                        rs.getTimestamp("Updated_at")
+                );
+                data.add(post);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return data;
+    }
+    
 }
