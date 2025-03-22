@@ -128,6 +128,7 @@ public class SearchServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -136,6 +137,11 @@ public class SearchServlet extends HttpServlet {
         }
 
         String action = request.getParameter("action");
+
+        if (action == null) {
+            action = "filter";
+        }
+
         if ("uploadByCat".equals(action)) {
             String postType = request.getParameter("type");
             int currentPage = 1; // Mặc định là trang 1
@@ -159,8 +165,6 @@ public class SearchServlet extends HttpServlet {
             int start = (currentPage - 1) * pageSize;
             int end = Math.min(start + pageSize, totalPosts);
             List<Post> paginatedList = filteredList.subList(start, end);
-
-            PrintWriter out = response.getWriter();
             for (Post p : paginatedList) {
                 StringBuilder htmlBuilder = new StringBuilder();
                 htmlBuilder.append("<div class=\"card\">")
@@ -238,6 +242,69 @@ public class SearchServlet extends HttpServlet {
                         .append("</ul>");
 
                 out.println(paginationBuilder.toString());
+            }
+        } else if (action.equalsIgnoreCase("filter")) {
+            String type = request.getParameter("category");
+            String district = request.getParameter("district");
+            String price = request.getParameter("price");
+            String area = request.getParameter("area");
+            List<Post> list = postDao.selectByFilter(type, district, price, area);
+            for (Post p : list) {
+                StringBuilder htmlBuilder = new StringBuilder();
+                htmlBuilder.append("<div class=\"card\">")
+                        .append("<div class=\"image-gallery\">")
+                        .append("<div class=\"images-main\">")
+                        .append("<img src=\"ImageHandler?action=display&imgId=").append(p.getImages().isEmpty() ? "" : p.getImages().get(0).getImageId()).append("\" alt=\"Room Image\" class=\"room-main\" onclick=\"openImage(this)\">")
+                        .append("</div>")
+                        .append("<div class=\"images-sub\">")
+                        .append("<div class=\"images-box1\">")
+                        .append("<img src=\"ImageHandler?action=display&imgId=").append(p.getImages().size() > 1 ? p.getImages().get(1).getImageId() : "").append("\" alt=\"Room Image\" class=\"room-image1\" onclick=\"openImage(this)\">")
+                        .append("</div>")
+                        .append("<div class=\"images-box2\">")
+                        .append("<div class=\"box1\">")
+                        .append("<img src=\"ImageHandler?action=display&imgId=").append(p.getImages().size() > 2 ? p.getImages().get(2).getImageId() : "").append("\" alt=\"Room Image\" class=\"room-image2\" onclick=\"openImage(this)\">")
+                        .append("</div>")
+                        .append("<div class=\"box2\">")
+                        .append("<img src=\"ImageHandler?action=display&imgId=").append(p.getImages().size() > 3 ? p.getImages().get(3).getImageId() : "").append("\" alt=\"Room Image\" class=\"room-image3\" onclick=\"openImage(this)\">")
+                        .append("</div>")
+                        .append("</div>")
+                        .append("</div>")
+                        .append("<div id=\"imagePopup\" class=\"image-popup\" onclick=\"closeImage()\">")
+                        .append("<span class=\"close-btn\" onclick=\"closeImage()\">&#10006;</span>")
+                        .append("<img id=\"popupImg\" src=\"\">")
+                        .append("</div>")
+                        .append("</div>")
+                        .append("<div class=\"card-content\">")
+                        .append("<h2 class=\"card-title\"><span class=\"star star-5 mt-1\"></span> <br>").append(p.getTitle()).append("</h2>")
+                        .append("<div class=\"card-info\">")
+                        .append("<p class=\"card-price\">").append(p.getPrice()).append("</p>")
+                        .append("<p>Vnd/tháng</p>")
+                        .append("<p>").append(p.getArea()).append("</p>")
+                        .append("<p>m<sup>2</sup></p>")
+                        .append("</div>")
+                        .append("<p>").append(p.getAddress()).append("</p>")
+                        .append("<p class=\"card-details\">").append(p.getDescription().replace("\n", "<br>")).append("</p>")
+                        .append("<p class=\"time-posted\">Đăng ").append(calculateTimeAgo(p.getCreated_at().toLocalDateTime())).append("</p>")
+                        .append("<div class=\"contact-info\">")
+                        .append("<div class=\"contact-user\">")
+                        .append("<img class=\"avatar\" src=\"").append(p.getUser().getImageData() != null ? "ImageHandler?action=displayAvatar&userId=" + p.getUserId() : "./images/default_user.svg").append("\" alt=\"avatar\">")
+                        .append(p.getUser().getFullname())
+                        .append("</div>")
+                        .append("<div class=\"contact-phone\">");
+
+                if (user.getUserId() != -1) {
+                    htmlBuilder.append("<button onclick=\"savePost(event)\" class=\"btn btn-white btn__save d-flex px-2 js-btn-save ").append(p.isSavedStatus() ? "saved" : "").append("\" aria-label=\"Lưu tin này\" data-postid=\"").append(p.getPostId()).append("\" data-userid=\"").append(user.getUserId()).append("\">")
+                            .append("<i class=\"heart size-18\"></i>")
+                            .append("</button>");
+                }
+
+                htmlBuilder.append("<span class=\"phone\">").append(p.getUser().getPhone()).append("</span>")
+                        .append("</div>")
+                        .append("</div>")
+                        .append("</div>")
+                        .append("</div>");
+
+                out.println(htmlBuilder.toString());
             }
         }
     }
