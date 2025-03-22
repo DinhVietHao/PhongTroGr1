@@ -46,3 +46,49 @@ function updateSearchButton() {
         }, 300);
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+            const filterButton = document.querySelector(".btn-filter");
+            const filterContainer = document.querySelector(".filter");
+            const closeButton = document.querySelector(".close-filter");
+
+            filterButton.addEventListener("click", function (event) {
+                event.stopPropagation(); // Ngăn sự kiện lan ra ngoài
+                filterContainer.classList.add("show");
+            });
+
+            closeButton.addEventListener("click", function (event) {
+                event.stopPropagation();
+                filterContainer.classList.remove("show");
+            });
+
+            document.addEventListener("click", function (event) {
+                if (!filterContainer.contains(event.target) && !filterButton.contains(event.target)) {
+                    filterContainer.classList.remove("show");
+                }
+            });
+
+            // Ngăn đóng filter khi click bên trong nó
+            filterContainer.addEventListener("click", function (event) {
+                event.stopPropagation();
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+
+            document.querySelectorAll(".filter-options input[type='radio']").forEach(input => {
+                input.addEventListener("change", function () {
+
+                    this.closest(".filter-options").querySelectorAll("label").forEach(label => {
+                        label.classList.remove("selected");
+                    });
+
+                    this.closest("label").classList.add("selected");
+                });
+            });
+
+            document.querySelectorAll(".filter-options select").forEach(select => {
+                select.addEventListener("change", function () {
+                    this.classList.add("selected");
+                });
+            });
+        });

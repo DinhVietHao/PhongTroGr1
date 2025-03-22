@@ -28,6 +28,7 @@
         <!-- boostrap -->
         <link href="./css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="./css/style.css">
+        <<link rel="stylesheet" href="./css/filter.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
         <style>
@@ -78,6 +79,13 @@
                             <i class="bi bi-search"></i>
                         </button>
                     </form>           
+
+                    <div class="header-filter">
+                        <button class="btn-filter">
+                            <img class="icon" src="./images/bi-funnel.svg" alt="funnel">
+                            <span>Bộ lọc</span>
+                        </button>
+                    </div>
 
                     <%
                         if (user.getUserId() != -1 && user.getRole() == 2) {
@@ -154,6 +162,79 @@
                 </div>
             </div>
         </header>
+        <div class="filter">
+            <div class="filter-header">
+                <span class="filter-title">Bộ lọc</span>
+                <button class="close-filter">&times;</button>
+            </div>
+            <form action="Search" method="POST" class="filter-form">
+                <div class="filter-section">
+                    <div class="filter-title">Danh mục cho thuê</div>
+                    <div class="filter-options">
+                        <label class="selected"><input type="radio" name="category" value="phong_tro"> Phòng trọ</label>
+                        <label><input type="radio" name="category" value="nha_rieng"> Nhà riêng</label>
+                        <label><input type="radio" name="category" value="o_ghep"> Ở ghép</label>
+                        <label><input type="radio" name="category" value="mat_bang"> Mặt bằng</label>
+                        <label><input type="radio" name="category" value="can_ho"> Căn hộ chung cư</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-title">Lọc theo khu vực</div>
+                    <div class="filter-options row">
+                        <div class="city col-lg-4">
+                            <span>Thành phố</span>
+                            <select name="city">
+                                <option class="selected">Cần Thơ</option>
+                            </select>
+                        </div>
+                        <div class="district col-lg-4">
+                            <span>Tỉnh/Quận</span>
+                            <select name="district">
+                                <option class="selected">Tất cả</option>
+                                <option>Ninh Kiều</option>
+                                <option>Cái Răng</option>
+                                <option>Bình Thủy</option>
+                                <option>Ô Môn</option>
+                                <option>Thốt Nốt</option>
+                                <option>Phong Điền</option>
+                                <option>Cờ Đỏ</option>
+                                <option>Vĩnh Thạnh</option>
+                            </select>
+                        </div>
+                        <div class="ward col-lg-4">
+                            <span>Xã/Phường</span>
+                            <select name="ward">
+                                <option class="selected">Tất cả</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-title">Khoảng giá</div>
+                    <div class="filter-options">
+                        <label class="selected"><input type="radio" name="price" value="all" checked> Tất cả</label>
+                        <label><input type="radio" name="price" value="under_1m"> Dưới 1 triệu</label>
+                        <label><input type="radio" name="price" value="1_2m"> 1 - 3 triệu</label>
+                        <label><input type="radio" name="price" value="2_3m"> 3 - 6 triệu</label>
+                        <label><input type="radio" name="price" value="2_3m"> Trên 6 triệu</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-title">Khoảng diện tích</div>
+                    <div class="filter-options">
+                        <label class="selected"><input type="radio" name="area" value="all" checked> Tất cả</label>
+                        <label><input type="radio" name="area" value="under_20"> Dưới 20m²</label>
+                        <label><input type="radio" name="area" value="20_30"> 20m² - 30m²</label>
+                        <label><input type="radio" name="area" value="30_50"> 30m² - 50m²</label>
+                        <label><input type="radio" name="area" value="30_50"> Trên 50m²</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="apply-button">Áp dụng</button>
+            </form>
+        </div>
         <script>
             function searchByKey(input) {
                 var txtSearch = input.value;
