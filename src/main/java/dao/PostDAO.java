@@ -628,15 +628,97 @@ public class PostDAO extends DBContext {
         return cnt;
     }
 
-//    public static void main(String[] args) {
-//        PostDAO dao = new PostDAO();
-//        //List<Post> list = dao.selectPostAll();
-//        int cnt = dao.selectCountPost();
-//        System.out.println(cnt);
-//        for (Post p : list) {
-//            if (p.toString().toLowerCase().contains("ninh kiều".toLowerCase())) {
-//                System.out.println(p);
-//            }
-//        }
-//    }
+    public List<Post> selectByFilter(String type, String district, String price, String area) {
+        List<Post> data = new ArrayList<>();
+        Post post = null;
+        StringBuilder sql = new StringBuilder("SELECT * FROM Posts WHERE Post_type = ?");
+        
+        if (!district.equals("All")) {
+            sql.append(" AND District = ?");
+        }
+
+        if (!price.equals("All")) {
+            String[] parts = price.split("-");
+            if (parts.length == 2) {
+                if (parts[1].equals("0")) {
+                    sql.append(" AND Price > ?");
+                } else {
+                    sql.append(" AND Price BETWEEN ? AND ?");
+                }
+            }
+        }
+
+        if (!area.equals("All")) {
+            String[] parts = area.split("-");
+            if (parts.length == 2) {
+                if (parts[1].equals("0")) {
+                    sql.append(" AND Area > ?");
+                } else {
+                    sql.append(" AND Area BETWEEN ? AND ?");
+                }
+            }
+        }
+
+        try ( PreparedStatement pt = conn.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            pt.setString(paramIndex++, type);
+
+            if (!district.equals("All")) {
+                pt.setString(paramIndex++, district);
+            }
+
+            if (!price.equals("All")) {
+                String[] parts = price.split("-");
+                if (parts.length == 2) {
+                    if (parts[1].equals("0")) {
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[0]) * 1000000);
+                    } else {
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[0]) * 1000000);
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[1]) * 1000000);
+                    }
+                }
+            }
+
+            if (!area.equals("All")) {
+                String[] parts = area.split("-");
+                if (parts.length == 2) {
+                    if (parts[1].equals("0")) {
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[0]));
+                    } else {
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[0]));
+                        pt.setDouble(paramIndex++, Double.parseDouble(parts[1]));
+                    }
+                }
+            }
+
+            ResultSet rs = pt.executeQuery();
+            while (rs.next()) {
+                post = new Post(
+                        rs.getInt("Post_id"),
+                        rs.getInt("User_id"),
+                        rs.getInt("Category_id"),
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getDouble("Price"),
+                        rs.getString("Address"),
+                        rs.getString("City"),
+                        rs.getString("District"),
+                        rs.getString("Ward"),
+                        rs.getDouble("Area"),
+                        rs.getInt("Room_count"),
+                        selectCategoryById(rs.getInt("Category_id")),
+                        rs.getString("Status"),
+                        selectLandlordById(rs.getInt("User_id")),
+                        selectImageByPostId(rs.getInt("Post_id")),
+                        rs.getTimestamp("Created_at"),
+                        rs.getTimestamp("Updated_at")
+                );
+                data.add(post);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return data;
+    }
+    
 }

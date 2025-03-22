@@ -28,6 +28,7 @@
         <!-- boostrap -->
         <link href="./css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="./css/filter.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
         <style>
@@ -78,6 +79,13 @@
                             <i class="bi bi-search"></i>
                         </button>
                     </form>           
+
+                    <div class="header-filter">
+                        <button class="btn-filter">
+                            <img class="icon" src="./images/bi-funnel.svg" alt="funnel">
+                            <span>Bộ lọc</span>
+                        </button>
+                    </div>
 
                     <%
                         if (user.getUserId() != -1 && user.getRole() == 2) {
@@ -154,6 +162,84 @@
                 </div>
             </div>
         </header>
+        <div class="overlay"></div>           
+        <div class="filter">
+            <div class="filter-header">
+                <span class="filter-title">Bộ lọc</span>
+                <button class="close-filter">&times;</button>
+            </div>
+            <form id="filterForm" class="filter-form">
+                <div class="filter-section">
+                    <div class="filter-title">Danh mục cho thuê</div>
+                    <div class="filter-options">
+                        <%
+                            int j = 0;
+                            if (listCategory != null && !listCategory.isEmpty()) {
+                                for (Category c : listCategory) {
+                                    j++;
+                        %>
+                        <label value="<%= c.getCatName()%>" <%= (j == 1) ? "class=\"selected\"" : ""%>><input type="radio" name="category" value="<%= c.getCatName()%>" <%= (j == 1) ? "checked" : ""%>><%= c.getCatName()%></label>
+                            <%
+                                    }
+                                }
+                            %>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-title">Lọc theo khu vực</div>
+                    <div class="filter-options row">
+                        <div class="city col-lg-4">
+                            <span>Thành phố</span>
+                            <select name="city">
+                                <option class="selected" value="Cần Thơ">Cần Thơ</option>
+                            </select>
+                        </div>
+                        <div class="district col-lg-4">
+                            <span>Tỉnh/Quận</span>
+                            <select name="district">
+                                <option class="selected" value="All">Tất cả</option>
+                                <option value="Ninh Kiều">Ninh Kiều</option>
+                                <option value="Cái Răng">Cái Răng</option>
+                                <option value="Bình Thủy">Bình Thủy</option>
+                                <option value="Ô Môn">Ô Môn</option>
+                                <option value="Thốt Nốt">Thốt Nốt</option>
+                                <option value="Phong Điền">Phong Điền</option>
+                                <option value="Cờ Đỏ">Cờ Đỏ</option>
+                                <option value="Vĩnh Thạnh">Vĩnh Thạnh</option>
+                            </select>
+                        </div>
+                        <div class="ward col-lg-4">
+                            <span>Xã/Phường</span>
+                            <select name="ward">
+                                <option class="selected">Tất cả</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-title">Khoảng giá</div>
+                    <div class="filter-options">
+                        <label class="selected"><input type="radio" name="price" value="All" checked> Tất cả</label>
+                        <label><input type="radio" name="price" value="0-1"> Dưới 1 triệu</label>
+                        <label><input type="radio" name="price" value="1-3"> 1 - 3 triệu</label>
+                        <label><input type="radio" name="price" value="3-6"> 3 - 6 triệu</label>
+                        <label><input type="radio" name="price" value="6-0"> Trên 6 triệu</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-title">Khoảng diện tích</div>
+                    <div class="filter-options">
+                        <label class="selected"><input type="radio" name="area" value="All" checked> Tất cả</label>
+                        <label><input type="radio" name="area" value="0-20"> Dưới 20m²</label>
+                        <label><input type="radio" name="area" value="20-30"> 20m² - 30m²</label>
+                        <label><input type="radio" name="area" value="30-50"> 30m² - 50m²</label>
+                        <label><input type="radio" name="area" value="50-0"> Trên 50m²</label>
+                    </div>
+                </div>
+                <button type="button" onclick="applyFilter()" class="apply-button">Áp dụng</button>
+            </form>
+        </div>
         <script>
             function searchByKey(input) {
                 var txtSearch = input.value;
@@ -199,6 +285,25 @@
                     },
                     error: function (error) {
                         console.error("Error:", error);
+                    }
+                });
+            }
+
+            function applyFilter() {
+                const formData = new FormData(document.getElementById('filterForm'));
+
+                $.ajax({
+                    url: "/PhongTroGr1/Search",
+                    type: "POST",
+                    data: {
+                        category: formData.get("category"),
+                        district: formData.get("district"),
+                        price: formData.get("price"),
+                        area: formData.get("area")
+                    },
+                    success: function (data) {
+                        const row = document.getElementById("contentPost");
+                        row.innerHTML = data;
                     }
                 });
             }

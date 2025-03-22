@@ -360,7 +360,7 @@
                                 var rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
                                 rejectModal.show();
                             }
-                            
+
                             function submitComment() {
                                 const commentInput = document.getElementById("commentInput");
                                 const comment = commentInput.value.trim();
@@ -391,6 +391,9 @@
                                         commentInput.value = "";
                                         var row = document.getElementById("contentComment");
                                         row.innerHTML = data;
+
+                                        var commentCount = document.querySelectorAll(".have-comment").length;
+                                        document.querySelector(".comment-title").textContent = commentCount + " Bình luận";
                                     }
                                 });
                             }
