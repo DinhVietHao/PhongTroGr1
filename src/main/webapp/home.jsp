@@ -233,13 +233,15 @@
         <%@include file="footer.jsp" %>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                const saveButton = document.querySelector(".js-btn-save");
-                saveButton.addEventListener("click", function () {
-                    const isSaved = this.classList.contains("saved");
-                    const postId = this.getAttribute("data-postid");
-                    const userId = this.getAttribute("data-userid");
-                    this.classList.toggle("saved");
-                    savePost(isSaved, userId, postId);
+                const saveButtons = document.querySelectorAll(".js-btn-save");
+                saveButtons.forEach((saveButton) => {
+                    saveButton.addEventListener("click", function () {
+                        const isSaved = this.classList.contains("saved");
+                        const postId = this.getAttribute("data-postid");
+                        const userId = this.getAttribute("data-userid");
+                        this.classList.toggle("saved");
+                        savePost(isSaved, userId, postId);
+                    });
                 });
             });
 
