@@ -232,14 +232,35 @@
         </div>
         <%@include file="footer.jsp" %>
         <script>
+            function savePost(event) {
+
+                const saveButton = event.currentTarget;
+                const isSaved = saveButton.classList.contains("saved");
+                const postId = saveButton.getAttribute("data-postid");
+                const userId = saveButton.getAttribute("data-userid");
+
+                const url = isSaved ? "/PhongTroGr1/Post?action=deletePost" : "/PhongTroGr1/Post?action=savePost";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    data: {
+                        postId: postId,
+                        userId: userId
+                    }
+                });
+            }
+
             document.addEventListener("DOMContentLoaded", function () {
-                const saveButton = document.querySelector(".js-btn-save");
-                saveButton.addEventListener("click", function () {
-                    const isSaved = this.classList.contains("saved");
-                    const postId = this.getAttribute("data-postid");
-                    const userId = this.getAttribute("data-userid");
-                    this.classList.toggle("saved");
-                    savePost(isSaved, userId, postId);
+                const saveButtons = document.querySelectorAll(".js-btn-save");
+                saveButtons.forEach((saveButton) => {
+                    saveButton.addEventListener("click", function () {
+                        const isSaved = this.classList.contains("saved");
+                        const postId = this.getAttribute("data-postid");
+                        const userId = this.getAttribute("data-userid");
+                        this.classList.toggle("saved");
+                        savePost(isSaved, userId, postId);
+                    });
                 });
             });
 
@@ -258,25 +279,6 @@
                 document.getElementById("deletePostId").value = postId; // Gán postId vào input ẩn
                 var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
                 deleteModal.show();
-            }
-
-            function savePost(event) {
-
-                const saveButton = event.currentTarget;
-                const isSaved = saveButton.classList.contains("saved");
-                const postId = saveButton.getAttribute("data-postid");
-                const userId = saveButton.getAttribute("data-userid");
-
-                const url = isSaved ? "/PhongTroGr1/Post?action=deletePost" : "/PhongTroGr1/Post?action=savePost";
-
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    data: {
-                        postId: postId,
-                        userId: userId
-                    }
-                });
             }
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

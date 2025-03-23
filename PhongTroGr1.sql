@@ -69,6 +69,8 @@ CREATE TABLE Saved_posts (
     FOREIGN KEY (Post_id) REFERENCES Posts(Post_id) ON DELETE CASCADE
 )
 
+DELETE Saved_posts
+
 INSERT INTO Categories VALUES
 (N'Nhà trọ'),
 (N'Mini house'),
