@@ -66,22 +66,14 @@
                     <p class="subtitle">Có <%= countPost%> tin đăng cho thuê</p>
                 </header>
 
-                <div class="layout-nav row">
-                    <div class="layout-links col-md-12">
-                        <a class="active-tab" href="" title="Cho thuê phòng trọ Toàn Quốc">Toàn quốc</a>
-                        <a class="tab-link" href="" title="Cho thuê phòng trọ Hồ Chí Minh">Hồ Chí Minh</a>
-                        <a class="tab-link" href="" title="Cho thuê phòng trọ Hà Nội">Hà Nội</a>
-                        <a class="tab-link" href="" title="Cho thuê phòng trọ Đà Nẵng">Đà Nẵng</a>
-                        <button class="btn-dropdown" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLocation"
-                                aria-controls="offcanvasLocation">
-                            Khác<i class="caret-down-fill"></i>
-                        </button>
-                    </div>        
-                </div>
+                <!--                <div class="layout-nav row">
+                                    <div class="layout-links col-md-12">
+                                        <a class="active-tab" href="" title="Cho thuê phòng trọ Toàn Quốc">Cần thơ</a>
+                                    </div>        
+                                </div>-->
 
                 <div class="layout-filter">
-                    <a class="filter-link active-filter" href="">Đề xuất</a>
-                    <a class="filter-link" href="">Mới đăng</a>
+                    <a class="filter-link active-filter active" href="#">Mới đăng</a>
                 </div>
                 <div id="contentPost" class="room-list">          
                     <%
@@ -134,7 +126,7 @@
                         </div>
                         <div class="card-content">
                             <a href="Post?action=postDescription&postId=<%= list.getPostId()%>">
-                                <h2 class="card-title"><span class="star star-5 mt-1"></span> <br><%= list.getTitle()%></h2>
+                                <h2 class="card-title"><span class="star star-5 mt-1"></span> <%= list.getTitle()%></h2>
                                 <div class="card-info">
                                     <%!
                                         NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
@@ -142,14 +134,16 @@
                                     <%
                                         DecimalFormat df = new DecimalFormat("#,###");
                                         String formattedPrice = df.format(list.getPrice()) + " Vnd/tháng";
-                                    %>
-                                    <p class="card-price"><%= formattedPrice%></p>
-                                    <p><%= list.getArea()%></p>
-                                    <p>m<sup>2</sup></p>
-                                </div>
 
-                                <p><%= list.getAddress()%></p>
-                                <p class="time-posted">Đăng <%= timeAgo%></p>
+                                    %>
+
+                                    <p class="card-price"><%= formattedPrice%></p>
+                                    <span class="dot">•</span>
+                                    <p><%= list.getArea()%> m<sup>2</sup></p>
+                                    <span class="dot">•</span>
+                                    <p><%= list.getAddress()%></p>
+                                </div>
+                                <p class="post-date"> <i class="bi bi-signpost"></i> Đăng <%= timeAgo%></p>
                             </a>
                             <div class="contact-info">
                                 <a href="Post?action=postDescription&postId=<%= list.getPostId()%>">
@@ -158,14 +152,14 @@
                                         <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%= list.getUserId()%>" alt="avatar">
                                         <% } else { %>  
                                         <img class="avatar" src="./images/default_user.svg" alt="avatar">
-                                        <% }%> <%= list.getUser().getFullname()%>
+                                        <% }%> <span class="color-font"><%= list.getUser().getFullname()%></span>
                                     </div>
                                 </a>
                                 <div class="contact-phone">
                                     <%
                                         if (user.getRole() == 3) {
                                     %>
-                                    <button class="btn btn-danger btn-sm" onclick="confirmDelete(<%= list.getPostId()%>)">Xóa</button>
+                                    <button class="delete" onclick="confirmDelete(<%= list.getPostId()%>)">Xóa</button>
                                     <%
                                         }
                                     %>
@@ -189,13 +183,13 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            Bạn có chắc chắn muốn xóa tài khoản này không?
+                                            Bạn có chắc chắn muốn xóa bài đăng này không?
                                         </div>
-                                        <div class="">
+                                        <div class="modal-button">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
                                             <form id="deletePostForm" method="post" action="Admin">
                                                 <input type="hidden" name="action" value="deletePost">
-                                                <input type="hidden" name="postId" id="deletePostId">
+                                                <input type="hidden" name="                                                                                                                    postId" id="deletePostId">
                                                 <button type="submit" class="btn btn-danger">Xóa</button>
                                             </form>
                                         </div>

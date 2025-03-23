@@ -23,20 +23,21 @@
             </div>
             <nav class="nav">
                 <ul class="post-navbar">
-                    <li id="itemClick3" class="nav-item add-click">
-                        <a class="nav-link active" href="accountManagement.jsp">Thông tin cá nhân</a>
+                    <li  class="nav-item" >
+                        <a class="nav-link click-effect" href="accountManagement.jsp"  >Thông tin cá nhân</a>
                     </li>
-                    <li id="itemClick4" class="nav-item add-click">
+                    <li  class="nav-item">
                         <a class="nav-link" href="changeEmail.jsp">Đổi email</a>
                     </li>
-                    <li id="itemClick5" class="nav-item add-click">
+                    <li  class="nav-item ">
                         <a class="nav-link" href="changePassword.jsp">Đổi mật khẩu</a>
                     </li>
-                    <li id="itemClick16" class="nav-item add-click">
+                    <li  class="nav-item ">
                         <a class="nav-link" href="changeInformation.jsp">Đổi thông tin cá nhân</a>
                     </li>
                 </ul>
             </nav>
         </div>
+        <script src="./js/effect.js"></script>
     </body>
 </html>

@@ -42,8 +42,8 @@
                     if (user.getUserId() != -1 && user.getRole() == 2) {
                 %>
                 <li>
-                    <a id="itemClick1" class="sidebar-item add-click" href="./post.jsp">
-                        <i class="bi bi-file-earmark-post"></i>Đăng tin mới
+                    <a  class="sidebar-item click-effect" href="./post.jsp">
+                        <i class="bi bi-file-earmark-post "></i>Đăng tin mới
                     </a>
                 </li>
                 <%
@@ -51,8 +51,8 @@
                     if (user.getUserId() != -1 && user.getRole() == 2) {
                 %>
                 <li>
-                    <a id="itemClick15" class="sidebar-item add-click" href="Post?action=listPosted&userId=<%= user.getUserId()%>">
-                        <i class="bi bi-archive"></i> Danh sách tin đăng
+                    <a  class="sidebar-item " href="Post?action=listPosted&userId=<%= user.getUserId()%>">
+                        <i class="bi bi-archive"></i> Danh sách đăng tin 
                     </a>
                 </li>
                 <%
@@ -60,7 +60,7 @@
                     if (user.getUserId() != -1 && (user.getRole() == 1 || user.getRole() == 2)) {
                 %>
                 <li>
-                    <a id="itemClick15" class="sidebar-item add-click" href="Post?action=uploadSavedPost&userId=<%= user.getUserId()%>">
+                    <a  class="sidebar-item " href="Post?action=uploadSavedPost&userId=<%= user.getUserId()%>">
                         <i class="bi bi-heart"></i> Tin đã lưu
                     </a>
                 </li>
@@ -68,17 +68,17 @@
                     }
                 %>
                 <li>
-                    <a id="itemClick2" class="sidebar-item add-click" href="./accountManagement.jsp">
+                    <a  class="sidebar-item " href="./accountManagement.jsp">
                         <i class="bi bi-person"></i> Quản lý tài khoản
                     </a>
                 </li>
                 <li>
-                    <a class="sidebar-item logout add-click" href="Logout">
+                    <a class="sidebar-item logout " href="Logout">
                         <i class="bi bi-box-arrow-in-right"></i> Đăng xuất
                     </a>
                 </li>
             </ul>
-            <div class="support-box add-click">
+            <div class="support-box ">
                 <a class="support-contact" href="https://zalo.me/0854453340" target="_blank">
                     <div>
                         <p class="support-label">Nhân viên hỗ trợ riêng của bạn:</p>
@@ -87,6 +87,6 @@
                 </a>
             </div>
         </aside>
-        <script src="./js/post.js"></script>
+        <script src="./js/effect.js"></script>
     </body>
 </html>
