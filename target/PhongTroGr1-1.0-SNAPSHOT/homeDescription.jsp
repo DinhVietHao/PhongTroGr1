@@ -85,9 +85,9 @@
 
                 <div class="listing">
                     <header class="listing-header">
-                        <h1 class="listing-title"><%= post.getTitle()%></h1>
+                        <h1 class="listing-title"><i class="bi bi-house-check"></i> <%= post.getTitle()%></h1>
                         <address class="listing-address">
-                            <i class="icon-location"></i>
+                            <i class="bi bi-geo-alt"></i>&nbsp; 
                             <%= post.getAddress()%>
                         </address>
                         <div class="listing-info">
@@ -109,11 +109,8 @@
                         </div>
                     </header>
                     <div class="description-container">
-                        <h2 class="description-title"><%= post.getDescription().replace("\n", "<br>")%></h2>
-                        <p>Cho thuê phòng cửa sổ tầng trệt</p>
-                        <p>Giờ tự do, cổng vân tay</p>
-                        <p>Gần ĐHCN, gần chợ Gò Vấp</p>
-                        <p>Số nhà 36 Thích Bửu Đăng, P1, Gò Vấp</p>
+                        <h2 class="description-title">Thông tin mô tả</h2>
+                        <p><%= post.getDescription().replace("\n", "<br>")%></p>
                         <p><strong>Liên hệ:</strong> <span class="contact-number"><%= post.getUser().getPhone()%></span></p>
                     </div>
                     <div class="featured">
@@ -198,7 +195,7 @@
                             <%}%>
                             <div class="contact-details">
                                 <div class="contact-name-status">
-                                    <div class="contact-name"><%= post.getUser().getFullname()%></div>
+                                    <div class="contact-name color-font"><%= post.getUser().getFullname()%></div>
                                     <div class="contact-status">
                                         <i class="status-indicator"></i>
                                         <span>Đang hoạt động</span>
@@ -216,12 +213,12 @@
                                         <i class="bi bi-chat-dots"></i>&nbsp;Nhắn Zalo
                                     </a>
                                 </div>
-                                <button class="secondary-button">
+<!--                                <button class="secondary-button">
                                     <i class="bi bi-share"></i>&nbsp; Chia sẻ
                                 </button>
                                 <button class="secondary-button">
                                     <i class="bi bi-exclamation-triangle"></i>&nbsp; Báo xấu
-                                </button>
+                                </button>-->
                                 <%
                                     if (user.getRole() == 3 && post.getStatus().equalsIgnoreCase("Chưa duyệt")) {
                                 %>
@@ -250,7 +247,7 @@
                             <div class="modal-body">
                                 Bạn có chắc chắn muốn <strong>duyệt</strong> bài đăng này không?
                             </div>
-                            <div class="">
+                            <div class="modal-button">
                                 <form id="approveForm" method="POST" action="Admin">
                                     <input type="hidden" name="action" value="acceptPost">
                                     <input type="hidden" id="acceptPost" name="postId">
@@ -273,7 +270,7 @@
                             <div class="modal-body">
                                 Bạn có chắc chắn muốn <strong>từ chối</strong> bài đăng này không?
                             </div>
-                            <div class="">
+                            <div class="modal-button">
                                 <form id="rejectForm" method="POST" action="Admin">
                                     <input type="hidden" name="action" value="rejectPost">
                                     <input type="hidden" id="rejectPostId" name="postId">

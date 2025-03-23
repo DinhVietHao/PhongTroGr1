@@ -93,7 +93,7 @@
 
                     <div class="header-manager">
                         <a href="Post?action=listPosted&userId=<%= user.getUserId()%>">
-                            <img src="./images/bi-folder.svg" alt="folder"> Quản lý bài đăng
+                            <img src="./images/bi-folder.svg" alt="folder"> Quản lý
                         </a>
                     </div>
                     <%
@@ -178,7 +178,7 @@
                                 for (Category c : listCategory) {
                                     j++;
                         %>
-                        <label value="<%= c.getCatName()%>" <%= (j == 1) ? "class=\"selected\"" : ""%>><input type="radio" name="category" value="<%= c.getCatName()%>" <%= (j == 1) ? "checked" : ""%>><%= c.getCatName()%></label>
+                        <label  value="<%= c.getCatName()%>" <%= (j == 1) ? "class=\"selected\"" : ""%>><input type="radio" name="category" value="<%= c.getCatName()%>" <%= (j == 1) ? "checked" : ""%>><%= c.getCatName()%></label>
                             <%
                                     }
                                 }

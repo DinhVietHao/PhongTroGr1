@@ -74,7 +74,7 @@ public class PostServlet extends HttpServlet {
                 List<Post> listPostNotApproved = postDao.getListPostNotApprovedByUserId(userId);
                 request.setAttribute("listPostAccept", listPostAccept);
                 request.setAttribute("listPostNotApproved", listPostNotApproved);
-                request.getRequestDispatcher("listPost.jsp").forward(request, response);
+                request.getRequestDispatcher("approvedList.jsp").forward(request, response);
             } catch (ServletException | IOException | NumberFormatException e) {
                 System.out.println(e.getMessage());
             }
