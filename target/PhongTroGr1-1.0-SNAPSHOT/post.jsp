@@ -16,20 +16,20 @@
         <main class="post-header">
             <div class="post-sticky">
                 <div class="post">
-                    <h1 class="fs-3 fw-semibold text-nowrap mb-1">Đăng tin cho thuê</h1>
+                    <h1 class="fs-3 fw-semibold text-nowrap mb-1">Đăng tin</h1>
                 </div>
                 <nav class="nav">
-                    <ul class="post-navbar">
-                        <li class="nav-item add-click">
-                            <a class="nav-link active" href="#post-category">Khu vực</a>
+                    <ul class="post-navbar ">
+                        <li class="nav-item ">
+                            <a class="nav-link active click-effect" href="#post-category">Khu vực</a>
                         </li>
-                        <li class="nav-item add-click">
+                        <li class="nav-item">
                             <a class="nav-link" href="#post-info">Thông tin mô tả</a>
                         </li>
-                        <li class="nav-item add-click">
+                        <li class="nav-item">
                             <a class="nav-link" href="#post-image">Hình ảnh</a>
                         </li>
-                        <li class="nav-item add-click">
+                        <li class="nav-item">
                             <a class="nav-link" href="#post-contact">Thông tin liên hệ</a>
                         </li>
                     </ul>
@@ -292,6 +292,6 @@
                 </div>
             </div>
         </main>
-        <script src="./js/effectClick.js"></script>      
+        <script src="./js/effect.js"></script>      
     </body>
 </html>

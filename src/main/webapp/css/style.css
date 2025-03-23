@@ -80,8 +80,8 @@ a {
 }
 
 .avatar {
-    width: 35px;
-    height: 35px;
+    width: 37px;
+    height: 37px;
     border: 1px solid #ddd;
     border-radius: 50%;
     padding: .2rem;
@@ -147,14 +147,11 @@ a {
     margin: 0px 100px;
 }
 .menu-content {
-
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    padding: 10px 0px;
     margin: 0px;
     font-size: 13px;
-
 }
 .menu-content a {
     color: #000;
@@ -171,6 +168,12 @@ li {
 
 /*End Code Heeader*/
 
+/*Active title*/
+.active-title {
+    border-bottom: 2px solid #ff0000;
+    color: #ff0000;
+}
+/*End Active title*/
 /*Code Login AND Register*/
 .main {
     background-color: #FDF5ED;
@@ -357,14 +360,14 @@ label {
 }
 
 .title {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 5px;
+    font-size: 27px;
+    font-weight: 700;
+    margin-bottom: 10px;
 }
 
 .subtitle {
     font-size: 14px;
-    color: #666;
+    color: #000;
     margin: 0;
 }
 
@@ -543,28 +546,37 @@ label {
     margin-right: 3px;
 }
 .card-title {
-    font-size: 40px;
-    font-weight: 400;
-    margin: 0 0 8px;
-    color: red;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #e74c3c; /* Màu đỏ nhẹ hơn */
+    text-shadow: 2px 2px 5px rgba(231, 76, 60, 0.3);
 }
 .card-info {
     display: flex;
-    gap: 10px;
-    font-weight: 400;
-    font-size: 17px;
+    gap: 15px;
+    font-weight: 500;
+    font-size: 18px;
+    color: #2c3e50;
+    margin: 0px;
+
 }
 .card-price {
-    font-size: 1.2rem;
+    font-size: 18px;
     color: #27ae60;
     margin-bottom: 8px;
+    font-weight: 600;
 }
 
-.card-details {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 16px;
+.post-date {
+    font-size: 16px;
+    color: #000; /* Màu xám nhẹ */
+
+    margin-top: 5px;
+    display: block;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
+
 
 .contact-info {
     display: flex;
@@ -574,6 +586,15 @@ label {
 
 .contact-info .phone {
     background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.contact-info .delete {
+    background-color: #ff0000;
     color: white;
     border: none;
     border-radius: 4px;
@@ -706,73 +727,6 @@ label {
 /*End Code zoom Images */
 /*ENd Code Main Home title */
 /*End Code Main Home*/
-
-/*Bo loc
-#filterModal {
-    display: none;
-     other styles 
-}
-
-#filterModal.show {
-    display: block;
-     other styles to make the modal visible 
-}
-.table-filler {
-    top: 100px;
-    right: 26%;
-}
-.btn-filter {
-    border-radius: 50px;
-    padding: 21px 60px;
-    background-color: white;
-    border: 1px solid #dee2e6;
-    margin-right: 8px;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.btn-filter.active {
-    border: 1px solid #dc3545;
-    position: relative;
-}
-
-.filter-icon {
-    margin-right: 6px;
-    font-size: 1.1rem;
-}
-
-.active-marker {
-    position: absolute;
-    top: -10px;
-    right: -5px;
-    background-color: #dc3545;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 0.7rem;
-}
-
-.apply-button {
-    background-color: #dc3545;
-    color: white;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 1rem;
-    margin-top: 20px;
-}
-.apply-button:hover {
-    background: #b80d46;
-}
-END Bo Loc*/
 
 
 
@@ -968,7 +922,7 @@ input[type=number] {
     text-decoration: none;
     color: #333;
     border-top: 1px solid #000;
-    margin-top: 60px;
+    margin-top: 50px;
 }
 
 .support-label {
@@ -987,6 +941,7 @@ input[type=number] {
 .post-header {
     margin-left: 260px;
     background-color : #F4F4F4;
+    height: 100vh;
 }
 
 
@@ -1278,11 +1233,18 @@ textarea {
 
 /* CLICK- EFEECT */
 .click-effect {
-    color: #110dff;
-    font-weight: bold;
-    text-shadow: 0px 1px 7px hsl(169, 100%, 37%);
-    background: url(../images/effect-1.gif);
+    color: #110dff !important;
+    font-weight: bold !important;
+    text-shadow: 0px 1px 7px hsl(169, 100%, 37%) !important;
+    background: url(../images/effect-1.gif) !important;
 }
+.click-effect2 {
+    color: #110dff !important;
+    font-weight: bold !important;
+    text-shadow: 0px 1px 7px hsl(169, 100%, 37%) !important;
+    background: url(../images/effect-1.gif) !important;
+}
+
 /*END CLICK- EFEECT */
 
 /* ACOUNT MANAGEMENT */
@@ -1333,15 +1295,18 @@ textarea {
 
 /*ACTIVE EFFECT*/
 .active-effect {
-    border-bottom: 2px solid #007bff;
-    color: #007bff;
+    color: #ff0d9e;
+    font-weight: bold;
+    text-shadow: 0px 1px 7px hsl(302, 100%, 37%);
+    background: url(../images/effect-1.gif);
+}
+.main-content .layout-filter .active {
+    border-bottom: 2px solid #ff0000;
+    color: #ff0000;
 }
 /*END ACTIVE EFFECT*/
 /*SAVED POST*/
-.saved-main {
-    margin: 0 400px;
-    max-width: 1000px
-}
+
 .saved-title {
     font-size: 20px;
     font-weight: 600;
@@ -1394,14 +1359,14 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 25px; /* Increased padding */
+    padding: 20px 25px;
     border-bottom: 1px solid #dee2e6;
-    background-color: #f8f9fa; /* Light background for header */
+    background-color: #f8f9fa;
 }
 
 .modal-title {
     margin: 0;
-    font-size: 1.4rem; /* Larger font size */
+    font-size: 1.4rem;
     font-weight: 600;
 }
 
@@ -1411,9 +1376,16 @@ textarea {
 }
 
 .modal-body {
-    padding: 25px; /* Increased padding */
-    max-height: 70vh; /* Increased height */
+    max-height: 70vh;
     overflow-y: auto;
+}
+
+.modal-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
 }
 
 .list-group-item {
@@ -2032,6 +2004,7 @@ textarea {
     gap: 15px;
     max-width: 800px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
 }
 
 .saved-post img {

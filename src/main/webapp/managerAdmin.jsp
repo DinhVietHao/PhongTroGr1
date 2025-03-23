@@ -153,12 +153,12 @@
                             <td><%= post.getTitle()%></td>
                             <td><span class="description" data-description="<%= post.getDescription()%>">Xem mô tả</span></td>
                             <%!
-                                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
-                                %>
-                                <%
-                                    DecimalFormat df = new DecimalFormat("#,###");
-                                    String formattedPrice = df.format(post.getPrice()) + " Vnd/tháng";
-                                %>
+                                NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                            %>
+                            <%
+                                DecimalFormat df = new DecimalFormat("#,###");
+                                String formattedPrice = df.format(post.getPrice()) + " Vnd/tháng";
+                            %>
                             <td><%= formattedPrice%></td>
                             <td><%= post.getPostType().getCatName()%></td>
                             <td><a href="Post?action=postDescription&postId=<%= post.getPostId()%>">Xem chi tiết bài đăng</a></td>
@@ -288,7 +288,7 @@
                     <div class="modal-body">
                         Bạn có chắc chắn muốn xóa tài khoản này không?
                     </div>
-                    <div class="">
+                    <div class="modal-button">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
                         <form id="deleteUserForm" method="post" action="Admin">
                             <input type="hidden" name="action" value="deleteUser">
@@ -300,15 +300,13 @@
             </div>
         </div>
 
-        <!-- Modal cho mô tả sản phẩm (hiện/ẩn) -->
-        <div class="modal-overlay" id="modalOverlay">
+        <div class="describe" id="modalOverlay">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Chi tiết mô tả sản phẩm</h5>
+                    <h5 class="modal-title">Thông tin mô tả nhà trọ</h5>
                     <button class="close-modal" id="closeModal">&times;</button>
                 </div>
                 <div class="modal-body" id="modalBody">
-                    <!-- Nội dung mô tả sẽ được hiển thị ở đây -->
                 </div>
             </div>
         </div>
