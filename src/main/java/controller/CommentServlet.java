@@ -49,7 +49,10 @@ public class CommentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String action = request.getParameter("action");
+        if (action == null) {
+            response.sendRedirect("Home");
+        }
     }
 
     @Override

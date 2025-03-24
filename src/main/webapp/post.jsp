@@ -42,7 +42,7 @@
 
             <div class="post-container">
                 <div class="post-content">
-                    <form id="post-from" class="post-from" method="POST" action="Post" enctype="multipart/form-data">
+                    <form id="post-from" class="post-from" method="POST" action="Post?action=uploadPost" enctype="multipart/form-data">
                         <input type="hidden" name="userId" value="<%= user.getUserId()%>">
                         <input type="hidden" name="user" value="<%= user%>">
                         <div class="post-category" id="post-category">

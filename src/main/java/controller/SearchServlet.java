@@ -65,6 +65,11 @@ public class SearchServlet extends HttpServlet {
         }
 
         String txtSearch = request.getParameter("txt");
+        if (txtSearch == null) {
+            response.sendRedirect("Home");
+            return;
+        }
+        
         List<Post> list = postDao.selectPostAll();
         PrintWriter out = response.getWriter();
 

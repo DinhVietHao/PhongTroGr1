@@ -30,17 +30,13 @@ public class ImageHandlerServlet extends HttpServlet {
         String action = request.getParameter("action");
         
         if (action == null) {
-            action = "list";
+            response.sendRedirect("Home");
+            return;
         }
         
         if (action.equalsIgnoreCase("display")) {
             ImageHandler.displayImage(request, response);
-        } else if (action.equalsIgnoreCase("list")) {
-            ImageDAO upload = new ImageDAO();
-            ArrayList<Image> allImages = upload.getAllImage(); // Lấy danh sách ảnh
-            request.setAttribute("list", allImages);
-            request.getRequestDispatcher("showImage.jsp").forward(request, response);
-        }else if(action.equalsIgnoreCase("displayAvatar")){
+        } else if(action.equalsIgnoreCase("displayAvatar")){
             ImageHandler.displayAvatar(request, response);
         }
     }
