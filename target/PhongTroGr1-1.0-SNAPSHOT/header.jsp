@@ -240,6 +240,8 @@
                 <button type="button" onclick="applyFilter()" class="apply-button">Áp dụng</button>
             </form>
         </div>
+                    
+        
         <script>
             function searchByKey(input) {
                 var txtSearch = input.value;

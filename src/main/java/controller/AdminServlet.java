@@ -41,7 +41,7 @@ public class AdminServlet extends HttpServlet {
             request.setAttribute("lunapprovedList", lunapprovedList);
             request.setAttribute("listAllUserViewer", listAllUserViewer);
             request.setAttribute("listAllUserOwner", listAllUserOwner);
-            request.getRequestDispatcher("managerAdmin.jsp").forward(request, response);
+            request.getRequestDispatcher("admin.jsp").forward(request, response);
         }
     }
 

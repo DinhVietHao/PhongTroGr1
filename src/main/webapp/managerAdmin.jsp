@@ -107,6 +107,7 @@
                     </tbody>
                 </table>
             </div>
+            
             <div id="danh-sach-bai-chua-duyet-table" class="post" style="display:none;">
                 <h1 class="fs-3 fw-semibold text-nowrap mb-1">
                     Danh Sách Bài Chưa Duyệt
@@ -171,6 +172,8 @@
                 <p class="text-center mt-3 text-muted">Không có bài đăng nào cần duyệt.</p>
                 <% }%>
             </div>
+            
+            
             <div id="quan-ly-tai-khoan-table" class="post" style="display:none;">
                 <h1 class="fs-3 fw-semibold text-nowrap mb-1">Quản lý Tài Khoản</h1>
                 <table class="table table-bordered table-hover mt-3">
@@ -278,6 +281,8 @@
                 </table>
             </div>
         </main>
+                
+                
         <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

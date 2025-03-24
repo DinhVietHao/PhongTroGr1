@@ -224,6 +224,29 @@
                 </div>
             </main>
         </div>
+                
+        <!--SUPPORT-->         
+        <button class="btn support-button " type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="bi bi-chat-dots-fill"></i></button>
+
+        <div class="support">
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasRightLabel">Hỗ trợ chủ nhà đăng tin</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body text-center">
+                    <img src="./images/contact2.jpg" alt="Support" class="mx-auto mb-4">
+                    <p class="text-gray-600 text-sm">Nếu bạn cần hỗ trợ đăng tin, vui lòng liên hệ số điện thoại bên dưới:
+                    </p>
+                    <div class="mt-4 space-y-2">
+                        <a href="tel:0854453340" class="d-block btn btn-danger mb-3">📞 ĐT: 0854453340</a>
+                        <a href="https://zalo.me/0854453340" class="d-block btn btn-info mb-3">💬 Zalo: 0854453340</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <%@include file="footer.jsp" %>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
