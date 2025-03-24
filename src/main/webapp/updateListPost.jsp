@@ -10,6 +10,10 @@
 <!DOCTYPE html>
 <%
     Post post = (Post) request.getAttribute("post");
+    if (post == null) {
+        response.sendRedirect("Home");
+        return;
+    }
 %>
 <html>
     <head>

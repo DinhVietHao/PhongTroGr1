@@ -18,6 +18,10 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
+        <%if (user.getEmail() == null) {
+                response.sendRedirect("Home");
+                return;
+            }%>
         <div class="card shadow p-4 card-forgot-password" style="width: 500px;">
             <h4 class="text-center mb-3 text-danger">Mã Xác Thực</h4>
             <p class="text-muted text-center">Mã xác thực đã được gửi về: <strong><%= user.getEmail()%></strong> </p>

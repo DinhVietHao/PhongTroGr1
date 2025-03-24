@@ -6,6 +6,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
+    if (request.getAttribute("list") == null) {
+        response.sendRedirect("Home");
+        return;
+    }
     List<Post> list = (List<Post>) request.getAttribute("list");
 %>
 <html>
