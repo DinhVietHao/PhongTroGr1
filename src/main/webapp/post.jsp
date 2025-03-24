@@ -12,6 +12,10 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
+        <%if (user.getUserId() == -1 || (user.getRole() != 2 && user.getRole() != 3)) {
+                response.sendRedirect("Home");
+                return;
+            }%>
         <%@include file="sidebar.jsp" %>
         <main class="post-header">
             <div class="post-sticky">
