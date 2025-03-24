@@ -13,7 +13,6 @@
 <!DOCTYPE html>
 <%
     List<Post> listPostAccept = (List) request.getAttribute("listPostAccept");
-    List<Post> listPostNotApproved = (List) request.getAttribute("listPostNotApproved");
 %>
 <html>
     <head>
@@ -31,15 +30,10 @@
         <%@include file="sidebar.jsp" %>
         <main class="post-header">
             <%@include file="listPost.jsp" %>
-            <% if ((listPostAccept == null || listPostAccept.isEmpty()) && (listPostNotApproved == null || listPostNotApproved.isEmpty())) { %>
-            <p>Bạn chưa đăng bài nào, hãy đăng bài để thấy bài đăng của bạn.</p>
-            <%} else {
-            %>
             <%!
                 NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
             %>
-            <%
-                if (listPostAccept == null || listPostAccept.isEmpty()) {
+            <%                if (listPostAccept == null || listPostAccept.isEmpty()) {
             %>
             <p>Bài đăng đang được duyệt, chờ admin duyệt nhé.</p>
             <%
@@ -92,7 +86,6 @@
             </table>
         </div>
         <%
-                }
             }
         %>
     </main>

@@ -71,9 +71,7 @@ public class PostServlet extends HttpServlet {
             try {
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 List<Post> listPostAccept = postDao.getListPostAccpetByUserId(userId);
-                List<Post> listPostNotApproved = postDao.getListPostNotApprovedByUserId(userId);
                 request.setAttribute("listPostAccept", listPostAccept);
-                request.setAttribute("listPostNotApproved", listPostNotApproved);
                 request.getRequestDispatcher("approvedList.jsp").forward(request, response);
             } catch (ServletException | IOException | NumberFormatException e) {
                 System.out.println(e.getMessage());
@@ -108,6 +106,24 @@ public class PostServlet extends HttpServlet {
                 request.setAttribute("list", listReview);
                 request.setAttribute("countPost", countPost);
                 request.getRequestDispatcher("homeDescription.jsp").forward(request, response);
+            } catch (ServletException | IOException | NumberFormatException e) {
+                System.out.println(e.getMessage());
+            }
+        } else if (action.equalsIgnoreCase("approvedList")) {
+            try {
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                List<Post> listPostAccept = postDao.getListPostAccpetByUserId(userId);
+                request.setAttribute("listPostAccept", listPostAccept);
+                request.getRequestDispatcher("approvedList.jsp").forward(request, response);
+            } catch (ServletException | IOException | NumberFormatException e) {
+                System.out.println(e.getMessage());
+            }
+        } else if (action.equalsIgnoreCase("pendingList")) {
+            try {
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                List<Post> listNotApproved = postDao.getListPostNotApprovedByUserId(userId);
+                request.setAttribute("listNotApproved", listNotApproved);
+                request.getRequestDispatcher("pendingList.jsp").forward(request, response);
             } catch (ServletException | IOException | NumberFormatException e) {
                 System.out.println(e.getMessage());
             }
@@ -149,15 +165,19 @@ public class PostServlet extends HttpServlet {
                 String priceStr = request.getParameter("price");
                 String areaStr = request.getParameter("area");
                 String roomCountStr = request.getParameter("roomCount");
-
+                String[] selectedUtilities = request.getParameterValues("Utilities");
                 int catId = Integer.parseInt(catIdStr);
                 double price = Double.parseDouble(priceStr);
                 double area = Double.parseDouble(areaStr);
                 int roomCount = Integer.parseInt(roomCountStr);
                 String city = "Cần Thơ";
                 String status = "Chưa duyệt";
-
-                // Xử lý file ảnh
+                String utilitiesString = ""; 
+                if (selectedUtilities != null) {
+                    utilitiesString = String.join(",", selectedUtilities);
+                } else {
+                    System.out.println("Không có tiện ích nào được chọn!");
+                }
                 Collection<Part> fileParts = request.getParts();
                 List<InputStream> imageStreams = new ArrayList<>();
                 try {
@@ -172,13 +192,11 @@ public class PostServlet extends HttpServlet {
                     return;
                 }
 
-                // Tạo đối tượng Post
                 Category postType = postDao.selectCategoryById(catId);
                 User user = postDao.getUserById(userId);
                 Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-                Post post = new Post(postId, userId, catId, title, description, price, address, city, district, ward, area, roomCount, postType, status, user, null, currentTime, currentTime);
+                Post post = new Post(postId, userId, catId, title, description, price, address, city, district, ward, area, roomCount, utilitiesString, postType, status, user, null, currentTime, currentTime);
 
-                // Lưu vào database
                 if (postDao.createPost(post, imageStreams)) {
                     request.getSession().setAttribute("Messages", "Bài của bạn được gửi lên hệ thống, chờ admin duyệt nhé!");
                     response.sendRedirect("Home");

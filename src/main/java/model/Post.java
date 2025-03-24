@@ -25,6 +25,7 @@ public class Post {
     private String ward;
     private double area;
     private int roomCount;
+    private String utilities;
     private Category postType;
     private String status;
     private User user;
@@ -36,6 +37,30 @@ public class Post {
     public Post() {
         this.savedStatus = false;
     }
+
+    public Post(int postId, int userId, int catId, String title, String description, double price, String address, String city, String district, String ward, double area, int roomCount, String utilities, Category postType, String status, User user, List<Image> images, Timestamp created_at, Timestamp updaited_at) {
+        this.postId = postId;
+        this.userId = userId;
+        this.catId = catId;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.address = address;
+        this.city = city;
+        this.district = district;
+        this.ward = ward;
+        this.area = area;
+        this.roomCount = roomCount;
+        this.utilities = utilities;
+        this.postType = postType;
+        this.status = status;
+        this.user = user;
+        this.images = images;
+        this.created_at = created_at;
+        this.updaited_at = updaited_at;
+    }
+
+    
 
     public Post(int postId, int userId, int catId, String title, String description, double price, String address, String city, String district, String ward, double area, int roomCount, Category postType, String status, User user, List<Image> images, Timestamp created_at, Timestamp updated_at) {
         this.postId = postId;
@@ -129,6 +154,14 @@ public class Post {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getUtilities() {
+        return utilities;
+    }
+
+    public void setUtilities(String utilities) {
+        this.utilities = utilities;
     }
 
     public String getCity() {
