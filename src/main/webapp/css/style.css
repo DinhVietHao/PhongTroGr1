@@ -2058,7 +2058,7 @@ textarea {
 }
 
 .admin-sidebar {
-    position: fixed;
+    position: sticky;
     left: 0;
     top: 0;
     width: 250px;
@@ -2121,10 +2121,9 @@ textarea {
 }
 
 .admin-header .header {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 250px;
-    width: calc(100% - 250px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2166,10 +2165,11 @@ textarea {
     margin-left: 30px;
 }
 .admin-post {
-    margin-left: 250px;
-    margin-top: 100px;
     padding: 20px;
 
+}
+.admin-aler {
+    margin-bottom: 0px;
 }
 
 /*END ADMIN*/
