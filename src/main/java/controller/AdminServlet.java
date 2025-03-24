@@ -46,7 +46,7 @@ public class AdminServlet extends HttpServlet {
             request.setAttribute("lunapprovedList", lunapprovedList);
             request.setAttribute("listAllUserViewer", listAllUserViewer);
             request.setAttribute("listAllUserOwner", listAllUserOwner);
-            request.getRequestDispatcher("managerAdmin.jsp").forward(request, response);
+            request.getRequestDispatcher("admin.jsp").forward(request, response);
         }
     }
 
@@ -120,6 +120,7 @@ public class AdminServlet extends HttpServlet {
                 Post post = postDao.getPostByPostId(postId);
                 User user = userDao.selectUserById(post.getUserId());
                 if (dao.deletePostByPostId(postId)) {
+                    Email.sendEmail(user.getEmail(), "[PhongTroGr1] Bài đăng của bạn đã bị xóa", mail.getRejectionContent(user, post.getTitle()));
                     request.getSession().setAttribute("Messages", "Đã xóa bài đăng");
                     response.sendRedirect("Home");
                 } else {

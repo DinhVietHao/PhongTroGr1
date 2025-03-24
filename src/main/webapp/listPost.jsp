@@ -3,6 +3,7 @@
     Created on : Mar 15, 2025, 2:40:24 PM
     Author     : Admin
 --%>
+<%@page import="model.User"%>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
@@ -10,7 +11,6 @@
 <%@page import="model.Post"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -24,10 +24,10 @@
             <nav class="nav">
                 <ul class="post-navbar ">
                     <li class="nav-item ">
-                        <a class="nav-link active click-effect" href="approvedList.jsp">Tin đã duyệt</a>
+                        <a class="nav-link active click-effect" href="Post?action=approvedList&userId=<%=user.getUserId()%>">Tin đã duyệt</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pendingList.jsp">Tin đã chưa duyệt</a>
+                        <a class="nav-link" href="Post?action=pendingList&userId=<%=user.getUserId()%>">Tin đã chưa duyệt</a>
                     </li>
                 </ul>
             </nav>

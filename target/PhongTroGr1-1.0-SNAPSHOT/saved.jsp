@@ -45,6 +45,7 @@
                         <img src="<%= imageUrl%>" alt="Hình ảnh tin đã lưu">
                     </div>
                     <div class="saved-post-content">
+                        <a href="Post?action=postDescription&postId=<%= post.getPostId()%>">
                         <h3><%= post.getTitle()%></h3>
                                     <%!
                                         NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
@@ -56,6 +57,7 @@
                                     <p class="card-price"><%= formattedPrice%></p>
                         <p class="location"><%= location%></p>
                         <p class="description"><%= post.getDescription()%></p>
+                        </a>
                         <div onclick="deleteSavedPost(<%= post.getPostId()%>)" class="heart float-end">
                             <img src="./images/bi-heart-fill.svg" alt="Xóa khỏi danh sách yêu thích">
                         </div>

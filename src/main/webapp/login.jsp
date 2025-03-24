@@ -18,7 +18,6 @@
     </head>
     <body>
         <jsp:include page="header.jsp"/>
-        <%--<%@include file="header.jsp" %>--%>
         <main class="main">
             <div class="center">
                 <div class="center-box">
