@@ -142,7 +142,6 @@ public class PostDAO extends DBContext {
                         rs.getString("Address"),
                         rs.getString("City"),
                         rs.getString("District"),
-                        rs.getString("Ward"),
                         rs.getDouble("Area"),
                         rs.getInt("Room_count"),
                         selectCategoryById(rs.getInt("Category_id")),
@@ -176,7 +175,6 @@ public class PostDAO extends DBContext {
                         rs.getString("Address"),
                         rs.getString("City"),
                         rs.getString("District"),
-                        rs.getString("Ward"),
                         rs.getDouble("Area"),
                         rs.getInt("Room_count"),
                         selectCategoryById(rs.getInt("Category_id")),
@@ -243,8 +241,10 @@ public class PostDAO extends DBContext {
                             rs.getInt("Role"),
                             rs.getString("AuthenticationCode"),
                             rs.getTimestamp("ExpirationTime"),
-                            rs.getBoolean("VerificationStatus")
+                            rs.getBoolean("VerificationStatus"),
+                            rs.getBytes("Avatar")
                     );
+                    
                 }
             }
         } catch (SQLException e) {
@@ -271,7 +271,6 @@ public class PostDAO extends DBContext {
                         rs.getString("Address"),
                         rs.getString("City"),
                         rs.getString("District"),
-                        rs.getString("Ward"),
                         rs.getDouble("Area"),
                         rs.getInt("Room_count"),
                         selectCategoryById(rs.getInt("Category_id")),
@@ -307,7 +306,6 @@ public class PostDAO extends DBContext {
                         rs.getString("Address"),
                         rs.getString("City"),
                         rs.getString("District"),
-                        rs.getString("Ward"),
                         rs.getDouble("Area"),
                         rs.getInt("Room_count"),
                         selectCategoryById(rs.getInt("Category_id")),
@@ -342,7 +340,6 @@ public class PostDAO extends DBContext {
                         rs.getString("Address"),
                         rs.getString("City"),
                         rs.getString("District"),
-                        rs.getString("Ward"),
                         rs.getDouble("Area"),
                         rs.getInt("Room_count"),
                         rs.getString("Utilities"),
@@ -361,8 +358,8 @@ public class PostDAO extends DBContext {
     }
 
     public boolean createPost(Post post, List<InputStream> images) throws IOException {
-        String sqlPost = "INSERT INTO Posts (User_id, Category_id, Title, Description, Price, Address, City, District, Ward, Area, Room_count, Utilities, Post_type, Status, Created_at, Updated_at) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlPost = "INSERT INTO Posts (User_id, Category_id, Title, Description, Price, Address, City, District, Area, Room_count, Utilities, Post_type, Status, Created_at, Updated_at) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         if (conn == null) {
             System.out.println("Lỗi: Kết nối đến cơ sở dữ liệu bị mất!");
@@ -378,14 +375,13 @@ public class PostDAO extends DBContext {
             ps.setString(6, post.getAddress());
             ps.setString(7, post.getCity());
             ps.setString(8, post.getDistrict());
-            ps.setString(9, post.getWard());
-            ps.setDouble(10, post.getArea());
-            ps.setInt(11, post.getRoomCount());
-            ps.setString(12, post.getUtilities());
-            ps.setString(13, post.getPostType().getCatName());
-            ps.setString(14, post.getStatus());
-            ps.setTimestamp(15, post.getCreated_at());
-            ps.setTimestamp(16, post.getUpdaited_at());
+            ps.setDouble(9, post.getArea());
+            ps.setInt(10, post.getRoomCount());
+            ps.setString(11, post.getUtilities());
+            ps.setString(12, post.getPostType().getCatName());
+            ps.setString(13, post.getStatus());
+            ps.setTimestamp(14, post.getCreated_at());
+            ps.setTimestamp(15, post.getUpdaited_at());
             int affectedRows = ps.executeUpdate();
 
             if (affectedRows == 0) {
@@ -447,20 +443,19 @@ public class PostDAO extends DBContext {
     }
 
     public boolean updatePost(Post post, List<InputStream> images) throws IOException {
-        String sqlPost = "UPDATE Posts SET Category_id = ?, District = ?, Ward = ?, Address = ?, Title = ?, Description = ?, Price = ?, Area = ?, Room_count = ?, Updated_at = ? WHERE Post_id = ?";
+        String sqlPost = "UPDATE Posts SET Category_id = ?, District = ?, Address = ?, Title = ?, Description = ?, Price = ?, Area = ?, Room_count = ?, Updated_at = ? WHERE Post_id = ?";
 
         try ( PreparedStatement ps = conn.prepareStatement(sqlPost)) {
             ps.setInt(1, post.getCatId());
             ps.setString(2, post.getDistrict());
-            ps.setString(3, post.getWard());
-            ps.setString(4, post.getAddress());
-            ps.setString(5, post.getTitle());
-            ps.setString(6, post.getDescription());
-            ps.setDouble(7, post.getPrice());
-            ps.setDouble(8, post.getArea());
-            ps.setInt(9, post.getRoomCount());
-            ps.setTimestamp(10, post.getUpdaited_at());
-            ps.setInt(11, post.getPostId());
+            ps.setString(3, post.getAddress());
+            ps.setString(4, post.getTitle());
+            ps.setString(5, post.getDescription());
+            ps.setDouble(6, post.getPrice());
+            ps.setDouble(7, post.getArea());
+            ps.setInt(8, post.getRoomCount());
+            ps.setTimestamp(9, post.getUpdaited_at());
+            ps.setInt(10, post.getPostId());
 
             int affectedRows = ps.executeUpdate();
 
@@ -514,7 +509,6 @@ public class PostDAO extends DBContext {
                         rs.getString("Address"),
                         rs.getString("City"),
                         rs.getString("District"),
-                        rs.getString("Ward"),
                         rs.getDouble("Area"),
                         rs.getInt("Room_count"),
                         selectCategoryById(rs.getInt("Category_id")),
@@ -597,7 +591,6 @@ public class PostDAO extends DBContext {
                         rs.getString("Address"),
                         rs.getString("City"),
                         rs.getString("District"),
-                        rs.getString("Ward"),
                         rs.getDouble("Area"),
                         rs.getInt("Room_count"),
                         selectCategoryById(rs.getInt("Category_id")),
@@ -705,7 +698,6 @@ public class PostDAO extends DBContext {
                         rs.getString("Address"),
                         rs.getString("City"),
                         rs.getString("District"),
-                        rs.getString("Ward"),
                         rs.getDouble("Area"),
                         rs.getInt("Room_count"),
                         selectCategoryById(rs.getInt("Category_id")),

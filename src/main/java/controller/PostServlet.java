@@ -161,7 +161,6 @@ public class PostServlet extends HttpServlet {
                 // Lấy dữ liệu từ form và kiểm tra dữ liệu nhập vào
                 String catIdStr = request.getParameter("loai_chuyen_muc");
                 String district = request.getParameter("district");
-                String ward = request.getParameter("ward");
                 String address = request.getParameter("address");
                 String title = request.getParameter("title");
                 String description = request.getParameter("description");
@@ -198,7 +197,7 @@ public class PostServlet extends HttpServlet {
                 Category postType = postDao.selectCategoryById(catId);
                 User user = postDao.getUserById(userId);
                 Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-                Post post = new Post(postId, userId, catId, title, description, price, address, city, district, ward, area, roomCount, utilitiesString, postType, status, user, null, currentTime, currentTime);
+                Post post = new Post(postId, userId, catId, title, description, price, address, city, district, area, roomCount, utilitiesString, postType, status, user, null, currentTime, currentTime);
 
                 if (postDao.createPost(post, imageStreams)) {
                     request.getSession().setAttribute("Messages", "Bài của bạn được gửi lên hệ thống, chờ admin duyệt nhé!");
@@ -228,7 +227,6 @@ public class PostServlet extends HttpServlet {
 
                 String catIdStr = request.getParameter("loai_chuyen_muc");
                 String district = request.getParameter("district");
-                String ward = request.getParameter("ward");
                 String address = request.getParameter("address");
                 String title = request.getParameter("title");
                 String description = request.getParameter("description");
@@ -268,7 +266,7 @@ public class PostServlet extends HttpServlet {
                 Category postType = postDao.selectCategoryById(catId);
                 Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
-                Post post = new Post(postId, catId, title, description, price, address, city, district, ward, area, roomCount, postType, status, currentTime);
+                Post post = new Post(postId, catId, title, description, price, address, city, district, area, roomCount, postType, status, currentTime);
 
                 if (postDao.updatePost(post, imageStreams)) {
                     response.sendRedirect("Post?action=listPosted&userId=" + userId);
@@ -327,7 +325,7 @@ public class PostServlet extends HttpServlet {
                 for (Post p : listSavedPost) {
                     String imageUrl = p.getImages().isEmpty() ? "./images/default-image.jpg"
                             : "ImageHandler?action=display&imgId=" + p.getImages().get(0).getImageId();
-                    String location = p.getCity() + ", " + p.getDistrict() + ", " + p.getWard() + ", " + p.getAddress();
+                    String location = p.getCity() + ", " + p.getDistrict() + ", " + p.getAddress();
 
                     DecimalFormat df = new DecimalFormat("#,###");
                     String formattedPrice = df.format(p.getPrice()) + " Vnd/tháng";

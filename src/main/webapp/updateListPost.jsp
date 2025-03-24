@@ -90,18 +90,10 @@
                                         <option value="Cái Răng" <%= post.getDistrict().equalsIgnoreCase("Cái Răng") ? "selected" : ""%>>Cái Răng</option>
                                         <option value="Ô Môn" <%= post.getDistrict().equalsIgnoreCase("Ô Môn") ? "selected" : ""%>>Ô Môn</option>
                                         <option value="Thốt Nốt" <%= post.getDistrict().equalsIgnoreCase("Thốt Nốt") ? "selected" : ""%>>Thốt Nốt</option>
-
-                                    </select>
-                                </div>
-                                <div class="input-group">
-                                    <label for="ward" class="label">Phường/Xã</label>
-                                    <select id="ward" name="ward" class="select">
-                                        <option value="0">-- Chọn Phường/Xã --</option>
-                                        <option value="An Cư" <%= post.getWard().equalsIgnoreCase("An Cư") ? "selected" : ""%>>An Cư</option>
-                                        <option value="An Hòa" <%= post.getWard().equalsIgnoreCase("An Hòa") ? "selected" : ""%>>An Hòa</option>
-                                        <option value="An Khánh" <%= post.getWard().equalsIgnoreCase("An Khánh") ? "selected" : ""%>>An Khánh</option>
-                                        <option value="An Nghiệp" <%= post.getWard().equalsIgnoreCase("An Nghiệp") ? "selected" : ""%>>An Nghiệp</option>
-                                        <option value="An Phú" <%= post.getWard().equalsIgnoreCase("An Phú") ? "selected" : ""%>>An Phú</option>
+                                        <option value="Phong Điền" <%= post.getDistrict().equalsIgnoreCase("Phong Điền") ? "selected" : ""%>>Phong Điền</option>
+                                        <option value="Cờ Đỏ" <%= post.getDistrict().equalsIgnoreCase("Cờ Đỏ") ? "selected" : ""%>>Cờ Đỏ</option>
+                                        <option value="Thới Lai" <%= post.getDistrict().equalsIgnoreCase("Thới Lai") ? "selected" : ""%>>Thới Lai</option>
+                                        <option value="Vĩnh Thạnh" <%= post.getDistrict().equalsIgnoreCase("Vĩnh Thạnh") ? "selected" : ""%>>Vĩnh Thạnh</option>
                                     </select>
                                 </div>
                             </div>

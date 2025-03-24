@@ -86,16 +86,22 @@ public class CommentServlet extends HttpServlet {
                 List<Review> list = reviewDao.selectAllReviewsByPostId(postId);
                 for (Review rev : list) {
                     User user = postDao.getUserById(rev.getUserId());
-                    out.println("<div class=\"have-comment\">\n"
-                            + "    <div class=\"comment-info\">\n"
-                            + "        <img class=\"avatar\" src=\"ImageHandler?action=displayAvatar&userId=" + user.getUserId() + "\" alt=\"\">\n"
-                            + "        <span class=\"comment-name\">" + user.getFullname() + "</span>\n"
-                            + "        <span class=\"comment-time\"> •  " + calculateTimeAgo(rev.getCreated_at().toLocalDateTime()) + "</span>\n"
-                            + "    </div>\n"
-                            + "    <div class=\"comment-content\">\n"
-                            + "        <p>" + rev.getComment() + "</p>\n"
-                            + "    </div>\n"
-                            + "</div>");
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("<div class=\"have-comment\">\n")
+                            .append("    <div class=\"comment-info\">\n")
+                            .append("        <img class=\"avatar\" src=\"")
+                            .append(user.getImageData() != null
+                                    ? "ImageHandler?action=displayAvatar&userId=" + user.getUserId()
+                                    : "./images/default_user.svg")
+                            .append("\" alt=\"avatar\">\n")
+                            .append("        <span class=\"comment-name\">").append(user.getFullname()).append("</span>\n")
+                            .append("        <span class=\"comment-time\"> • ").append(calculateTimeAgo(rev.getCreated_at().toLocalDateTime())).append("</span>\n")
+                            .append("    </div>\n")
+                            .append("    <div class=\"comment-content\">\n")
+                            .append("        <p>").append(rev.getComment()).append("</p>\n")
+                            .append("    </div>\n")
+                            .append("</div>");
+                    out.println(sb.toString());
                 }
             }
         }

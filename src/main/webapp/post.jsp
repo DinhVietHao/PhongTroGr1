@@ -79,18 +79,10 @@
                                         <option value="Cái Răng">Cái Răng</option>
                                         <option value="Ô Môn">Ô Môn</option>
                                         <option value="Thốt Nốt">Thốt Nốt</option>
-
-                                    </select>
-                                </div>
-                                <div class="input-group">
-                                    <label for="ward" class="label">Phường/Xã</label>
-                                    <select id="ward" name="ward" class="select">
-                                        <option value="0">-- Chọn Phường/Xã --</option>
-                                        <option value="An Cư">An Cư</option>
-                                        <option value="An Hòa">An Hòa</option>
-                                        <option value="An Khánh">An Khánh</option>
-                                        <option value="An Nghiệp">An Nghiệp</option>
-                                        <option value="An Phú">An Phú</option>
+                                        <option value="Phong Điền">Phong Điền</option>
+                                        <option value="Cờ Đỏ">Cờ Đỏ</option>
+                                        <option value="Thới Lai">Thới Lai</option>
+                                        <option value="Vĩnh Thạnh">Vĩnh Thạnh</option>
                                     </select>
                                 </div>
                             </div>

@@ -198,12 +198,13 @@
                             <select name="district">
                                 <option class="selected" value="All">Tất cả</option>
                                 <option value="Ninh Kiều">Ninh Kiều</option>
-                                <option value="Cái Răng">Cái Răng</option>
                                 <option value="Bình Thủy">Bình Thủy</option>
+                                <option value="Cái Răng">Cái Răng</option>
                                 <option value="Ô Môn">Ô Môn</option>
                                 <option value="Thốt Nốt">Thốt Nốt</option>
                                 <option value="Phong Điền">Phong Điền</option>
                                 <option value="Cờ Đỏ">Cờ Đỏ</option>
+                                <option value="Thới Lai">Thới Lai</option>
                                 <option value="Vĩnh Thạnh">Vĩnh Thạnh</option>
                             </select>
                         </div>
