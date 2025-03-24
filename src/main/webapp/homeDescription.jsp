@@ -21,6 +21,10 @@
 <%
     PostDAO postDao = new PostDAO();
     Post post = (Post) request.getAttribute("post");
+    if (post == null) {
+        response.sendRedirect("Home");
+        return;
+    }
 
     List<Review> listReview = (List<Review>) request.getAttribute("list");
     if (listReview == null) {

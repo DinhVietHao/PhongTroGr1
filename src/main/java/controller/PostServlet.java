@@ -16,7 +16,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -293,7 +295,41 @@ public class PostServlet extends HttpServlet {
             } catch (IOException e) {
                 System.out.println("LỖI: " + e.getMessage());
             }
+        } else if (action.equalsIgnoreCase("deleteSavedPost")) {
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            int postId = Integer.parseInt(request.getParameter("postId"));
+            postDao.deletePostById(userId, postId);
+            List<Post> listSavedPost = postDao.selectAllSavedPost(userId);
+            PrintWriter out = response.getWriter();
+            StringBuilder htmlBuilder = new StringBuilder();
+            if (listSavedPost == null || listSavedPost.isEmpty()) {
+                htmlBuilder.append("<p>Bạn chưa có bài yêu thích nào!</p>");
+            } else {
+                for (Post p : listSavedPost) {
+                    String imageUrl = p.getImages().isEmpty() ? "./images/default-image.jpg"
+                            : "ImageHandler?action=display&imgId=" + p.getImages().get(0).getImageId();
+                    String location = p.getCity() + ", " + p.getDistrict() + ", " + p.getWard() + ", " + p.getAddress();
+
+                    DecimalFormat df = new DecimalFormat("#,###");
+                    String formattedPrice = df.format(p.getPrice()) + " Vnd/tháng";
+
+                    htmlBuilder.append("<div class=\"saved-post\" data-post-id=\"").append(p.getPostId()).append("\">")
+                            .append("<div class=\"saved-image\">")
+                            .append("<img src=\"").append(imageUrl).append("\" alt=\"Hình ảnh tin đã lưu\">")
+                            .append("</div>")
+                            .append("<div class=\"saved-post-content\">")
+                            .append("<h3>").append(p.getTitle()).append("</h3>")
+                            .append("<p class=\"price\">").append(formattedPrice).append("</p>") // Sử dụng giá đã định dạng
+                            .append("<p class=\"location\">").append(location).append("</p>")
+                            .append("<p class=\"description\">").append(p.getDescription()).append("</p>")
+                            .append("<div onclick=\"deleteSavedPost(").append(p.getPostId()).append(")\" class=\"heart float-end\">")
+                            .append("<img src=\"./images/bi-heart-fill.svg\" alt=\"Xóa khỏi danh sách yêu thích\">")
+                            .append("</div>")
+                            .append("</div>")
+                            .append("</div>");
+                }
+            }
+            out.println(htmlBuilder.toString());
         }
     }
-
 }

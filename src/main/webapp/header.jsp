@@ -16,7 +16,6 @@
     } else if (request.getAttribute("user") != null && session.getAttribute("user") == null) {
         user = (User) request.getAttribute("user");
     }
-
     List<Category> listCategory = (List<Category>) session.getAttribute("listCate");
 %>
 <html>

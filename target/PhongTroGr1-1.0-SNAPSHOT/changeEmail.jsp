@@ -18,6 +18,10 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
+        <%if (user.getUserId() == -1) {
+                response.sendRedirect("Home");
+                return;
+            }%>
         <%@include file="sidebar.jsp" %>
         <main class="post-header">
             <%@include file="postHeader.jsp" %>
