@@ -168,38 +168,38 @@
                                 </div>
                             </div>
                             <div class="col-3">
-                               <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("F") ? "" : "opacity-50" %>">
-                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("F") ? "" : "text-secondary opacity-50" %>"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("F") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("F") ? "" : "text-secondary opacity-50"%>"></i>
                                     Có tủ lạnh
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("G") ? "" : "opacity-50" %>">
-                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("G") ? "" : "text-secondary opacity-50" %>"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("G") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("G") ? "" : "text-secondary opacity-50"%>"></i>
                                     Có thang máy
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("H") ? "" : "opacity-50" %>">
-                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("H") ? "" : "text-secondary opacity-50" %>"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("H") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("H") ? "" : "text-secondary opacity-50"%>"></i>
                                     Không chung chủ
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("I") ? "" : "opacity-50" %>">
-                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("I") ? "" : "text-secondary opacity-50" %>"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("I") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("I") ? "" : "text-secondary opacity-50"%>"></i>
                                     Giờ giấc tự do
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("J") ? "" : "opacity-50" %>">
-                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("J") ? "" : "text-secondary opacity-50" %>"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("J") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("J") ? "" : "text-secondary opacity-50"%>"></i>
                                     Có bảo vệ 24/24
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("K") ? "" : "opacity-50" %>">
-                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("K") ? "" : "text-secondary opacity-50" %>"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("K") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("K") ? "" : "text-secondary opacity-50"%>"></i>
                                     Có hầm để xe
                                 </div>
                             </div>
@@ -223,7 +223,7 @@
                                     </div>
                                 </div>
                                 <div class="contact-meta">
-                                    <%= countPost%> tin đăng <span class="dot">•</span> Tham gia từ: 19/03/2025
+                                    <%= countPost%> tin đăng 
                                 </div>
                                 <div class="contact-actions">
                                     <a class="contact-button phone-button" href="tel:0854453340">

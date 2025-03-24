@@ -38,7 +38,7 @@
                     for (Post post : list) {
                         String imageUrl = post.getImages().isEmpty() ? "./images/default-image.jpg"
                                 : "ImageHandler?action=display&imgId=" + post.getImages().get(0).getImageId();
-                        String location = post.getCity() + ", " + post.getDistrict() + ", " + post.getWard() + ", " + post.getAddress();
+                        String location = post.getCity() + ", " + post.getDistrict() + ", " + post.getAddress();
                 %>
                 <div class="saved-post" data-post-id="<%= post.getPostId()%>">
                     <div class="saved-image">

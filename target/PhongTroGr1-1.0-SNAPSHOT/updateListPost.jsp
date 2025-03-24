@@ -93,17 +93,6 @@
 
                                     </select>
                                 </div>
-                                <div class="input-group">
-                                    <label for="ward" class="label">Phường/Xã</label>
-                                    <select id="ward" name="ward" class="select">
-                                        <option value="0">-- Chọn Phường/Xã --</option>
-                                        <option value="An Cư" <%= post.getWard().equalsIgnoreCase("An Cư") ? "selected" : ""%>>An Cư</option>
-                                        <option value="An Hòa" <%= post.getWard().equalsIgnoreCase("An Hòa") ? "selected" : ""%>>An Hòa</option>
-                                        <option value="An Khánh" <%= post.getWard().equalsIgnoreCase("An Khánh") ? "selected" : ""%>>An Khánh</option>
-                                        <option value="An Nghiệp" <%= post.getWard().equalsIgnoreCase("An Nghiệp") ? "selected" : ""%>>An Nghiệp</option>
-                                        <option value="An Phú" <%= post.getWard().equalsIgnoreCase("An Phú") ? "selected" : ""%>>An Phú</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                         <div class="post-info" id="post-info">

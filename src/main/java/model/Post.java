@@ -22,7 +22,6 @@ public class Post {
     private String address;
     private String city;
     private String district;
-    private String ward;
     private double area;
     private int roomCount;
     private String utilities;
@@ -38,7 +37,7 @@ public class Post {
         this.savedStatus = false;
     }
 
-    public Post(int postId, int userId, int catId, String title, String description, double price, String address, String city, String district, String ward, double area, int roomCount, String utilities, Category postType, String status, User user, List<Image> images, Timestamp created_at, Timestamp updaited_at) {
+    public Post(int postId, int userId, int catId, String title, String description, double price, String address, String city, String district, double area, int roomCount, String utilities, Category postType, String status, User user, List<Image> images, Timestamp created_at, Timestamp updaited_at) {
         this.postId = postId;
         this.userId = userId;
         this.catId = catId;
@@ -48,7 +47,6 @@ public class Post {
         this.address = address;
         this.city = city;
         this.district = district;
-        this.ward = ward;
         this.area = area;
         this.roomCount = roomCount;
         this.utilities = utilities;
@@ -59,9 +57,8 @@ public class Post {
         this.created_at = created_at;
         this.updaited_at = updaited_at;
     }
-    
 
-    public Post(int postId, int userId, int catId, String title, String description, double price, String address, String city, String district, String ward, double area, int roomCount, Category postType, String status, User user, List<Image> images, Timestamp created_at, Timestamp updated_at) {
+    public Post(int postId, int userId, int catId, String title, String description, double price, String address, String city, String district, double area, int roomCount, Category postType, String status, User user, List<Image> images, Timestamp created_at, Timestamp updated_at) {
         this.postId = postId;
         this.userId = userId;
         this.catId = catId;
@@ -71,7 +68,6 @@ public class Post {
         this.address = address;
         this.city = city;
         this.district = district;
-        this.ward = ward;
         this.area = area;
         this.roomCount = roomCount;
         this.postType = postType;
@@ -82,7 +78,7 @@ public class Post {
         this.updaited_at = updated_at;
     }
 
-    public Post(int postId, int catId, String title, String description, double price, String address, String city, String district, String ward, double area, int roomCount, Category postType, String status, Timestamp updaited_at) {
+    public Post(int postId, int catId, String title, String description, double price, String address, String city, String district, double area, int roomCount, Category postType, String status, Timestamp updaited_at) {
         this.postId = postId;
         this.catId = catId;
         this.title = title;
@@ -91,7 +87,6 @@ public class Post {
         this.address = address;
         this.city = city;
         this.district = district;
-        this.ward = ward;
         this.area = area;
         this.roomCount = roomCount;
         this.postType = postType;
@@ -179,14 +174,6 @@ public class Post {
         this.district = district;
     }
 
-    public String getWard() {
-        return ward;
-    }
-
-    public void setWard(String ward) {
-        this.ward = ward;
-    }
-
     public double getArea() {
         return area;
     }
@@ -261,7 +248,7 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" + "title=" + title + ", description=" + description + ", price=" + price + ", address=" + address + ", city=" + city + ", district=" + district + ", ward=" + ward + ", area=" + area + ", postType=" + postType + '}';
+        return "Post{" + "title=" + title + ", description=" + description + ", price=" + price + ", address=" + address + ", city=" + city + ", district=" + district + ", area=" + area + ", postType=" + postType + '}';
     }
 
 }

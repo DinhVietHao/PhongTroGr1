@@ -82,17 +82,6 @@
 
                                     </select>
                                 </div>
-                                <div class="input-group">
-                                    <label for="ward" class="label">Phường/Xã</label>
-                                    <select id="ward" name="ward" class="select">
-                                        <option value="0">-- Chọn Phường/Xã --</option>
-                                        <option value="An Cư">An Cư</option>
-                                        <option value="An Hòa">An Hòa</option>
-                                        <option value="An Khánh">An Khánh</option>
-                                        <option value="An Nghiệp">An Nghiệp</option>
-                                        <option value="An Phú">An Phú</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                         <div class="post-info" id="post-info">
