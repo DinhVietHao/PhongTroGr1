@@ -345,6 +345,7 @@ public class PostDAO extends DBContext {
                         rs.getString("Ward"),
                         rs.getDouble("Area"),
                         rs.getInt("Room_count"),
+                        rs.getString("Utilities"),
                         selectCategoryById(rs.getInt("Category_id")),
                         rs.getString("Status"),
                         selectLandlordById(rs.getInt("User_id")),
@@ -360,8 +361,8 @@ public class PostDAO extends DBContext {
     }
 
     public boolean createPost(Post post, List<InputStream> images) throws IOException {
-        String sqlPost = "INSERT INTO Posts (User_id, Category_id, Title, Description, Price, Address, City, District, Ward, Area, Room_count, Post_type, Status, Created_at, Updated_at) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlPost = "INSERT INTO Posts (User_id, Category_id, Title, Description, Price, Address, City, District, Ward, Area, Room_count, Utilities, Post_type, Status, Created_at, Updated_at) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         if (conn == null) {
             System.out.println("Lỗi: Kết nối đến cơ sở dữ liệu bị mất!");
@@ -380,10 +381,11 @@ public class PostDAO extends DBContext {
             ps.setString(9, post.getWard());
             ps.setDouble(10, post.getArea());
             ps.setInt(11, post.getRoomCount());
-            ps.setString(12, post.getPostType().getCatName());
-            ps.setString(13, post.getStatus());
-            ps.setTimestamp(14, post.getCreated_at());
-            ps.setTimestamp(15, post.getUpdaited_at());
+            ps.setString(12, post.getUtilities());
+            ps.setString(13, post.getPostType().getCatName());
+            ps.setString(14, post.getStatus());
+            ps.setTimestamp(15, post.getCreated_at());
+            ps.setTimestamp(16, post.getUpdaited_at());
             int affectedRows = ps.executeUpdate();
 
             if (affectedRows == 0) {

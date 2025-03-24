@@ -12,8 +12,7 @@
 <%@page import="model.Post"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    List<Post> listPostAccept = (List) request.getAttribute("listPostAccept");
-    List<Post> listPostNotApproved = (List) request.getAttribute("listPostNotApproved");
+    List<Post> listPostNotApproved = (List) request.getAttribute("listNotApproved");
 %>
 <!DOCTYPE html>
 <html>
@@ -32,17 +31,12 @@
         <%@include file="sidebar.jsp" %>
         <main class="post-header">
             <%@include file="listPost.jsp" %>
-            <% if ((listPostAccept == null || listPostAccept.isEmpty()) && (listPostNotApproved == null || listPostNotApproved.isEmpty())) { %>
-            <p>Bạn chưa đăng bài nào, hãy đăng bài để thấy bài đăng của bạn.</p>
-            <%} else {
-            %>
             <%!
                 NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
             %>
 
             <h2>Danh sách bài đang duyệt</h2>
-            <%
-                if (listPostNotApproved == null || listPostNotApproved.isEmpty()) {
+            <%if (listPostNotApproved == null || listPostNotApproved.isEmpty()) {
             %>
             <p>Bạn chưa có bài đăng nào chờ duyệt.</p>
             <%
@@ -96,7 +90,6 @@
                 </tbody>
             </table>
             <%
-                    }
                 }
             %>
         </main>

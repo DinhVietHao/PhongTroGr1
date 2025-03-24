@@ -36,6 +36,7 @@ CREATE TABLE Posts (
     Room_count INT,
     Post_type NVARCHAR(50) NOT NULL,
     Status NVARCHAR(50),
+	Utilities VARCHAR(50),
 	Created_at DATETIME,
 	Updated_at DATETIME,
     FOREIGN KEY (User_id) REFERENCES Users(User_id),
@@ -76,3 +77,6 @@ INSERT INTO Categories VALUES
 (N'Mini house'),
 (N'Nhà nguyên căn'),
 (N'Căn hộ');
+
+ALTER TABLE Posts  
+ADD Utilities VARCHAR(50)

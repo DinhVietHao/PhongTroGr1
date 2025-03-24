@@ -87,8 +87,6 @@ public class LoginServlet extends HttpServlet {
                 response.addCookie(u);
                 response.addCookie(p);
 
-                //request.setAttribute("userLogin", user);
-                //request.getRequestDispatcher("home.jsp").forward(request, response);
                 if (user.getRole() == 1 || user.getRole() == 2) {
                     response.sendRedirect("Home");
                 } else if (user.getRole() == 3) {

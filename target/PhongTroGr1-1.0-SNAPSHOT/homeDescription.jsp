@@ -102,14 +102,31 @@
                                 <%
                                     DecimalFormat df = new DecimalFormat("#,###");
                                     String formattedPrice = df.format(post.getPrice()) + " Vnd/tháng";
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                                    LocalDateTime now = LocalDateTime.now();
+                                    LocalDateTime createdAtPost = post.getCreated_at().toLocalDateTime();
+                                    Duration durationPost = Duration.between(createdAtPost, now);
+                                    long day = durationPost.toDays();
+                                    long hour = durationPost.toHours() % 24;
+                                    long minute = durationPost.toMinutes() % 60;
+                                    String timeAgos;
+                                    if (day >= 7) {
+                                        timeAgos = (day / 7) + " tuần trước";
+                                    } else if (day > 0) {
+                                        timeAgos = day + " ngày trước";
+                                    } else if (hour > 0) {
+                                        timeAgos = hour + " giờ trước";
+                                    } else {
+                                        timeAgos = minute + " phút trước";
+                                    }
                                 %>
                                 <span class="price"><%=formattedPrice%></span>
                                 <span class="dot">•</span>
                                 <span class="size"><%= post.getArea()%> m<sup>2</sup></span>
                                 <span class="dot">•</span>
-                                <time class="update-time">Cập nhật: 8 giờ trước</time>
+                                <time class="update-time">Cập nhật: <%= timeAgos%></time>
                             </div>
-                            <div class="listing-id">Mã tin: #676255</div>
+                            <div class="listing-id">Mã tin: #<%= post.getPostId()%></div>
                         </div>
                     </header>
                     <div class="description-container">
@@ -121,68 +138,68 @@
                         <h2 class="mb-3 featured-title">Nổi bật</h2>
                         <div class="row">
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("A") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("A") ? "" : "text-secondary opacity-50"%>"></i>
                                     Đầy đủ nội thất
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("B") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("B") ? "" : "text-secondary opacity-50"%>"></i>
                                     Có gác
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("C") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("C") ? "" : "text-secondary opacity-50"%>"></i>
                                     Có kệ bếp
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("D") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("D") ? "" : "text-secondary opacity-50"%>"></i>
                                     Có máy lạnh
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("E") ? "" : "opacity-50"%>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("E") ? "" : "text-secondary opacity-50"%>"></i>
                                     Có máy giặt
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                               <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("F") ? "" : "opacity-50" %>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("F") ? "" : "text-secondary opacity-50" %>"></i>
                                     Có tủ lạnh
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("G") ? "" : "opacity-50" %>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("G") ? "" : "text-secondary opacity-50" %>"></i>
                                     Có thang máy
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("H") ? "" : "opacity-50" %>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("H") ? "" : "text-secondary opacity-50" %>"></i>
                                     Không chung chủ
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("I") ? "" : "opacity-50" %>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("I") ? "" : "text-secondary opacity-50" %>"></i>
                                     Giờ giấc tự do
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("J") ? "" : "opacity-50" %>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("J") ? "" : "text-secondary opacity-50" %>"></i>
                                     Có bảo vệ 24/24
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="text-body d-flex pt-1 pb-1">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                <div class="text-body d-flex pt-1 pb-1 <%= post.getUtilities().contains("K") ? "" : "opacity-50" %>">
+                                    <i class="bi bi-check-circle-fill <%= post.getUtilities().contains("K") ? "" : "text-secondary opacity-50" %>"></i>
                                     Có hầm để xe
                                 </div>
                             </div>
@@ -217,12 +234,12 @@
                                         <i class="bi bi-chat-dots"></i>&nbsp;Nhắn Zalo
                                     </a>
                                 </div>
-<!--                                <button class="secondary-button">
-                                    <i class="bi bi-share"></i>&nbsp; Chia sẻ
-                                </button>
-                                <button class="secondary-button">
-                                    <i class="bi bi-exclamation-triangle"></i>&nbsp; Báo xấu
-                                </button>-->
+                                <!--                                <button class="secondary-button">
+                                                                    <i class="bi bi-share"></i>&nbsp; Chia sẻ
+                                                                </button>
+                                                                <button class="secondary-button">
+                                                                    <i class="bi bi-exclamation-triangle"></i>&nbsp; Báo xấu
+                                                                </button>-->
                                 <%
                                     if (user.getRole() == 3 && post.getStatus().equalsIgnoreCase("Chưa duyệt")) {
                                 %>
@@ -305,8 +322,6 @@
                         </div>
                         <%
                         } else {
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                            LocalDateTime now = LocalDateTime.now();
                             for (Review r : listReview) {
                                 User u = postDao.getUserById(r.getUserId());
                                 LocalDateTime createdAt = r.getCreated_at().toLocalDateTime();
