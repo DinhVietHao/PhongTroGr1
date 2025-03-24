@@ -342,7 +342,11 @@
                         %>
                         <div class="have-comment">
                             <div class="comment-info">
-                                <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%= u.getUserId()%>" alt="">
+                                <%if (u.getImageData() != null) {%>
+                                <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%=u.getUserId()%>" alt="avatar">
+                                <% } else { %>  
+                                <img class="avatar" src="./images/default_user.svg" alt="avatar">
+                                <% }%>
                                 <span class="comment-name"><%= u.getFullname()%></span>
                                 <span class="comment-time"> •  <%= timeAgo%></span>
                             </div>

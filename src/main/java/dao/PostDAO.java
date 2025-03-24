@@ -241,8 +241,10 @@ public class PostDAO extends DBContext {
                             rs.getInt("Role"),
                             rs.getString("AuthenticationCode"),
                             rs.getTimestamp("ExpirationTime"),
-                            rs.getBoolean("VerificationStatus")
+                            rs.getBoolean("VerificationStatus"),
+                            rs.getBytes("Avatar")
                     );
+                    
                 }
             }
         } catch (SQLException e) {

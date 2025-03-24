@@ -90,7 +90,10 @@
                                         <option value="Cái Răng" <%= post.getDistrict().equalsIgnoreCase("Cái Răng") ? "selected" : ""%>>Cái Răng</option>
                                         <option value="Ô Môn" <%= post.getDistrict().equalsIgnoreCase("Ô Môn") ? "selected" : ""%>>Ô Môn</option>
                                         <option value="Thốt Nốt" <%= post.getDistrict().equalsIgnoreCase("Thốt Nốt") ? "selected" : ""%>>Thốt Nốt</option>
-
+                                        <option value="Phong Điền" <%= post.getDistrict().equalsIgnoreCase("Phong Điền") ? "selected" : ""%>>Phong Điền</option>
+                                        <option value="Cờ Đỏ" <%= post.getDistrict().equalsIgnoreCase("Cờ Đỏ") ? "selected" : ""%>>Cờ Đỏ</option>
+                                        <option value="Thới Lai" <%= post.getDistrict().equalsIgnoreCase("Thới Lai") ? "selected" : ""%>>Thới Lai</option>
+                                        <option value="Vĩnh Thạnh" <%= post.getDistrict().equalsIgnoreCase("Vĩnh Thạnh") ? "selected" : ""%>>Vĩnh Thạnh</option>
                                     </select>
                                 </div>
                             </div>

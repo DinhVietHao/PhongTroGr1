@@ -65,6 +65,20 @@ public class User {
         this.role = role;
     }
 
+    public User(int userId, String fullname, String username, String password, String email, String phone, int role, String authCode, Timestamp expirationTime, boolean verifStatus, byte[] imageData) {
+        this.userId = userId;
+        this.fullname = fullname;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.authCode = authCode;
+        this.expirationTime = expirationTime;
+        this.verifStatus = verifStatus;
+        this.imageData = imageData;
+    }
+    
     public User(int userId, String fullname, String username, String password, String email, String phone, int role, String authCode, Timestamp expirationTime, boolean verifStatus) {
         this.userId = userId;
         this.fullname = fullname;
