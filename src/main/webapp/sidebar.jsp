@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="profile-details">
-                    <span class="user-name"><%= user != null ? user.getFullname() : "No account"%></span> <br>
+                    <span class="user-name color-font"><%= user != null ? user.getFullname() : "No account"%></span> <br>
                     <span class="user-phone"><%= user != null ? user.getPhone() : "No phone"%></span> <br>
                     <span class="account-id">Mã tài khoản: <%= user != null ? user.getUserId() : "No id"%></span>
                 </div>

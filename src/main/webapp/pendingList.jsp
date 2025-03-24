@@ -34,8 +34,6 @@
             <%!
                 NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
             %>
-
-            <h2>Danh sách bài đang duyệt</h2>
             <%if (listPostNotApproved == null || listPostNotApproved.isEmpty()) {
             %>
             <p>Bạn chưa có bài đăng nào chờ duyệt.</p>

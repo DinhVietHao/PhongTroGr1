@@ -337,10 +337,12 @@ public class PostServlet extends HttpServlet {
                             .append("<img src=\"").append(imageUrl).append("\" alt=\"Hình ảnh tin đã lưu\">")
                             .append("</div>")
                             .append("<div class=\"saved-post-content\">")
+                            .append("<a href=\"Post?action=postDescription&postId=").append(p.getPostId()).append("\">")
                             .append("<h3>").append(p.getTitle()).append("</h3>")
-                            .append("<p class=\"price\">").append(formattedPrice).append("</p>") // Sử dụng giá đã định dạng
+                            .append("<p class=\"price\">").append(formattedPrice).append("</p>")
                             .append("<p class=\"location\">").append(location).append("</p>")
                             .append("<p class=\"description\">").append(p.getDescription()).append("</p>")
+                            .append("</a>")
                             .append("<div onclick=\"deleteSavedPost(").append(p.getPostId()).append(")\" class=\"heart float-end\">")
                             .append("<img src=\"./images/bi-heart-fill.svg\" alt=\"Xóa khỏi danh sách yêu thích\">")
                             .append("</div>")
