@@ -27,6 +27,9 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Thêm header ngrok
+        response.setHeader("ngrok-skip-browser-warning", "true");
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         PostDAO postDao = new PostDAO();
