@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +29,11 @@ import model.User;
 public class SearchServlet extends HttpServlet {
 
     private final PostDAO postDao = new PostDAO();
+
+    private String formatPrice(double price) {
+        DecimalFormat df = new DecimalFormat("#,###");
+        return df.format(price);
+    }
 
     public String calculateTimeAgo(LocalDateTime createdAt) {
         LocalDateTime now = LocalDateTime.now();
@@ -89,31 +95,45 @@ public class SearchServlet extends HttpServlet {
                         .append("</div>")
                         .append("</div>")
                         .append("<div class=\"card-content\">")
-                        .append("<h2 class=\"card-title\"><span class=\"star star-5 mt-1\"></span> <br>").append(p.getTitle()).append("</h2>")
+                        .append("<a href=\"Post?action=postDescription&postId=").append(p.getPostId()).append("\">")
+                        .append("<h2 class=\"card-title\"><span class=\"star star-5 mt-1\"></span> ").append(p.getTitle()).append("</h2>")
                         .append("<div class=\"card-info\">")
-                        .append("<p class=\"card-price\">").append(p.getPrice()).append("</p>")
-                        .append("<p>Vnd/tháng</p>")
-                        .append("<p>").append(p.getArea()).append("</p>")
-                        .append("<p>m<sup>2</sup></p>")
-                        .append("</div>")
+                        .append("<p class=\"card-price\">").append(formatPrice(p.getPrice())).append(" Vnd/tháng</p>")
+                        .append("<span class=\"dot\">•</span>")
+                        .append("<p>").append(p.getArea()).append(" m<sup>2</sup></p>")
+                        .append("<span class=\"dot\">•</span>")
                         .append("<p>").append(p.getAddress()).append("</p>")
-                        .append("<p class=\"card-details\">").append(p.getDescription().replace("\n", "<br>")).append("</p>")
-                        .append("<p class=\"time-posted\">Đăng ").append(calculateTimeAgo(p.getCreated_at().toLocalDateTime())).append("</p>")
+                        .append("</div>")
+                        .append("<p class=\"post-date\"> <i class=\"bi bi-signpost\"></i> Đăng ").append(calculateTimeAgo(p.getCreated_at().toLocalDateTime())).append("</p>")
+                        .append("</a>")
                         .append("<div class=\"contact-info\">")
+                        .append("<a href=\"Post?action=postDescription&postId=").append(p.getPostId()).append("\">")
                         .append("<div class=\"contact-user\">")
                         .append("<img class=\"avatar\" src=\"").append(p.getUser().getImageData() != null ? "ImageHandler?action=displayAvatar&userId=" + p.getUserId() : "./images/default_user.svg").append("\" alt=\"avatar\">")
-                        .append(p.getUser().getFullname())
+                        .append("<span class=\"color-font\">").append(p.getUser().getFullname()).append("</span>")
                         .append("</div>")
+                        .append("</a>")
                         .append("<div class=\"contact-phone\">");
 
+                if (user.getRole() == 3) {
+                    htmlBuilder.append("<button class=\"delete\" onclick=\"confirmDelete(").append(p.getPostId()).append(")\">Xóa</button>");
+                }
+
+                htmlBuilder.append("<span class=\"phone\">").append(p.getUser().getPhone()).append("</span>");
+
                 if (user.getUserId() != -1) {
-                    htmlBuilder.append("<button onclick=\"savePost(event)\" class=\"btn btn-white btn__save d-flex px-2 js-btn-save ").append(p.isSavedStatus() ? "saved" : "").append("\" aria-label=\"Lưu tin này\" data-postid=\"").append(p.getPostId()).append("\" data-userid=\"").append(user.getUserId()).append("\">")
+                    htmlBuilder.append("<button onclick=\"savePost(event)\" class=\"btn btn-white btn__save d-flex px-2 js-btn-save ")
+                            .append(p.isSavedStatus() ? "saved" : "")
+                            .append("\" aria-label=\"Lưu tin này\" data-postid=\"")
+                            .append(p.getPostId())
+                            .append("\" data-userid=\"")
+                            .append(user.getUserId())
+                            .append("\">")
                             .append("<i class=\"heart size-18\"></i>")
                             .append("</button>");
                 }
 
-                htmlBuilder.append("<span class=\"phone\">").append(p.getUser().getPhone()).append("</span>")
-                        .append("</div>")
+                htmlBuilder.append("</div>")
                         .append("</div>")
                         .append("</div>")
                         .append("</div>");
@@ -191,31 +211,45 @@ public class SearchServlet extends HttpServlet {
                         .append("</div>")
                         .append("</div>")
                         .append("<div class=\"card-content\">")
-                        .append("<h2 class=\"card-title\"><span class=\"star star-5 mt-1\"></span> <br>").append(p.getTitle()).append("</h2>")
+                        .append("<a href=\"Post?action=postDescription&postId=").append(p.getPostId()).append("\">")
+                        .append("<h2 class=\"card-title\"><span class=\"star star-5 mt-1\"></span> ").append(p.getTitle()).append("</h2>")
                         .append("<div class=\"card-info\">")
-                        .append("<p class=\"card-price\">").append(p.getPrice()).append("</p>")
-                        .append("<p>Vnd/tháng</p>")
-                        .append("<p>").append(p.getArea()).append("</p>")
-                        .append("<p>m<sup>2</sup></p>")
-                        .append("</div>")
+                        .append("<p class=\"card-price\">").append(formatPrice(p.getPrice())).append(" Vnd/tháng</p>")
+                        .append("<span class=\"dot\">•</span>")
+                        .append("<p>").append(p.getArea()).append(" m<sup>2</sup></p>")
+                        .append("<span class=\"dot\">•</span>")
                         .append("<p>").append(p.getAddress()).append("</p>")
-                        .append("<p class=\"card-details\">").append(p.getDescription().replace("\n", "<br>")).append("</p>")
-                        .append("<p class=\"time-posted\">Đăng ").append(calculateTimeAgo(p.getCreated_at().toLocalDateTime())).append("</p>")
+                        .append("</div>")
+                        .append("<p class=\"post-date\"> <i class=\"bi bi-signpost\"></i> Đăng ").append(calculateTimeAgo(p.getCreated_at().toLocalDateTime())).append("</p>")
+                        .append("</a>")
                         .append("<div class=\"contact-info\">")
+                        .append("<a href=\"Post?action=postDescription&postId=").append(p.getPostId()).append("\">")
                         .append("<div class=\"contact-user\">")
                         .append("<img class=\"avatar\" src=\"").append(p.getUser().getImageData() != null ? "ImageHandler?action=displayAvatar&userId=" + p.getUserId() : "./images/default_user.svg").append("\" alt=\"avatar\">")
-                        .append(p.getUser().getFullname())
+                        .append("<span class=\"color-font\">").append(p.getUser().getFullname()).append("</span>")
                         .append("</div>")
+                        .append("</a>")
                         .append("<div class=\"contact-phone\">");
 
+                if (user.getRole() == 3) {
+                    htmlBuilder.append("<button class=\"delete\" onclick=\"confirmDelete(").append(p.getPostId()).append(")\">Xóa</button>");
+                }
+
+                htmlBuilder.append("<span class=\"phone\">").append(p.getUser().getPhone()).append("</span>");
+
                 if (user.getUserId() != -1) {
-                    htmlBuilder.append("<button onclick=\"savePost(event)\" class=\"btn btn-white btn__save d-flex px-2 js-btn-save ").append(p.isSavedStatus() ? "saved" : "").append("\" aria-label=\"Lưu tin này\" data-postid=\"").append(p.getPostId()).append("\" data-userid=\"").append(user.getUserId()).append("\">")
+                    htmlBuilder.append("<button onclick=\"savePost(event)\" class=\"btn btn-white btn__save d-flex px-2 js-btn-save ")
+                            .append(p.isSavedStatus() ? "saved" : "")
+                            .append("\" aria-label=\"Lưu tin này\" data-postid=\"")
+                            .append(p.getPostId())
+                            .append("\" data-userid=\"")
+                            .append(user.getUserId())
+                            .append("\">")
                             .append("<i class=\"heart size-18\"></i>")
                             .append("</button>");
                 }
 
-                htmlBuilder.append("<span class=\"phone\">").append(p.getUser().getPhone()).append("</span>")
-                        .append("</div>")
+                htmlBuilder.append("</div>")
                         .append("</div>")
                         .append("</div>")
                         .append("</div>");
@@ -275,31 +309,45 @@ public class SearchServlet extends HttpServlet {
                         .append("</div>")
                         .append("</div>")
                         .append("<div class=\"card-content\">")
-                        .append("<h2 class=\"card-title\"><span class=\"star star-5 mt-1\"></span> <br>").append(p.getTitle()).append("</h2>")
+                        .append("<a href=\"Post?action=postDescription&postId=").append(p.getPostId()).append("\">")
+                        .append("<h2 class=\"card-title\"><span class=\"star star-5 mt-1\"></span> ").append(p.getTitle()).append("</h2>")
                         .append("<div class=\"card-info\">")
-                        .append("<p class=\"card-price\">").append(p.getPrice()).append("</p>")
-                        .append("<p>Vnd/tháng</p>")
-                        .append("<p>").append(p.getArea()).append("</p>")
-                        .append("<p>m<sup>2</sup></p>")
-                        .append("</div>")
+                        .append("<p class=\"card-price\">").append(formatPrice(p.getPrice())).append(" Vnd/tháng</p>")
+                        .append("<span class=\"dot\">•</span>")
+                        .append("<p>").append(p.getArea()).append(" m<sup>2</sup></p>")
+                        .append("<span class=\"dot\">•</span>")
                         .append("<p>").append(p.getAddress()).append("</p>")
-                        .append("<p class=\"card-details\">").append(p.getDescription().replace("\n", "<br>")).append("</p>")
-                        .append("<p class=\"time-posted\">Đăng ").append(calculateTimeAgo(p.getCreated_at().toLocalDateTime())).append("</p>")
+                        .append("</div>")
+                        .append("<p class=\"post-date\"> <i class=\"bi bi-signpost\"></i> Đăng ").append(calculateTimeAgo(p.getCreated_at().toLocalDateTime())).append("</p>")
+                        .append("</a>")
                         .append("<div class=\"contact-info\">")
+                        .append("<a href=\"Post?action=postDescription&postId=").append(p.getPostId()).append("\">")
                         .append("<div class=\"contact-user\">")
                         .append("<img class=\"avatar\" src=\"").append(p.getUser().getImageData() != null ? "ImageHandler?action=displayAvatar&userId=" + p.getUserId() : "./images/default_user.svg").append("\" alt=\"avatar\">")
-                        .append(p.getUser().getFullname())
+                        .append("<span class=\"color-font\">").append(p.getUser().getFullname()).append("</span>")
                         .append("</div>")
+                        .append("</a>")
                         .append("<div class=\"contact-phone\">");
 
+                if (user.getRole() == 3) {
+                    htmlBuilder.append("<button class=\"delete\" onclick=\"confirmDelete(").append(p.getPostId()).append(")\">Xóa</button>");
+                }
+
+                htmlBuilder.append("<span class=\"phone\">").append(p.getUser().getPhone()).append("</span>");
+
                 if (user.getUserId() != -1) {
-                    htmlBuilder.append("<button onclick=\"savePost(event)\" class=\"btn btn-white btn__save d-flex px-2 js-btn-save ").append(p.isSavedStatus() ? "saved" : "").append("\" aria-label=\"Lưu tin này\" data-postid=\"").append(p.getPostId()).append("\" data-userid=\"").append(user.getUserId()).append("\">")
+                    htmlBuilder.append("<button onclick=\"savePost(event)\" class=\"btn btn-white btn__save d-flex px-2 js-btn-save ")
+                            .append(p.isSavedStatus() ? "saved" : "")
+                            .append("\" aria-label=\"Lưu tin này\" data-postid=\"")
+                            .append(p.getPostId())
+                            .append("\" data-userid=\"")
+                            .append(user.getUserId())
+                            .append("\">")
                             .append("<i class=\"heart size-18\"></i>")
                             .append("</button>");
                 }
 
-                htmlBuilder.append("<span class=\"phone\">").append(p.getUser().getPhone()).append("</span>")
-                        .append("</div>")
+                htmlBuilder.append("</div>")
                         .append("</div>")
                         .append("</div>")
                         .append("</div>");

@@ -18,6 +18,10 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
+        <%if (user.getUserId() == -1) {
+                response.sendRedirect("Home");
+                return;
+            }%>
         <%@include file="sidebar.jsp" %>
         <main class="post-header">
             <%@include file="postHeader.jsp" %>
@@ -42,7 +46,7 @@
                                 <i class="bi bi-camera"></i>&nbsp&nbsp Đổi ảnh đại diện
                             </div>
                         </label>
-                        
+
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
                                 const fileInput = document.querySelector("input[name='avatar']");

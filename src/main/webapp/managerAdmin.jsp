@@ -41,7 +41,6 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
-
         <!--SIDEBAR-->
         <aside class="sidebar-panel">
             <div class="profile-section">

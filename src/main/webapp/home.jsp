@@ -60,18 +60,15 @@
                 <header class="layout-header">
                     <h1 class="title">Kênh thông tin Phòng trọ G1 FPT</h1>
                     <%List<Post> listPost = (List) request.getAttribute("listPost");
-                        if (listPost == null || listPost.isEmpty()) {%>
+                        if (listPost == null) {
+                            response.sendRedirect("Home");
+                            return;
+                        }
+                        if (listPost.isEmpty()) {%>
                     <p>Không có bài đăng nào!</p>
                     <%} else {%>
                     <p class="subtitle">Có <%= countPost%> tin đăng cho thuê</p>
                 </header>
-
-                <!--                <div class="layout-nav row">
-                                    <div class="layout-links col-md-12">
-                                        <a class="active-tab" href="" title="Cho thuê phòng trọ Toàn Quốc">Cần thơ</a>
-                                    </div>        
-                                </div>-->
-
                 <div class="layout-filter">
                     <a class="filter-link active-filter active" href="#">Mới đăng</a>
                 </div>
@@ -134,7 +131,6 @@
                                     <%
                                         DecimalFormat df = new DecimalFormat("#,###");
                                         String formattedPrice = df.format(list.getPrice()) + " Vnd/tháng";
-
                                     %>
 
                                     <p class="card-price"><%= formattedPrice%></p>
@@ -165,11 +161,12 @@
                                     %>
                                     <span class="phone"><%= list.getUser().getPhone()%></span>
                                     <% if (user.getUserId() != -1) {%>
-                                    <button onclick="savePost(event)" 
-                                            class="btn btn-white btn__save d-flex px-2 js-btn-save <%= list.isSavedStatus() ? "saved" : ""%>" 
-                                            aria-label="Lưu tin này" 
-                                            data-postid="<%= list.getPostId()%>" 
-                                            data-userid="<%= user.getUserId()%>">
+                                    <button 
+                                        onclick="savePost(event)" 
+                                        class="btn btn-white btn__save d-flex px-2 js-btn-save <%= list.isSavedStatus() ? "saved" : ""%>" 
+                                        aria-label="Lưu tin này" 
+                                        data-postid="<%= list.getPostId()%>" 
+                                        data-userid="<%= user.getUserId()%>">
                                         <i class="heart size-18"></i>
                                     </button>
                                     <%}%>
@@ -226,13 +223,8 @@
         </div>
         <%@include file="footer.jsp" %>
         <script>
-            function savePost(event) {
 
-                const saveButton = event.currentTarget;
-                const isSaved = saveButton.classList.contains("saved");
-                const postId = saveButton.getAttribute("data-postid");
-                const userId = saveButton.getAttribute("data-userid");
-
+            function savePost(isSaved, userId, postId) {
                 const url = isSaved ? "/PhongTroGr1/Post?action=deletePost" : "/PhongTroGr1/Post?action=savePost";
 
                 $.ajax({
@@ -241,21 +233,28 @@
                     data: {
                         postId: postId,
                         userId: userId
+                    },
+                    success: function () {
+                        console.log("Lưu/Hủy lưu thành công");
+                        const saveButton = document.querySelector(`.js-btn-save[data-postid="${postId}"]`);
+                        if (saveButton) {
+                            saveButton.classList.toggle("saved");
+                        }
                     }
                 });
             }
 
-            document.addEventListener("DOMContentLoaded", function () {
-                const saveButtons = document.querySelectorAll(".js-btn-save");
-                saveButtons.forEach((saveButton) => {
-                    saveButton.addEventListener("click", function () {
-                        const isSaved = this.classList.contains("saved");
-                        const postId = this.getAttribute("data-postid");
-                        const userId = this.getAttribute("data-userid");
-                        this.classList.toggle("saved");
-                        savePost(isSaved, userId, postId);
-                    });
-                });
+            document.addEventListener("click", function (event) {
+                if (event.target.closest(".js-btn-save")) {
+                    event.preventDefault();
+                    const saveButton = event.target.closest(".js-btn-save");
+                    const isSaved = saveButton.classList.contains("saved");
+                    const postId = saveButton.getAttribute("data-postid");
+                    const userId = saveButton.getAttribute("data-userid");
+
+                    savePost(isSaved, userId, postId);
+                    saveButton.classList.toggle("saved");
+                }
             });
 
             function openImage(img) {
@@ -270,7 +269,7 @@
             }
 
             function confirmDelete(postId) {
-                document.getElementById("deletePostId").value = postId; // Gán postId vào input ẩn
+                document.getElementById("deletePostId").value = postId;
                 var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
                 deleteModal.show();
             }
