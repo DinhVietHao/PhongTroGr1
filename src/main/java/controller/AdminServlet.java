@@ -29,6 +29,11 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        if (action == null) {
+            response.sendRedirect("Home");
+            return;
+        }
+        
         if (action.equalsIgnoreCase("adminManagerPost")) {
             PostDAO dao = new PostDAO();
             UserDAO userdao = new UserDAO();

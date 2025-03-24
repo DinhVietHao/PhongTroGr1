@@ -122,7 +122,8 @@ public class PostServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if (action == null) {
-            action = "uploadPost";
+            response.sendRedirect("Home");
+            return;
         }
 
         if (action.equalsIgnoreCase("uploadPost")) {

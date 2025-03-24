@@ -42,6 +42,11 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
+        
+        if (email.isEmpty()) {
+            response.sendRedirect("Home");
+            return;
+        }
 
         if (action.equalsIgnoreCase("updateMail")) {
             if (userDao.updateMailById(code, email)) {
