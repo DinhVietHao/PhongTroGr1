@@ -79,8 +79,39 @@
                             </a>
                         </div>
                     </form>
+                    <%if (user.getRole() == 1 || user.getRole() == 2) {%>
+                    <button class="btn btn-danger btn-sm3 mt-3"style="margin-left: 80%;" onclick="confirmDelete(<%=user.getUserId()%>)">Xóa tài khoản</button>
+                    <%}%>
                 </div>
             </div>
         </main>
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xóa</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắc chắn muốn xóa tài khoản này không?
+                    </div>
+                    <div class="modal-button">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+                        <form id="deleteUserForm" method="post" action="User">
+                            <input type="hidden" name="action" value="deleteAccount">
+                            <input type="hidden" name="userId" id="deleteUserId">
+                            <button type="submit" class="btn btn-danger">Xóa</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function confirmDelete(userId) {
+                document.getElementById("deleteUserId").value = userId; // Gán userId vào input ẩn
+                var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+                deleteModal.show();
+            }
+        </script>
     </body>
 </html>
