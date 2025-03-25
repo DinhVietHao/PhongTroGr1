@@ -233,13 +233,17 @@ public class PostServlet extends HttpServlet {
                 String priceStr = request.getParameter("price");
                 String areaStr = request.getParameter("area");
                 String roomCountStr = request.getParameter("roomCount");
-
-                // Kiểm tra giá trị null hoặc rỗng trước khi parse
+                String[] selectedUtilities = request.getParameterValues("Utilities");
                 if (catIdStr == null || priceStr == null || areaStr == null || roomCountStr == null
                         || catIdStr.isEmpty() || priceStr.isEmpty() || areaStr.isEmpty() || roomCountStr.isEmpty()) {
                     throw new NumberFormatException("Dữ liệu nhập vào không hợp lệ.");
                 }
-
+                String utilitiesString = ""; 
+                if (selectedUtilities != null) {
+                    utilitiesString = String.join(",", selectedUtilities);
+                } else {
+                    System.out.println("Không có tiện ích nào được chọn!");
+                }
                 int catId = Integer.parseInt(catIdStr);
                 double price = Double.parseDouble(priceStr);
                 double area = Double.parseDouble(areaStr);
@@ -266,7 +270,7 @@ public class PostServlet extends HttpServlet {
                 Category postType = postDao.selectCategoryById(catId);
                 Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
-                Post post = new Post(postId, catId, title, description, price, address, city, district, area, roomCount, postType, status, currentTime);
+                Post post = new Post(postId, catId, title, description, price, address, city, district, area, roomCount, utilitiesString, postType, status, currentTime);
 
                 if (postDao.updatePost(post, imageStreams)) {
                     response.sendRedirect("Post?action=listPosted&userId=" + userId);

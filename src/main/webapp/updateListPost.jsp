@@ -164,6 +164,109 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="post-features">
+                            <div class="fs-5 fw-medium mb-3">Đặc điểm nổi bật</div>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" value="A" type="checkbox" name="Utilities" <%= post.getUtilities().contains("A") ? "checked" : "" %>
+                                               id="dac-diem-day-du-noi-that">
+                                        <label class="form-check-label" for="dac-diem-day-du-noi-that">
+                                            Đầy đủ nội thất
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" value="B" name="Utilities" <%= post.getUtilities().contains("B") ? "checked" : "" %> type="checkbox" id="dac-diem-co-gac">
+                                        <label class="form-check-label" for="dac-diem-co-gac">
+                                            Có gác
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" value="C" name="Utilities" <%= post.getUtilities().contains("C") ? "checked" : "" %> type="checkbox" id="dac-diem-ke-bep">
+                                        <label class="form-check-label" for="dac-diem-ke-bep">
+                                            Có kệ bếp
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" name="Utilities" <%= post.getUtilities().contains("D") ? "checked" : "" %> value="D" type="checkbox"
+                                               id="dac-diem-may-lanh">
+                                        <label class="form-check-label" for="dac-diem-may-lanh">
+                                            Có máy lạnh
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" name="Utilities" <%= post.getUtilities().contains("E") ? "checked" : "" %> value="E" type="checkbox"
+                                               id="dac-diem-may-giat">
+                                        <label class="form-check-label" for="dac-diem-may-giat">
+                                            Có máy giặt
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" name="Utilities" <%= post.getUtilities().contains("F") ? "checked" : "" %> value="F" type="checkbox"
+                                               id="dac-diem-tu-lanh">
+                                        <label class="form-check-label" for="dac-diem-tu-lanh">
+                                            Có tủ lạnh
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+
+                                        <input class="form-check-input" name="Utilities" <%= post.getUtilities().contains("G") ? "checked" : "" %> value="G" type="checkbox"
+                                               id="dac-diem-thang-may">
+                                        <label class="form-check-label" for="dac-diem-thang-may">
+                                            Có thang máy
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" name="Utilities" <%= post.getUtilities().contains("H") ? "checked" : "" %> value="H" type="checkbox"
+                                               id="dac-diem-khong-chung-chu">
+                                        <label class="form-check-label" for="dac-diem-khong-chung-chu">
+                                            Không chung chủ
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" name="Utilities" <%= post.getUtilities().contains("I") ? "checked" : "" %> value="I" type="checkbox"
+                                               id="dac-diem-gio-giac-tu-do">
+                                        <label class="form-check-label" for="dac-diem-gio-giac-tu-do">
+                                            Giờ giấc tự do
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" name="Utilities" <%= post.getUtilities().contains("J") ? "checked" : "" %> value="J" type="checkbox"
+                                               id="dac-diem-co-bao-ve">
+                                        <label class="form-check-label" for="dac-diem-co-bao-ve">
+                                            Có bảo vệ 24/24
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" name="Utilities" <%= post.getUtilities().contains("K") ? "checked" : "" %> value="K" type="checkbox"
+                                               id="dac-diem-ham-de-xe">
+                                        <label class="form-check-label" for="dac-diem-ham-de-xe">
+                                            Có hầm để xe
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="post-image" id="post-image">
                             <div class="title">Hình ảnh</div>
                             <div>
@@ -182,7 +285,7 @@
                                         <li>• Không chèn văn bản, số điện thoại lên ảnh</li>
                                     </ul>
                                 </div>
-                                
+
                                 <div id="imageError" style="color: red; display: none;"></div>
 
                                 <div class="image-list" id="imagePreviews"></div>
