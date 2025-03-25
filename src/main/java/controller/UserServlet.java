@@ -42,7 +42,7 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
-        
+
         if (email.isEmpty()) {
             response.sendRedirect("Home");
             return;
@@ -107,7 +107,7 @@ public class UserServlet extends HttpServlet {
                         return;
                     }
 
-                    try (InputStream inputStream = filePart.getInputStream()) {
+                    try ( InputStream inputStream = filePart.getInputStream()) {
                         ImageDAO imageDAO = new ImageDAO();
                         isUpdated = imageDAO.updateAvatar(userId, inputStream);
                     }
@@ -117,7 +117,7 @@ public class UserServlet extends HttpServlet {
                     User userS = (User) session.getAttribute("user");
                     userS = userDAO.selectUserById(userId);
                     session.setAttribute("user", userS);
-                    
+
                     request.setAttribute("msgInfo", "<p style='color:green'>Cập nhật thông tin cá nhân thành công!</p>");
                     request.getRequestDispatcher("accountManagement.jsp").forward(request, response);
                 } else {
@@ -150,6 +150,24 @@ public class UserServlet extends HttpServlet {
                 }
             } catch (ServletException | IOException | NumberFormatException e) {
                 System.out.println(e.getMessage());
+            }
+        } else if (action.equalsIgnoreCase("deleteAccount")) {
+            String userIdStr = request.getParameter("userId");
+            UserDAO dao = new UserDAO();
+            try {
+                int userId = Integer.parseInt(userIdStr);
+                User user = dao.selectUserById(userId);
+                if (dao.deleteUser(userId)) {
+                    session.invalidate();
+                    request.getSession().setAttribute("Messages", "Tài khoản với tên tài khoản " + user.getUsername() + " đã được xóa!");
+                    response.sendRedirect("Home");
+                } else {
+                    response.getWriter().println("<h3>Failed to delete user.</h3>");
+                }
+            } catch (NumberFormatException e) {
+                response.getWriter().println("<h3>Invalid post user ID.</h3>");
+            } catch (IOException e) {
+                response.getWriter().println("<h3>" + e.getMessage() + "</h3>");
             }
         }
     }
