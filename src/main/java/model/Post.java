@@ -78,7 +78,7 @@ public class Post {
         this.updaited_at = updated_at;
     }
 
-    public Post(int postId, int catId, String title, String description, double price, String address, String city, String district, double area, int roomCount, Category postType, String status, Timestamp updaited_at) {
+    public Post(int postId, int catId, String title, String description, double price, String address, String city, String district, double area, int roomCount, String utilities, Category postType, String status, Timestamp updaited_at) {
         this.postId = postId;
         this.catId = catId;
         this.title = title;
@@ -89,6 +89,7 @@ public class Post {
         this.district = district;
         this.area = area;
         this.roomCount = roomCount;
+        this.utilities = utilities;
         this.postType = postType;
         this.status = status;
         this.updaited_at = updaited_at;

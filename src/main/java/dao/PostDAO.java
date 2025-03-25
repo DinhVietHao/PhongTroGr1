@@ -443,7 +443,7 @@ public class PostDAO extends DBContext {
     }
 
     public boolean updatePost(Post post, List<InputStream> images) throws IOException {
-        String sqlPost = "UPDATE Posts SET Category_id = ?, District = ?, Address = ?, Title = ?, Description = ?, Price = ?, Area = ?, Room_count = ?, Updated_at = ? WHERE Post_id = ?";
+        String sqlPost = "UPDATE Posts SET Category_id = ?, District = ?, Address = ?, Title = ?, Description = ?, Price = ?, Area = ?, Room_count = ?, Utilities = ?, Updated_at = ? WHERE Post_id = ?";
 
         try ( PreparedStatement ps = conn.prepareStatement(sqlPost)) {
             ps.setInt(1, post.getCatId());
@@ -454,8 +454,9 @@ public class PostDAO extends DBContext {
             ps.setDouble(6, post.getPrice());
             ps.setDouble(7, post.getArea());
             ps.setInt(8, post.getRoomCount());
-            ps.setTimestamp(9, post.getUpdaited_at());
-            ps.setInt(10, post.getPostId());
+            ps.setString(9, post.getUtilities());
+            ps.setTimestamp(10, post.getUpdaited_at());
+            ps.setInt(11, post.getPostId());
 
             int affectedRows = ps.executeUpdate();
 

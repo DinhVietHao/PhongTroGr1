@@ -277,7 +277,7 @@
                                 <div class="image-list" id="imagePreviews"></div>
                             </div>
                         </div>
-
+                        
                         <script>
                             document.getElementById("imageUpload").addEventListener("change", function (event) {
                                 let previewsContainer = document.getElementById("imagePreviews");
