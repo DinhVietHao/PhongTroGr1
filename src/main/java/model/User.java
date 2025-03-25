@@ -204,4 +204,7 @@ public class User {
         return "User{" + "userId=" + userId + ", fullname=" + fullname + ", username=" + username + ", password=" + password + ", email=" + email + ", phone=" + phone + ", role=" + role + ", authCode=" + authCode + ", expirationTime=" + expirationTime + ", verifStatus=" + verifStatus + '}';
     }
 
+    public String toStringInfo() {
+        return userId + "#" + username + "#" + fullname + "#" + email + "#" + phone;
+    }
 }

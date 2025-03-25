@@ -5,6 +5,7 @@
 package controller;
 
 import dao.PostDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,6 +19,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import model.Post;
 import model.User;
 
@@ -29,6 +31,7 @@ import model.User;
 public class SearchServlet extends HttpServlet {
 
     private final PostDAO postDao = new PostDAO();
+    private final UserDAO userDao = new UserDAO();
 
     private String formatPrice(double price) {
         DecimalFormat df = new DecimalFormat("#,###");
@@ -69,7 +72,7 @@ public class SearchServlet extends HttpServlet {
             response.sendRedirect("Home");
             return;
         }
-        
+
         List<Post> list = postDao.selectPostAll();
         PrintWriter out = response.getWriter();
 
@@ -359,6 +362,92 @@ public class SearchServlet extends HttpServlet {
 
                 out.println(htmlBuilder.toString());
             }
+        } else if (action.equalsIgnoreCase("searchUser")) {
+            String txtSearch = request.getParameter("txt").toLowerCase();
+            List<User> allUsers = userDao.getAllUserInfo();
+            List<User> allOwners = new ArrayList<>();
+            List<User> allViewers = new ArrayList<>();
+
+            for (User u : allUsers) {
+                if (u.getFullname().toLowerCase().contains(txtSearch)
+                        || u.getUsername().toLowerCase().contains(txtSearch)
+                        || u.getEmail().toLowerCase().contains(txtSearch)
+                        || u.getPhone().toLowerCase().contains(txtSearch)) {
+
+                    if (u.getRole() == 2) {
+                        allOwners.add(u);
+                    } else if (u.getRole() == 1) {
+                        allViewers.add(u);
+                    }
+                }
+            }
+
+            StringBuilder htmlResponse = new StringBuilder();
+
+            // Phần Owner
+            if (!allOwners.isEmpty()) {
+                htmlResponse.append("<table class='table table-bordered table-hover mt-3'>")
+                        .append("<thead class='table-dark'><tr>")
+                        .append("<th>STT</th><th>Tên người dùng</th><th>Tên tài khoản</th>")
+                        .append("<th>Email</th><th>Số điện thoại</th><th>Vai trò</th>")
+                        .append("<th>Avatar</th><th>Chức năng</th></tr></thead><tbody>");
+
+                int tmp = 0;
+                for (User userOwner : allOwners) {
+                    htmlResponse.append("<tr>")
+                            .append("<td>").append(++tmp).append("</td>")
+                            .append("<td>").append(userOwner.getFullname()).append("</td>")
+                            .append("<td>").append(userOwner.getUsername()).append("</td>")
+                            .append("<td>").append(userOwner.getEmail()).append("</td>")
+                            .append("<td>").append(userOwner.getPhone()).append("</td>")
+                            .append("<td>Owner</td>")
+                            .append("<td><img class='avatar' src='")
+                            .append(userOwner.getImageData() != null
+                                    ? "ImageHandler?action=displayAvatar&userId=" + userOwner.getUserId()
+                                    : "./images/default_user.svg")
+                            .append("' alt='avatar'></td>")
+                            .append("<td><button class='btn btn-danger btn-sm' onclick='confirmDelete(")
+                            .append(userOwner.getUserId()).append(")'>Xóa</button></td>")
+                            .append("</tr>");
+                }
+                htmlResponse.append("</tbody></table>");
+            } else {
+                htmlResponse.append("<p class='text-center mt-3 text-muted'>Không tìm thấy chủ nhà nào phù hợp.</p>");
+            }
+
+            // Phần Viewer
+            if (!allViewers.isEmpty()) {
+                htmlResponse.append("<table class='table table-bordered table-hover mt-3'>")
+                        .append("<thead class='table-dark'><tr>")
+                        .append("<th>STT</th><th>Tên người dùng</th><th>Tên tài khoản</th>")
+                        .append("<th>Email</th><th>Số điện thoại</th><th>Vai trò</th>")
+                        .append("<th>Avatar</th><th>Chức năng</th></tr></thead><tbody>");
+
+                int count = 0;
+                for (User userViewer : allViewers) {
+                    htmlResponse.append("<tr>")
+                            .append("<td>").append(++count).append("</td>")
+                            .append("<td>").append(userViewer.getFullname()).append("</td>")
+                            .append("<td>").append(userViewer.getUsername()).append("</td>")
+                            .append("<td>").append(userViewer.getEmail()).append("</td>")
+                            .append("<td>").append(userViewer.getPhone()).append("</td>")
+                            .append("<td>Viewer</td>")
+                            .append("<td><img class='avatar' src='")
+                            .append(userViewer.getImageData() != null
+                                    ? "ImageHandler?action=displayAvatar&userId=" + userViewer.getUserId()
+                                    : "./images/default_user.svg")
+                            .append("' alt='avatar'></td>")
+                            .append("<td><button class='btn btn-danger btn-sm' onclick='confirmDelete(")
+                            .append(userViewer.getUserId()).append(")'>Xóa</button></td>")
+                            .append("</tr>");
+                }
+                htmlResponse.append("</tbody></table>");
+            } else {
+                htmlResponse.append("<p class='text-center mt-3 text-muted'>Không tìm thấy người xem nào phù hợp.</p>");
+            }
+
+            response.setContentType("text/html");
+            response.getWriter().write(htmlResponse.toString());
         }
     }
 

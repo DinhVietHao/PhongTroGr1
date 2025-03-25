@@ -91,7 +91,7 @@
                     </div>
                     <div class="header-right">
                         <form action="" method="GET" class="header-search">
-                            <input class="search" type="text" name="text" placeholder="Tìm kiếm...">
+                            <input oninput="searchUser(this)" class="search" type="text" name="text" placeholder="Tìm kiếm...">
                             <button type="submit" class="search-btn">
                                 <i class="bi bi-search"></i>
                             </button>
@@ -178,114 +178,115 @@
                     <!-- quan-ly-tai-khoan-->
                     <div id="quan-ly-tai-khoan-table" style="display:none;">
                         <h1 class="fs-3 fw-semibold text-nowrap mb-1">Quản lý Tài Khoản</h1>
-                        <table class="table table-bordered table-hover mt-3">
-                            <%
-                                if (listAllUserOwner == null || listAllUserOwner.isEmpty() || listAllUserOwner.get(0).getUserId() == -1) {
-                            %>
-                            <p> Chưa có User Owner nào đăng kí !<p>
+                        <div id="infoAcc">
+                            <table class="table table-bordered table-hover mt-3">
                                 <%
-                                } else {
+                                    if (listAllUserOwner == null || listAllUserOwner.isEmpty() || listAllUserOwner.get(0).getUserId() == -1) {
+                                %>
+                                <p> Chưa có User Owner nào đăng kí !<p>
+                                    <%
+                                    } else {
 
-                                %>
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Tên người dùng</th>
-                                    <th>Tên tài khoản</th>
-                                    <th>Email</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Vai trò</th>
-                                    <th>Avatar</th>
-                                    <th>Chức năng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%                            int tmp = 0;
-                                    for (User userOwner : listAllUserOwner) {
-                                %>
-                                <tr>
-                                    <td><%= ++tmp%></td>
-                                    <td><%= userOwner.getFullname()%></td>
-                                    <td><%= userOwner.getUsername()%></td>
-                                    <td><%= userOwner.getEmail()%></td>
-                                    <td><%= userOwner.getPhone()%></td>
-                                    <td><%="Owner"%></td>
-                                    <td>
-                                        <% if (userOwner.getImageData() != null) {%>
-                                        <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%=userOwner.getUserId()%>" alt="avatar">
-                                        <% } else { %>  
-                                        <img class="avatar" src="./images/default_user.svg" alt="avatar">
-                                        <% }%>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-danger btn-sm" onclick="confirmDelete(<%= userOwner.getUserId()%>)">Xóa</button>
-                                    </td>
-                                </tr> 
+                                    %>
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên người dùng</th>
+                                        <th>Tên tài khoản</th>
+                                        <th>Email</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Vai trò</th>
+                                        <th>Avatar</th>
+                                        <th>Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% int tmp = 0;
+                                        for (User userOwner : listAllUserOwner) {
+                                    %>
+                                    <tr>
+                                        <td><%= ++tmp%></td>
+                                        <td><%= userOwner.getFullname()%></td>
+                                        <td><%= userOwner.getUsername()%></td>
+                                        <td><%= userOwner.getEmail()%></td>
+                                        <td><%= userOwner.getPhone()%></td>
+                                        <td><%="Chủ trọ"%></td>
+                                        <td>
+                                            <% if (userOwner.getImageData() != null) {%>
+                                            <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%=userOwner.getUserId()%>" alt="avatar">
+                                            <% } else { %>  
+                                            <img class="avatar" src="./images/default_user.svg" alt="avatar">
+                                            <% }%>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm" onclick="confirmDelete(<%= userOwner.getUserId()%>)">Xóa</button>
+                                        </td>
+                                    </tr> 
+                                    <%
+                                        }
+                                    %>
+                                </tbody>
                                 <%
                                     }
                                 %>
-                            </tbody>
-                            <%
-                                }
-                            %>
-                        </table>
+                            </table>
 
-                        <table class="table table-bordered table-hover mt-3">
-                            <%
-                                if (listAllUserViewer == null || listAllUserViewer.isEmpty() || listAllUserViewer.get(0).getUserId() == -1) {
-                            %>
-                            <p> Chưa có User Viewer nào đăng kí !<p>
+                            <table class="table table-bordered table-hover mt-3">
                                 <%
-                                } else {
+                                    if (listAllUserViewer == null || listAllUserViewer.isEmpty() || listAllUserViewer.get(0).getUserId() == -1) {
+                                %>
+                                <p> Chưa có User Viewer nào đăng kí !<p>
+                                    <%
+                                    } else {
 
-                                %>
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Tên người dùng</th>
-                                    <th>Tên tài khoản</th>
-                                    <th>Email</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Vai trò</th>
-                                    <th>Avatar</th>
-                                    <th>Chức năng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%                            int count = 0;
-                                    for (User userViewer : listAllUserViewer) {
-                                %>
-                                <tr>
-                                    <td><%= ++count%></td>
-                                    <td><%= userViewer.getFullname()%></td>
-                                    <td><%= userViewer.getUsername()%></td>
-                                    <td><%= userViewer.getEmail()%></td>
-                                    <td><%= userViewer.getPhone()%></td>
-                                    <td><%="Viewer"%></td>
-                                    <td>
-                                        <% if (userViewer.getImageData() != null) {%>
-                                        <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%=userViewer.getUserId()%>" alt="avatar">
-                                        <% } else { %>  
-                                        <img class="avatar" src="./images/default_user.svg" alt="avatar">
-                                        <% }%>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-danger btn-sm" onclick="confirmDelete(<%= userViewer.getUserId()%>)">Xóa</button>
-                                    </td>
-                                </tr> 
+                                    %>
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên người dùng</th>
+                                        <th>Tên tài khoản</th>
+                                        <th>Email</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Vai trò</th>
+                                        <th>Avatar</th>
+                                        <th>Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%                            int count = 0;
+                                        for (User userViewer : listAllUserViewer) {
+                                    %>
+                                    <tr>
+                                        <td><%= ++count%></td>
+                                        <td><%= userViewer.getFullname()%></td>
+                                        <td><%= userViewer.getUsername()%></td>
+                                        <td><%= userViewer.getEmail()%></td>
+                                        <td><%= userViewer.getPhone()%></td>
+                                        <td><%="Người thuê"%></td>
+                                        <td>
+                                            <% if (userViewer.getImageData() != null) {%>
+                                            <img class="avatar" src="ImageHandler?action=displayAvatar&userId=<%=userViewer.getUserId()%>" alt="avatar">
+                                            <% } else { %>  
+                                            <img class="avatar" src="./images/default_user.svg" alt="avatar">
+                                            <% }%>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm" onclick="confirmDelete(<%= userViewer.getUserId()%>)">Xóa</button>
+                                        </td>
+                                    </tr> 
+                                    <%
+                                        }
+                                    %>
+                                </tbody>
                                 <%
                                     }
                                 %>
-                            </tbody>
-                            <%
-                                }
-                            %>
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </main>
             </div>
         </div>
-
 
         <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -320,6 +321,29 @@
             </div>
         </div>
         <script>
+            function searchUser(input) {
+                var txtSearch = input.value;
+
+                if (txtSearch.length === 0) {
+                    location.reload();
+                    return;
+                }
+
+                $.ajax({
+                    url: "/PhongTroGr1/Search",
+                    type: 'POST',
+                    data: {
+                        action: "searchUser",
+                        txt: txtSearch
+                    },
+                    success: function (data) {
+                        document.getElementById("infoAcc").innerHTML = data;
+                        document.getElementById("danh-sach-bai-chua-duyet-table").style.display = "none";
+                        document.getElementById("quan-ly-tai-khoan-table").style.display = "block";
+                    }
+                });
+            }
+
             function confirmDelete(userId) {
                 document.getElementById("deleteUserId").value = userId; // Gán userId vào input ẩn
                 var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
@@ -336,6 +360,7 @@
             };
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="./js/describe.js"></script>
     </body>
 </html>
