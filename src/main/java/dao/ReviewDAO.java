@@ -44,6 +44,7 @@ public class ReviewDAO extends DBContext{
             ResultSet rs = pt.executeQuery();
             while (rs.next()) {
                 Review r = new Review();
+                r.setReviewId(rs.getInt("Review_id"));
                 r.setUserId(rs.getInt("User_id"));
                 r.setPostId(rs.getInt("Post_id"));
                 r.setRating(rs.getInt("Rating"));
@@ -73,6 +74,17 @@ public class ReviewDAO extends DBContext{
             System.out.println(e.getMessage());
         }
         return false;
+    }
+    
+    public void deleteReviewById(int reviewId) {
+        String sql = "DELETE Reviews WHERE Review_id = ?";
+        try {
+            PreparedStatement pt = conn.prepareStatement(sql);
+            pt.setInt(1, reviewId);
+            pt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
 }

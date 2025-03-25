@@ -94,14 +94,52 @@ public class CommentServlet extends HttpServlet {
                                     ? "ImageHandler?action=displayAvatar&userId=" + user.getUserId()
                                     : "./images/default_user.svg")
                             .append("\" alt=\"avatar\">\n")
-                            .append("        <span class=\"comment-name\">").append(user.getFullname()).append("</span>\n")
+                            .append("        <span class=\"comment-name color-font2\">").append(user.getFullname()).append("</span>\n")
                             .append("        <span class=\"comment-time\"> • ").append(calculateTimeAgo(rev.getCreated_at().toLocalDateTime())).append("</span>\n")
+                            .append("        <button onclick=\"deleteComment(").append(rev.getReviewId()).append(")\" class=\"delete-comment\" data-user-id=\"").append(user.getUserId()).append("\">\n")
+                            .append("            <i class=\"bi bi-trash\"></i>\n")
+                            .append("        </button>\n")
                             .append("    </div>\n")
                             .append("    <div class=\"comment-content\">\n")
                             .append("        <p>").append(rev.getComment()).append("</p>\n")
                             .append("    </div>\n")
                             .append("</div>");
                     out.println(sb.toString());
+                }
+            } else if (action.equalsIgnoreCase("deleteCom")) {
+                int reviewId = Integer.parseInt(request.getParameter("reviewId"));
+                postId = Integer.parseInt(request.getParameter("postId"));
+                reviewDao.deleteReviewById(reviewId);
+                List<Review> list = reviewDao.selectAllReviewsByPostId(postId);
+
+                if (list.isEmpty()) {
+                    out.println("<div class=\"no-comment\">\n"
+                            + "    <i class=\"bi bi-chat-left-dots-fill\"></i>\n"
+                            + "    <p>Chưa có bình luận của khách hàng về bài viết này!</p>\n"
+                            + "</div>");
+                } else {
+                    for (Review rev : list) {
+                        User user = postDao.getUserById(rev.getUserId());
+                        StringBuilder sb = new StringBuilder();
+                        sb.append("<div class=\"have-comment\">\n")
+                                .append("    <div class=\"comment-info\">\n")
+                                .append("        <img class=\"avatar\" src=\"")
+                                .append(user.getImageData() != null
+                                        ? "ImageHandler?action=displayAvatar&userId=" + user.getUserId()
+                                        : "./images/default_user.svg")
+                                .append("\" alt=\"avatar\">\n")
+                                .append("        <span class=\"comment-name color-font2\">").append(user.getFullname()).append("</span>\n")
+                                .append("        <span class=\"comment-time\"> • ").append(calculateTimeAgo(rev.getCreated_at().toLocalDateTime())).append("</span>\n")
+                                .append("        <button onclick=\"deleteComment(").append(rev.getReviewId()).append(")\" class=\"delete-comment\" data-user-id=\"").append(user.getUserId()).append("\">\n")
+                                .append("            <i class=\"bi bi-trash\"></i>\n")
+                                .append("        </button>\n")
+                                .append("    </div>\n")
+                                .append("    <div class=\"comment-content\">\n")
+                                .append("        <p>").append(rev.getComment()).append("</p>\n")
+                                .append("    </div>\n")
+                                .append("</div>");
+                        out.println(sb.toString());
+                    }
                 }
             }
         }

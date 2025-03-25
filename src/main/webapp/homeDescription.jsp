@@ -347,8 +347,14 @@
                                 <% } else { %>  
                                 <img class="avatar" src="./images/default_user.svg" alt="avatar">
                                 <% }%>
-                                <span class="comment-name"><%= u.getFullname()%></span>
+                                <span class="comment-name color-font2"><%= u.getFullname()%></span>
                                 <span class="comment-time"> •  <%= timeAgo%></span>
+                                <button onclick="deleteComment(<%= r.getReviewId()%>)" class="delete-comment" 
+                                        <% if (user.getUserId() != r.getUserId() && user.getRole() != 3) { %> 
+                                        style="display: none;" 
+                                        <% }%>>
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </div>
                             <div class="comment-content">
                                 <p><%= r.getComment()%></p>
@@ -369,54 +375,79 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="./js/homeDescription.js"></script>
         <script>
-                            function showApproveModal(postId) {
-                                document.getElementById('acceptPost').value = postId;
-                                var approveModal = new bootstrap.Modal(document.getElementById('approveModal'));
-                                approveModal.show();
-                            }
-
-                            function showRejectModal(postId) {
-                                document.getElementById('rejectPostId').value = postId;
-                                var rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
-                                rejectModal.show();
-                            }
-
-                            function submitComment() {
-                                const commentInput = document.getElementById("commentInput");
-                                const comment = commentInput.value.trim();
-
-                                if (!comment) {
-                                    alert("Vui lòng nhập nội dung bình luận!");
-                                    return;
-                                }
-
-                                if (comment.length > 3000) {
-                                    alert("Bình luận không được vượt quá 3000 ký tự!");
-                                    return;
-                                }
-
-                                var userId = <%= user.getUserId()%>;
-                                var postId = <%= post.getPostId()%>;
-
-                                $.ajax({
-                                    url: "/PhongTroGr1/Comment",
-                                    type: "POST",
-                                    data: {
-                                        action: "submitCom",
-                                        userId: userId,
-                                        postId: postId,
-                                        comment: comment
-                                    },
-                                    success: function (data) {
-                                        commentInput.value = "";
-                                        var row = document.getElementById("contentComment");
-                                        row.innerHTML = data;
-
-                                        var commentCount = document.querySelectorAll(".have-comment").length;
-                                        document.querySelector(".comment-title").textContent = commentCount + " Bình luận";
+                                    function showApproveModal(postId) {
+                                        document.getElementById('acceptPost').value = postId;
+                                        var approveModal = new bootstrap.Modal(document.getElementById('approveModal'));
+                                        approveModal.show();
                                     }
-                                });
-                            }
+
+                                    function showRejectModal(postId) {
+                                        document.getElementById('rejectPostId').value = postId;
+                                        var rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
+                                        rejectModal.show();
+                                    }
+
+                                    function submitComment() {
+                                        const commentInput = document.getElementById("commentInput");
+                                        const comment = commentInput.value.trim();
+
+                                        if (!comment) {
+                                            alert("Vui lòng nhập nội dung bình luận!");
+                                            return;
+                                        }
+
+                                        if (comment.length > 3000) {
+                                            alert("Bình luận không được vượt quá 3000 ký tự!");
+                                            return;
+                                        }
+
+                                        var userId = <%= user.getUserId()%>;
+                                        var postId = <%= post.getPostId()%>;
+
+                                        $.ajax({
+                                            url: "/PhongTroGr1/Comment",
+                                            type: "POST",
+                                            data: {
+                                                action: "submitCom",
+                                                userId: userId,
+                                                postId: postId,
+                                                comment: comment
+                                            },
+                                            success: function (data) {
+                                                commentInput.value = "";
+                                                var row = document.getElementById("contentComment");
+                                                row.innerHTML = data;
+
+                                                var commentCount = document.querySelectorAll(".have-comment").length;
+                                                document.querySelector(".comment-title").textContent = commentCount + " Bình luận";
+                                            }
+                                        });
+                                    }
+
+                                    function deleteComment(reviewId) {
+                                        var postId = <%= post.getPostId()%>;
+                                        
+                                        if (!confirm("Bạn có chắc chắn muốn xóa bình luận này?")) {
+                                            return;
+                                        }
+
+                                        $.ajax({
+                                            url: "/PhongTroGr1/Comment",
+                                            type: "POST",
+                                            data: {
+                                                action: "deleteCom",
+                                                reviewId: reviewId,
+                                                postId: postId
+                                            },
+                                            success: function (data) {
+                                                var row = document.getElementById("contentComment");
+                                                row.innerHTML = data;
+
+                                                var commentCount = document.querySelectorAll(".have-comment").length;
+                                                document.querySelector(".comment-title").textContent = commentCount + " Bình luận";
+                                            }
+                                        });
+                                    }
         </script>
     </body>
 </html>
