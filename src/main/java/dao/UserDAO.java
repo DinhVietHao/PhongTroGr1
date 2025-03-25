@@ -131,7 +131,7 @@ public class UserDAO extends DBContext {
                 userId = rs.getInt("User_id");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return userId;
     }
@@ -265,8 +265,8 @@ public class UserDAO extends DBContext {
                 user.setImageData(rs.getBytes("Avatar"));
                 list.add(user);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return list;
     }
@@ -290,8 +290,8 @@ public class UserDAO extends DBContext {
                 user.setImageData(rs.getBytes("Avatar"));
                 list.add(user);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return list;
     }
@@ -345,21 +345,31 @@ public class UserDAO extends DBContext {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-
         return count;
     }
 
-    public static void main(String[] args) {
-        UserDAO userDao = new UserDAO();
-        User user = new User();
-        user.setFullname("Đinh Việt Hào");
-        user.setUsername("Admin");
-        user.setPassword("Admin123@");
-        user.setEmail("haodvce180526@fpt.edu.vn");
-        user.setPhone("0878833277");
-        user.setRole(3);
-        userDao.insertUser(user);
+    public List<User> getAllUserInfo() {
+        String sql = "SELECT User_id, Fullname, Username, Email, Phone, Role FROM Users";
+        List<User> data = new ArrayList<>();
+        try {
+            PreparedStatement pt = conn.prepareStatement(sql);
+            ResultSet rs = pt.executeQuery();
+            while(rs.next()) {
+                User u = new User();
+                u.setUserId(rs.getInt("User_id"));
+                u.setUsername(rs.getString("Username"));
+                u.setFullname(rs.getNString("Fullname"));
+                u.setEmail(rs.getString("Email"));
+                u.setPhone(rs.getString("Phone"));
+                u.setRole(rs.getInt("Role"));
+                data.add(u);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return data;
     }
+    
 }
