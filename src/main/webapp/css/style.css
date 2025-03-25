@@ -1906,7 +1906,6 @@ textarea {
 /* END NO COMMENT */
 .have-comment {
     margin-top: 20px;
-
 }
 
 .have-comment .comment-info {
@@ -1955,6 +1954,15 @@ textarea {
 .have-comment .like-btn:hover,
 .have-comment .reply-btn:hover {
     background: #f1f1f1;
+}
+
+.delete-comment {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 10px;
 }
 
 /* END  HOME DESCRIPTION */

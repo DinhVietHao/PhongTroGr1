@@ -76,7 +76,7 @@
                 <ul class="sidebar-menu">
                     <li><a class="sidebar-item" href="#" id="danh-sach-bai-chua-duyet"> <i class="fas fa-list" ></i> Danh sách chưa duyệt</a></li>
                     <li><a class="sidebar-item" href="#" id="quan-ly-tai-khoan"><i class="fas fa-user"></i> Quản lý tài khoản</a></li>
-                    <li><a class="sidebar-item logout" href="./login.jsp"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+                    <li><a class="sidebar-item logout" href="Logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
                 </ul>
             </div>
             <div class="admin-header">
