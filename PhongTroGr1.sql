@@ -79,5 +79,3 @@ INSERT INTO Categories VALUES
 -- Admin (quản trị viên)
 INSERT INTO Users (Fullname, Username, Password, Email, Phone, Role, VerificationStatus, RegisterStatus)
 VALUES (N'Đinh Việt Hào', 'Admin', 'a43c27c2babefd68df8a694900f30a1c', 'phongtrogr1@gmail.com', '0946290204', 3, 1, 1);
-
-SELECT * FROM Users
